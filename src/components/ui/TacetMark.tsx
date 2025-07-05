@@ -9,7 +9,7 @@ export function TacetMark({ className = "", width = 100, height = 100 }: TacetMa
         <svg 
         width={width} 
         height={height} 
-        viewBox="0 0 2048 2048" 
+        viewBox="702 824 1710 352"
         className={className}
         xmlns="http://www.w3.org/2000/svg"
         >

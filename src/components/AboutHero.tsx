@@ -34,6 +34,17 @@ export default function AboutHero() {
                 </div>
             </div>
 
+            {/* Tacet Mark Visualization */}
+            <div className="mt-16 flex justify-center">
+                <div className="text-center">
+                    <TacetMark 
+                        className="transform rotate-90" 
+                        width={1024} 
+                        height={1024}
+                    />
+                </div>
+            </div>
+
             {/* Supporting Text */}
             <div className="space-y-2">
             </div>
