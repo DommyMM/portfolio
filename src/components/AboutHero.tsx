@@ -5,7 +5,7 @@ import { TextSlider } from "@/components/ui/text-slider";
 
 const specialties = [
     "AI/ML Pipelines",
-    "Computer Vision",
+    "Computer Vision",  
     "Databases"
 ];
 

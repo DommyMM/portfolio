@@ -27,26 +27,29 @@ export function TextSlider({
         const revealTimer = setTimeout(() => {
             setIsVisible(true);
             setIsAnimating(false);
-        }, 1500);
-
+        }, 500);
+    
         // Setup cycling if not startupOnly
         if (!startupOnly && roles.length > 1) {
             intervalRef.current = setInterval(() => {
+                // Hide text and start overlay animation
                 setIsVisible(false);
                 setIsAnimating(true);
                 
+                // Change text while hidden
                 setTimeout(() => {
                     setCurrentIndex((prev) => (prev + 1) % roles.length);
-                    
-                    setTimeout(() => {
-                        setIsVisible(true);
-                        setIsAnimating(false);
-                    }, 100);
-                }, 600);
+                }, 10); // Small delay to ensure text is hidden first
+                
+                // End the slide animation and reveal text
+                setTimeout(() => {
+                    setIsAnimating(false);
+                    setIsVisible(true);
+                }, 1000);
                 
             }, interval);
         }
-
+    
         return () => {
             clearTimeout(revealTimer);
             if (intervalRef.current) {
@@ -61,10 +64,6 @@ export function TextSlider({
 
     return (
         <div className={`relative inline-flex items-center ${className}`}>
-            {showPlus && !startupOnly && (
-                <span className="text-purple-400 mr-2 opacity-40">+</span>
-            )}
-            
             <div className="relative overflow-hidden">
                 <span 
                     className={`
@@ -73,6 +72,9 @@ export function TextSlider({
                         ${isVisible ? 'text-gray-300' : 'text-transparent'}
                     `}
                 >
+                    {showPlus && !startupOnly && (
+                        <span className="text-purple-400 mr-2 opacity-40">+</span>
+                    )}
                     {currentRole}
                     
                     {/* Sliding overlay */}
