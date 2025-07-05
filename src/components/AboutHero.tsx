@@ -1,7 +1,8 @@
 "use client";
 
-import { TextDecoder } from "@/components/ui/text-decoder";
-import { TextSlider } from "@/components/ui/text-slider";
+import { TextDecoder } from "@/components/ui/TextDecoder";
+import { TextSlider } from "@/components/ui/TextSlider";
+import { TacetMark } from "@/components/ui/TacetMark";
 
 const specialties = [
     "AI/ML Pipelines",
