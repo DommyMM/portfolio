@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useSpring, useReducedMotion } from "framer-motion";
+import { useSpring, useReducedMotion } from "motion/react";
 
 const glyphs = [
     "က", "ခ", "ဂ", "ဃ", "င",
@@ -23,7 +23,7 @@ type DecoderTextProps = {
 
 type OutputChar = { type: "glyph" | "value"; value: string };
 
-export function DecoderText({ text, className = "", delay = 0 }: DecoderTextProps) {
+export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProps) {
     const output = useRef<OutputChar[]>([]);
     const container = useRef<HTMLSpanElement>(null);
     const reduceMotion = useReducedMotion();
