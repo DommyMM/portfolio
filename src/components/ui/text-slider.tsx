@@ -27,25 +27,25 @@ export function TextSlider({
         const revealTimer = setTimeout(() => {
             setIsVisible(true);
             setIsAnimating(false);
-        }, 500);
+        }, 500); // Match the overlay animation duration
     
         // Setup cycling if not startupOnly
         if (!startupOnly && roles.length > 1) {
             intervalRef.current = setInterval(() => {
-                // Hide text and start overlay animation
+                // Step 1: Hide text completely (fade out)
                 setIsVisible(false);
-                setIsAnimating(true);
                 
-                // Change text while hidden
+                // Step 2: After fade-out is complete, change word and start overlay
                 setTimeout(() => {
                     setCurrentIndex((prev) => (prev + 1) % roles.length);
-                }, 10); // Small delay to ensure text is hidden first
+                    setIsAnimating(true);
+                }, 400); // Wait for fade-out transition to complete
                 
-                // End the slide animation and reveal text
+                // Step 3: End the slide animation and reveal text
                 setTimeout(() => {
                     setIsAnimating(false);
                     setIsVisible(true);
-                }, 1000);
+                }, 1500); // 500ms fade-out + 1000ms overlay animation
                 
             }, interval);
         }
@@ -65,30 +65,31 @@ export function TextSlider({
     return (
         <div className={`relative inline-flex items-center ${className}`}>
             <div className="relative overflow-hidden">
+                {/* Text content with independent opacity */}
                 <span 
                     className={`
                         inline-block relative
                         transition-all duration-500 ease-out
-                        ${isVisible ? 'text-gray-300' : 'text-transparent'}
+                        ${isVisible ? 'text-gray-300 opacity-100' : 'text-gray-300 opacity-0'}
                     `}
                 >
                     {showPlus && !startupOnly && (
                         <span className="text-purple-400 mr-2 opacity-40">+</span>
                     )}
                     {currentRole}
-                    
-                    {/* Sliding overlay */}
-                    <span 
-                        className={`
-                            absolute inset-0 bg-purple-500 z-10
-                            transition-transform duration-1000 ease-out
-                            ${isAnimating 
-                                ? 'transform scale-x-100 origin-left' 
-                                : 'transform scale-x-0 origin-right'
-                            }
-                        `}
-                    />
                 </span>
+                
+                {/* Sliding overlay - independent of text opacity */}
+                <span 
+                    className={`
+                        absolute inset-0 bg-purple-500 z-10
+                        transition-transform duration-1000 ease-out
+                        ${isAnimating 
+                            ? 'transform scale-x-100 origin-left' 
+                            : 'transform scale-x-0 origin-right'
+                        }
+                    `}
+                />
             </div>
         </div>
     );

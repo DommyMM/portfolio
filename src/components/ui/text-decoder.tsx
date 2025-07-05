@@ -88,7 +88,6 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
         return () => {
         unsubscribeSpring?.();
         };
-        // eslint-disable-next-line
     }, [decoderSpring, reduceMotion, delay, text]);
 
     return (
