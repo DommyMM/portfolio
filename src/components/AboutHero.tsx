@@ -15,20 +15,20 @@ export default function AboutHero() {
         <div className="max-w-4xl text-center space-y-8">
             {/* Main Heading */}
             <div className="space-y-4">
-            <h1 className="text-5xl md:text-8xl font-bold text-amber-200">
-                <TextDecoder text="Dominic Aung" className="text-amber-200" />
-            </h1>
-            {/* Main Role with Animated TextSlider */}
-            <div className="flex flex-col items-start">
-                <div className="flex items-center gap-2 text-2xl md:text-6xl font-semibold text-gray-300">
-                <TextSlider roles={["Full-Stack Developer"]} startupOnly={true} className="text-2xl md:text-6xl font-semibold"/>
-                <span className="block h-1 w-64 bg-purple-500 rounded-full ml-2" />
+                <h1 className="text-5xl md:text-8xl font-bold text-amber-200">
+                    <TextDecoder text="Dominic Aung" className="text-amber-200" />
+                </h1>
+                {/* Main Role with Animated TextSlider */}
+                <div className="flex flex-col items-start">
+                    <div className="flex items-center gap-2 text-2xl md:text-6xl text-gray-300">
+                    <TextSlider roles={["Full-Stack Developer"]} startupOnly={true} className="text-2xl md:text-6xl  text-gray-300"/>
+                    <span className="block h-1 w-64 bg-purple-500 rounded-full ml-2" />
+                    </div>
+                    {/* Animated Cycling Specialties */}
+                    <div className="mt-4">
+                        <TextSlider roles={specialties} className="text-lg md:text-6xl text-gray-400" />
+                    </div>
                 </div>
-                {/* Animated Cycling Specialties */}
-                <div className="mt-4">
-                    <TextSlider roles={specialties} />
-                </div>
-            </div>
             </div>
 
             {/* Supporting Text */}
@@ -44,4 +44,4 @@ export default function AboutHero() {
         </div>
         </section>
     );
-} 
+}

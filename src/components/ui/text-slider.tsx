@@ -1,87 +1,93 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface TextSliderProps {
     roles: string[];
     interval?: number;
     className?: string;
     startupOnly?: boolean;
+    showPlus?: boolean;
 }
 
 export function TextSlider({ 
     roles, 
     interval = 5000, 
     className = "", 
-    startupOnly = false
+    startupOnly = false,
+    showPlus = true
 }: TextSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [animationState, setAnimationState] = useState<'entering' | 'entered' | 'exiting'>('entering');
+    const [isAnimating, setIsAnimating] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
-        if (startupOnly) { // Only run initial animation, no cycling
-            setTimeout(() => {
-                setAnimationState('entered');
-            }, 1500);
-            return;
+        // Initial reveal animation
+        const revealTimer = setTimeout(() => {
+            setIsVisible(true);
+            setIsAnimating(false);
+        }, 1500);
+
+        // Setup cycling if not startupOnly
+        if (!startupOnly && roles.length > 1) {
+            intervalRef.current = setInterval(() => {
+                setIsVisible(false);
+                setIsAnimating(true);
+                
+                setTimeout(() => {
+                    setCurrentIndex((prev) => (prev + 1) % roles.length);
+                    
+                    setTimeout(() => {
+                        setIsVisible(true);
+                        setIsAnimating(false);
+                    }, 100);
+                }, 600);
+                
+            }, interval);
         }
 
-        const timer = setInterval(() => {
-        setAnimationState('exiting');
-        
-        setTimeout(() => {
-            setCurrentIndex((prev) => (prev + 1) % roles.length);
-            setAnimationState('entering');
-            
-            setTimeout(() => {
-            setAnimationState('entered');
-            }, 1500);
-        }, 500); // Exit animation duration
-        }, interval);
-
-        return () => clearInterval(timer);
+        return () => {
+            clearTimeout(revealTimer);
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
     }, [roles.length, interval, startupOnly]);
 
-    useEffect(() => {
-        // Initial animation
-        setTimeout(() => {
-        setAnimationState('entered');
-        }, 500);
-    }, []);
+    if (roles.length === 0) return null;
 
     const currentRole = roles[currentIndex];
 
     return (
-        <div className={`relative inline-block ${className}`}>
-        <div className="flex items-center">
-            {!startupOnly && <span className="text-2xl md:text-4xl font-semibold text-purple-400 mr-2">+</span>}
+        <div className={`relative inline-flex items-center ${className}`}>
+            {showPlus && !startupOnly && (
+                <span className="text-purple-400 mr-2 opacity-40">+</span>
+            )}
+            
             <div className="relative overflow-hidden">
-            <span className={`
-                inline-block text-2xl md:text-6xl font-semibold relative
-                transition-all duration-600 ease-out
-                ${animationState === 'entering' ? 'text-transparent' : ''}
-                ${animationState === 'entered' ? 'text-gray-300' : ''}
-                ${animationState === 'exiting' ? 'text-gray-300 opacity-0 transition-opacity duration-300 delay-200' : ''}
-                `}
-            >
-                {currentRole}
-                
-                {/* Sliding overlay effect */}
                 <span 
-                className={`
-                    absolute inset-0 bg-purple-500 
-                    transition-transform duration-1500 ease-out
-                    ${animationState === 'entering' ? 'transform scale-x-100 origin-left' : ''}
-                    ${animationState === 'entered' ? 'transform scale-x-0 origin-right' : ''}
-                    ${animationState === 'exiting' ? 'transform scale-x-0 origin-right' : ''}
-                `}
-                style={{
-                    animationDelay: animationState === 'entering' ? '0ms' : '0ms'
-                }}
-                />
-            </span>
+                    className={`
+                        inline-block relative
+                        transition-all duration-500 ease-out
+                        ${isVisible ? 'text-gray-300' : 'text-transparent'}
+                    `}
+                >
+                    {currentRole}
+                    
+                    {/* Sliding overlay */}
+                    <span 
+                        className={`
+                            absolute inset-0 bg-purple-500 z-10
+                            transition-transform duration-1000 ease-out
+                            ${isAnimating 
+                                ? 'transform scale-x-100 origin-left' 
+                                : 'transform scale-x-0 origin-right'
+                            }
+                        `}
+                    />
+                </span>
             </div>
-        </div>
         </div>
     );
 }
