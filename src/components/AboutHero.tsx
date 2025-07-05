@@ -6,7 +6,8 @@ import { TextSlider } from "@/components/ui/text-slider";
 const specialties = [
     "AI/ML Pipelines",
     "Computer Vision",  
-    "Databases"
+    "Databases",
+    "API Development"
 ];
 
 export default function AboutHero() {
