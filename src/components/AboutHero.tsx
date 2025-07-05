@@ -7,7 +7,8 @@ const specialties = [
     "AI/ML Pipelines",
     "Computer Vision",  
     "Databases",
-    "API Development"
+    "Web Development",
+    "API Engineering"
 ];
 
 export default function AboutHero() {
@@ -16,7 +17,7 @@ export default function AboutHero() {
         <div className="max-w-4xl text-center space-y-8">
             {/* Main Heading */}
             <div className="space-y-4">
-                <h1 className="text-5xl md:text-8xl font-bold text-amber-200">
+                <h1 className="text-5xl md:text-8xl font-bold text-amber-200 whitespace-nowrap">
                     <TextDecoder text="Dominic Aung" className="text-amber-200" />
                 </h1>
                 {/* Main Role with Animated TextSlider */}
