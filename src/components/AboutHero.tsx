@@ -21,7 +21,7 @@ export default function AboutHero() {
             {/* Main Role with Animated TextSlider */}
             <div className="flex flex-col items-start">
                 <div className="flex items-center gap-2 text-2xl md:text-6xl font-semibold text-gray-300">
-                <span>Full-Stack Developer</span>
+                <TextSlider roles={["Full-Stack Developer"]} startupOnly={true} className="text-2xl md:text-6xl font-semibold"/>
                 <span className="block h-1 w-64 bg-purple-500 rounded-full ml-2" />
                 </div>
                 {/* Animated Cycling Specialties */}

@@ -6,13 +6,26 @@ interface TextSliderProps {
     roles: string[];
     interval?: number;
     className?: string;
+    startupOnly?: boolean;
 }
 
-export function TextSlider({ roles, interval = 5000, className = "" }: TextSliderProps) {
+export function TextSlider({ 
+    roles, 
+    interval = 5000, 
+    className = "", 
+    startupOnly = false
+}: TextSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animationState, setAnimationState] = useState<'entering' | 'entered' | 'exiting'>('entering');
 
     useEffect(() => {
+        if (startupOnly) { // Only run initial animation, no cycling
+            setTimeout(() => {
+                setAnimationState('entered');
+            }, 1500);
+            return;
+        }
+
         const timer = setInterval(() => {
         setAnimationState('exiting');
         
@@ -22,18 +35,18 @@ export function TextSlider({ roles, interval = 5000, className = "" }: TextSlide
             
             setTimeout(() => {
             setAnimationState('entered');
-            }, 1500); // Match the animation duration
+            }, 1500);
         }, 500); // Exit animation duration
         }, interval);
 
         return () => clearInterval(timer);
-    }, [roles.length, interval]);
+    }, [roles.length, interval, startupOnly]);
 
     useEffect(() => {
         // Initial animation
         setTimeout(() => {
         setAnimationState('entered');
-        }, 1500);
+        }, 500);
     }, []);
 
     const currentRole = roles[currentIndex];
@@ -41,14 +54,14 @@ export function TextSlider({ roles, interval = 5000, className = "" }: TextSlide
     return (
         <div className={`relative inline-block ${className}`}>
         <div className="flex items-center">
-            <span className="text-2xl md:text-4xl font-semibold text-purple-400 mr-2">+</span>
+            {!startupOnly && <span className="text-2xl md:text-4xl font-semibold text-purple-400 mr-2">+</span>}
             <div className="relative overflow-hidden">
             <span className={`
                 inline-block text-2xl md:text-6xl font-semibold relative
-                transition-all duration-500 ease-out
+                transition-all duration-600 ease-out
                 ${animationState === 'entering' ? 'text-transparent' : ''}
-                ${animationState === 'entered' ? 'text-purple-400' : ''}
-                ${animationState === 'exiting' ? 'text-purple-400 opacity-0 transition-opacity duration-300 delay-200' : ''}
+                ${animationState === 'entered' ? 'text-gray-300' : ''}
+                ${animationState === 'exiting' ? 'text-gray-300 opacity-0 transition-opacity duration-300 delay-200' : ''}
                 `}
             >
                 {currentRole}
