@@ -20,6 +20,7 @@
 # production
 /build
 adrian/
+hamish/
 
 # misc
 .DS_Store
