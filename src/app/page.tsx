@@ -1,4 +1,5 @@
 import AboutHero from "@/components/AboutHero";
+import WorkEducation from "@/components/WorkEducation";
 
 export default function Home() {
   return (
@@ -13,12 +14,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="py-24">
-          <h2 className="text-3xl font-semibold text-white mb-8">Work Experience</h2>
-          <div className="h-32 bg-white/5 rounded-lg border border-white/10 flex items-center justify-center text-white/40">
-            Coming soon...
-          </div>
-        </section>
+        <WorkEducation />
 
         <section id="skills" className="py-24">
           <h2 className="text-3xl font-semibold text-white mb-8">Skills & Tech</h2>
