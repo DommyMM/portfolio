@@ -81,14 +81,7 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
                     const randomColor = glyphColors[Math.floor(Math.random() * glyphColors.length)];
                     return `<span style="opacity:0.6; color:${randomColor};">${item.value}</span>`;
                 } else {
-                    // Gradient color for the final name
-                    return `<span style="
-                        font-weight:600; 
-                        background: linear-gradient(45deg, #fbbf24, #ef4444, #8b5cf6, #06b6d4);
-                        background-clip: text;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                    ">${item.value}</span>`;
+                    return `<span class="gradient-dance font-semibold">${item.value}</span>`;
                 }
             });
             container.current.innerHTML = characterMap.join("");
