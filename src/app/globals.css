@@ -39,28 +39,94 @@ body {
   font-style: normal;
 }
 
-/* Tacet Mark Alternating Glow Animation */
-@keyframes tacet-alternating-glow {
-  /* 0-70% (0-3500ms): Subtle glow when text is visible */
+/* Startup Awakening Animation - First Time Only */
+@keyframes tacet-startup {
+  /* 0-70% (0-3500ms): Stay dark during readable phase */
   0%, 70% { 
-    filter: drop-shadow(0 0 20px rgba(251,191,36,0.3));
+    filter: drop-shadow(0 0 15px rgba(251,191,36,0.3));
+    transform: scale(1);
+    color: #4a4a4a;
   }
   35% { 
-    filter: drop-shadow(0 0 40px rgba(251,191,36,0.6)) drop-shadow(0 0 60px rgba(251,191,36,0.3));
+    filter: drop-shadow(0 0 20px rgba(251,191,36,0.4));
+    transform: scale(1.005);
+    color: #4a4a4a;
   }
   
-  /* 70-100% (3500-5000ms): Intense glow during text transition */
-  70%, 100% { 
-    filter: drop-shadow(0 0 50px rgba(251,191,36,1)) drop-shadow(0 0 100px rgba(251,191,36,0.7)) drop-shadow(0 0 150px rgba(251,191,36,0.4));
+  /* 70-74% (3500-3700ms): Start filling with amber */
+  74% { 
+    filter: drop-shadow(0 0 25px rgba(251,191,36,0.6));
+    transform: scale(1.015);
+    color: #fbbf24;
   }
-  85% { 
-    filter: drop-shadow(0 0 60px rgba(251,191,36,1.2)) drop-shadow(0 0 120px rgba(251,191,36,0.8)) drop-shadow(0 0 180px rgba(251,191,36,0.5));
+  
+  /* 74-86% (3700-4300ms): Peak amber during liberation */
+  74%, 86% { 
+    filter: 
+      drop-shadow(0 0 30px rgba(251,191,36,0.8))
+      drop-shadow(0 0 60px rgba(138,43,226,0.4));
+    transform: scale(1.025);
+    color: #fbbf24;
+  }
+  80% { 
+    filter: 
+      drop-shadow(0 0 35px rgba(251,191,36,1))
+      drop-shadow(0 0 70px rgba(138,43,226,0.5));
+    transform: scale(1.035);
+    color: #fbbf24;
+  }
+  
+  /* 86-100% (4300-5000ms): Settle to new baseline */
+  100% { 
+    filter: drop-shadow(0 0 20px rgba(251,191,36,0.4));
+    transform: scale(1);
+    color: rgba(251,191,36,0.3); /* New 30% amber baseline */
   }
 }
 
-/* Apply the alternating glow animation to the Tacet Mark */
-.tacet-mark {
-  animation: tacet-alternating-glow 5s ease-in-out infinite;
+/* Regular Liberation Cycles - After Awakening */
+@keyframes tacet-regular {
+  /* 0-80% (0-4000ms): Stay at 30% amber baseline */
+  0%, 80% { 
+    filter: drop-shadow(0 0 20px rgba(251,191,36,0.4));
+    transform: scale(1);
+    color: rgba(251,191,36,0.3);
+  }
+  40% { 
+    filter: drop-shadow(0 0 22px rgba(251,191,36,0.45));
+    transform: scale(1.005);
+    color: rgba(251,191,36,0.3);
+  }
+  
+  /* 80-84% (4000-4200ms): Start filling with full amber */
+  84% { 
+    filter: drop-shadow(0 0 25px rgba(251,191,36,0.6));
+    transform: scale(1.015);
+    color: #fbbf24;
+  }
+  
+  /* 84-96% (4200-4800ms): Peak amber during liberation */
+  84%, 96% { 
+    filter: 
+      drop-shadow(0 0 30px rgba(251,191,36,0.8))
+      drop-shadow(0 0 60px rgba(138,43,226,0.4));
+    transform: scale(1.025);
+    color: #fbbf24;
+  }
+  90% { 
+    filter: 
+      drop-shadow(0 0 35px rgba(251,191,36,1))
+      drop-shadow(0 0 70px rgba(138,43,226,0.5));
+    transform: scale(1.035);
+    color: #fbbf24;
+  }
+  
+  /* 96-100% (4800-5000ms): Drain back to baseline */
+  100% { 
+    filter: drop-shadow(0 0 20px rgba(251,191,36,0.4));
+    transform: scale(1);
+    color: rgba(251,191,36,0.3);
+  }
 }
 
 /* Base state for paths */
@@ -69,3 +135,11 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Animation classes */
+.tacet-mark.startup {
+  animation: tacet-startup 5s ease-in-out forwards;
+}
+
+.tacet-mark.awakened {
+  animation: tacet-regular 5s ease-in-out infinite;
+}
