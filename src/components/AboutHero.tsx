@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { TacetMark } from "@/components/ui/TacetMark";
+import MagicButton from "@/components/MagicButton";
 
 const specialties = [
     "AI/ML Pipelines",
@@ -69,9 +70,12 @@ export default function AboutHero() {
 
                 {/* CTA Button */}
                 <div className="pt-8">
-                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors duration-200 border border-purple-500 hover:border-purple-400">
-                        View My Work →
-                    </button>
+                    <MagicButton
+                        title="View My Work"
+                        icon={<span className="text-sm">→</span>}
+                        position="right"
+                        otherClasses="w-auto"
+                    />
                 </div>
             </div>
         </section>
