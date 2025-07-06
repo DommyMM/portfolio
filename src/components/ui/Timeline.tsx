@@ -48,13 +48,13 @@ export const Timeline = ({ data }: TimelineProps) => {
     }, [scrollYProgress, data]);
 
     return (
-        <div className="w-full bg-transparent font-sans" ref={containerRef}>
-            <div className="max-w-7xl mx-auto py-20 px-4">
-                <div ref={ref} className="relative max-w-6xl mx-auto pb-20">
+        <div className="w-full bg-transparent font-sans relative" ref={containerRef}>
+            <div className="max-w-7xl mx-auto py-4 px-4">
+                <div ref={ref} className="relative max-w-6xl mx-auto">
                     {data.map((item, index) => (
                         <div
                             key={index}
-                            className={`flex justify-start ${index === 0 ? 'pt-4' : 'pt-10'} md:${index === 0 ? 'pt-8' : 'pt-40'} md:gap-6`}
+                            className={`flex justify-start ${index === 0 ? 'pt-4 pb-10' : 'pt-16 pb-12'} md:${index === 0 ? 'pt-8 pb-14' : 'pt-46 pb-16'} md:gap-6`}
                         >
                             <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-[220px] md:w-[220px] flex-shrink-0">
                                 <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-black dark:bg-white flex items-center justify-center">

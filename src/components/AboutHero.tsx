@@ -26,11 +26,11 @@ export default function AboutHero() {
                     {/* Triangular Layout */}
                     <div className="flex flex-col items-center mt-12 space-y-6">
                         {/* Level 2 */}
-                        <div className="text-3xl md:text-7xl lg:text-8xl text-gray-300">
+                        <div className="text-3xl md:text-6xl lg:text-7xl text-gray-300">
                             <TextSlider 
                                 roles={["Full-Stack Developer"]} 
                                 startupOnly={true} 
-                                className="text-3xl md:text-7xl lg:text-8xl text-gray-300"
+                                className="text-3xl md:text-6xl lg:text-7xl text-gray-300"
                             />
                         </div>
                         

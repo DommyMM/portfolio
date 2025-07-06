@@ -66,7 +66,7 @@ export function TextSlider({
                 {/* Text content with independent opacity */}
                 <span 
                     className={`
-                        inline-block relative
+                        inline-block relative font-['Fira_Code']
                         transition-all duration-500 ease-out
                         ${isVisible ? 'text-gray-300 opacity-100' : 'text-gray-300 opacity-0'}
                     `}
