@@ -58,7 +58,7 @@ const workEducationData = [
                 <div className="space-y-2">
                     <p className="text-gray-300">• Working on <a href="https://www.expressodavis.org/" target="_blank" rel="noopener noreferrer" className="text-blue-400 font-medium hover:text-blue-300 underline">Expresso</a>, a university mentorship platform connecting students with mentors and seniors</p>
                     <p className="text-gray-300">• Built unified search API in <span className="text-green-400 font-medium">Go</span>, processing multi-parameter queries</p>
-                    <p className="text-gray-300">• Implemented fuzzy matching algorithm, enabling partial searches like ("Spa" → "Space Exploration")</p>
+                    <p className="text-gray-300">• Implemented fuzzy matching algorithm, enabling partial searches like (&ldquo;Spa&rdquo; → &ldquo;Space Exploration&rdquo;)</p>
                     <p className="text-gray-300">• Developed <span className="text-blue-400 font-medium">React + Tailwind</span> front-end with aesthetic animations, debounced queries and error handling</p>
                 </div>
             </div>

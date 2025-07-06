@@ -45,7 +45,7 @@ export const Timeline = ({ data }: TimelineProps) => {
             setItemProgress(newProgress);
         });
         return () => unsubscribe();
-    }, [scrollYProgress, data.length]);
+    }, [scrollYProgress, data]);
 
     return (
         <div className="w-full bg-transparent font-sans" ref={containerRef}>
