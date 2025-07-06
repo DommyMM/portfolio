@@ -1,6 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 interface MagicButtonProps {
     title: string;
@@ -33,5 +37,127 @@ export function MagicButton({
                 {position === "right" && icon}
             </span>
         </button>
+    );
+}
+
+type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
+
+interface ToggleButtonProps {
+    isDark?: boolean;
+    onToggle?: (isDark: boolean) => void;
+    className?: string;
+    duration?: number;
+    clockwise?: boolean;
+}
+
+export function ToggleButton({ 
+    isDark = true, 
+    onToggle, 
+    className,
+    duration = 1,
+    clockwise = true 
+}: ToggleButtonProps) {
+    const [isChecked, setIsChecked] = useState(isDark);
+    const [hovered, setHovered] = useState<boolean>(false);
+    const [direction, setDirection] = useState<Direction>("TOP");
+
+    const rotateDirection = (currentDirection: Direction): Direction => {
+        const directions: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
+        const currentIndex = directions.indexOf(currentDirection);
+        const nextIndex = clockwise
+            ? (currentIndex - 1 + directions.length) % directions.length
+            : (currentIndex + 1) % directions.length;
+        return directions[nextIndex];
+    };
+
+    const movingMap: Record<Direction, string> = {
+        TOP: "radial-gradient(20.7% 50% at 50% 0%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
+        LEFT: "radial-gradient(16.6% 43.1% at 0% 50%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
+        BOTTOM: "radial-gradient(20.7% 50% at 50% 100%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
+        RIGHT: "radial-gradient(16.2% 41.199999999999996% at 100% 50%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
+    };
+
+    const highlight = "radial-gradient(75% 181.15942028985506% at 50% 50%, #3275F8 0%, rgba(255, 255, 255, 0) 100%)";
+
+    useEffect(() => {
+        if (!hovered) {
+            const interval = setInterval(() => {
+                setDirection((prevState) => rotateDirection(prevState));
+            }, duration * 1000);
+            return () => clearInterval(interval);
+        }
+    }, [hovered, duration, clockwise]);
+
+    useEffect(() => {
+        setIsChecked(isDark);
+    }, [isDark]);
+
+    const handleToggle = () => {
+        const newState = !isChecked;
+        setIsChecked(newState);
+        onToggle?.(newState);
+    };
+
+    return (
+        <div
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onClick={handleToggle}
+            className={cn(
+                "relative flex rounded-full border content-center bg-black/20 hover:bg-black/10 transition duration-500 dark:bg-white/20 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-px decoration-clone w-fit cursor-pointer",
+                className
+            )}
+        >
+            {/* Toggle Content */}
+            <div className="w-auto z-10 rounded-[inherit] p-1">
+                {/* Toggle Track */}
+                <div className={cn(
+                    "relative w-[110px] h-[50px] rounded-full transition-all duration-300 shadow-sm",
+                    "after:absolute after:content-[''] after:w-[40px] after:h-[40px] after:rounded-full after:top-[5px] after:left-[5px]",
+                    "after:transition-all after:duration-300 after:shadow-md",
+                    "active:after:w-[50px]",
+                    isChecked 
+                        ? "bg-zinc-500 after:bg-gradient-to-r after:from-zinc-900 after:to-zinc-900 after:left-[105px] after:-translate-x-full"
+                        : "bg-white after:bg-gradient-to-r after:from-orange-500 after:to-yellow-400"
+                )} />
+
+                {/* Sun Icon */}
+                <LightModeIcon 
+                    className={cn(
+                        "absolute w-6 h-6 left-[13px] top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        isChecked ? "text-white opacity-60" : "text-white opacity-100"
+                    )}
+                />
+
+                {/* Moon Icon */}
+                <DarkModeIcon 
+                    className={cn(
+                        "absolute w-6 h-6 right-[13px] top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        isChecked ? "text-white opacity-70" : "text-black opacity-60"
+                    )}
+                />
+            </div>
+
+            {/* Rotating Border Gradient Effect */}
+            <motion.div
+                className="flex-none inset-0 overflow-hidden absolute z-0 rounded-[inherit]"
+                style={{
+                    filter: "blur(2px)",
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                }}
+                initial={{ background: movingMap[direction] }}
+                animate={{
+                    background: hovered
+                        ? [movingMap[direction], highlight]
+                        : movingMap[direction],
+                }}
+                transition={{ ease: "linear", duration: duration }}
+            />
+            
+            {/* Background layer */}
+            <div className="bg-black/80 absolute z-1 flex-none inset-[2px] rounded-[inherit]" />
+        </div>
     );
 }

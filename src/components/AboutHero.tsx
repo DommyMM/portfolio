@@ -5,7 +5,6 @@ import { TextSlider } from "@/components/ui/TextSlider";
 import { MagicButton } from "@/components/ui/Button";
 import { TextGenerateEffect } from "@/components/ui/TextGenerate";
 import { motion } from "motion/react";
-import { TacetMark } from "./ui/TacetMark";
 
 const specialties = [
     "AI/ML Pipelines",
