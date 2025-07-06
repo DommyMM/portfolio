@@ -17,7 +17,7 @@ const specialties = [
 
 export default function AboutHero() {
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-white dark:bg-black transition-colors duration-300">
+        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden transition-colors duration-300">
             <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
