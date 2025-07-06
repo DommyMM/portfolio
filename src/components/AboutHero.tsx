@@ -3,7 +3,7 @@
 import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { MagicButton } from "@/components/ui/MagicButton";
-import { TextGenerateEffect } from "@/components/ui/TextGenerateEffect";
+import { TextGenerateEffect } from "@/components/ui/TextGenerate";
 
 const specialties = [
     "AI/ML Pipelines",
@@ -35,7 +35,7 @@ export default function AboutHero() {
                         </div>
                         
                         {/* Level 3: Cycling Specialties */}
-                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-400">
+                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-400 mb-2">
                             <TextSlider 
                                 roles={specialties} 
                                 className="text-xl md:text-5xl lg:text-6xl text-gray-400"
@@ -45,7 +45,7 @@ export default function AboutHero() {
                         {/* Level 4: Education */}
                         <TextGenerateEffect 
                             words="CS @ UC Davis" 
-                            className="text-base md:text-3xl lg:text-4xl font-light" 
+                            className="text-base md:text-3xl lg:text-4xl font-light mb-0" 
                             filter={true}
                             duration={1}
                         />
