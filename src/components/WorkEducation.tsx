@@ -162,7 +162,7 @@ const workEducationData = [
 
 export default function WorkEducation() {
     return (
-        <section id="work" className="py-24 mb-10">
+        <section id="work" className="py-24 mb-10 relative">
             <div className="text-center mb-4">
                 <h2 className="text-3xl font-semibold text-white mb-2">Work & Education</h2>
             </div>

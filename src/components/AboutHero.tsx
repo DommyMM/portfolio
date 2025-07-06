@@ -2,16 +2,17 @@
 
 import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
-import { MagicButton } from "@/components/ui/MagicButton";
+import { MagicButton } from "@/components/ui/Button";
 import { TextGenerateEffect } from "@/components/ui/TextGenerate";
 import { motion } from "motion/react";
+import { TacetMark } from "./ui/TacetMark";
 
 const specialties = [
     "AI/ML Pipelines",
     "Computer Vision",  
     "Databases",
     "Web Development",
-    "API Engineering",
+    "API Programming",
     "Gacha Games"
 ];
 
