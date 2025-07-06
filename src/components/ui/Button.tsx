@@ -28,10 +28,10 @@ export function MagicButton({
             onClick={handleClick}
         >
             {/* Spinning conic gradient border */}
-            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] light:bg-[conic-gradient(from_90deg_at_50%_50%,#000000_0%,#ef4444_50%,#000000_100%)] dark:bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
             
             {/* Button content */}
-            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 group-hover:bg-transparent transition duration-200 px-7 text-sm font-medium text-white backdrop-blur-3xl gap-2">
+            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg light:bg-gray-50 dark:bg-slate-950 light:group-hover:bg-[#E2CBFF] dark:group-hover:bg-transparent transition duration-200 px-7 text-sm font-medium light:text-black light:group-hover:text-black dark:text-white backdrop-blur-3xl gap-2">
                 {position === "left" && icon}
                 {title}
                 {position === "right" && icon}
