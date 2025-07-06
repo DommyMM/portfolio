@@ -61,15 +61,6 @@ export function ToggleButton({
     const [hovered, setHovered] = useState<boolean>(false);
     const [direction, setDirection] = useState<Direction>("TOP");
 
-    const rotateDirection = (currentDirection: Direction): Direction => {
-        const directions: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
-        const currentIndex = directions.indexOf(currentDirection);
-        const nextIndex = clockwise
-            ? (currentIndex - 1 + directions.length) % directions.length
-            : (currentIndex + 1) % directions.length;
-        return directions[nextIndex];
-    };
-
     const movingMap: Record<Direction, string> = {
         TOP: `radial-gradient(20.7% 50% at 50% 0%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(220, 100%, 30%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
         LEFT: `radial-gradient(16.6% 43.1% at 0% 50%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(220, 100%, 30%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
@@ -83,6 +74,14 @@ export function ToggleButton({
 
     useEffect(() => {
         if (!hovered) {
+            const rotateDirection = (currentDirection: Direction): Direction => {
+                const directions: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
+                const currentIndex = directions.indexOf(currentDirection);
+                const nextIndex = clockwise
+                    ? (currentIndex - 1 + directions.length) % directions.length
+                    : (currentIndex + 1) % directions.length;
+                return directions[nextIndex];
+            };
             const interval = setInterval(() => {
                 setDirection((prevState) => rotateDirection(prevState));
             }, duration * 1000);
