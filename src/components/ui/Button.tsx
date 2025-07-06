@@ -71,10 +71,10 @@ export function ToggleButton({
     };
 
     const movingMap: Record<Direction, string> = {
-        TOP: `radial-gradient(20.7% 50% at 50% 0%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
-        LEFT: `radial-gradient(16.6% 43.1% at 0% 50%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
-        BOTTOM: `radial-gradient(20.7% 50% at 50% 100%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
-        RIGHT: `radial-gradient(16.2% 41.199999999999996% at 100% 50%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
+        TOP: `radial-gradient(20.7% 50% at 50% 0%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(220, 100%, 30%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
+        LEFT: `radial-gradient(16.6% 43.1% at 0% 50%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(220, 100%, 30%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
+        BOTTOM: `radial-gradient(20.7% 50% at 50% 100%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(220, 100%, 30%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
+        RIGHT: `radial-gradient(16.2% 41.199999999999996% at 100% 50%, ${isChecked ? 'hsl(0, 0%, 100%)' : 'hsl(220, 100%, 30%)'} 0%, rgba(255, 255, 255, 0) 100%)`,
     };
 
     const highlight = isChecked 
@@ -126,7 +126,7 @@ export function ToggleButton({
                 {/* Sun Icon */}
                 <LightModeIcon 
                     className={cn(
-                        "absolute w-6 h-6 left-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute w-6 h-6 left-[16px] top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-60" : "text-white opacity-100"
                     )}
                 />
@@ -134,7 +134,7 @@ export function ToggleButton({
                 {/* Moon Icon */}
                 <DarkModeIcon 
                     className={cn(
-                        "absolute w-6 h-6 right-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute w-6 h-6 right-[16px] top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-70" : "text-black opacity-60"
                     )}
                 />
