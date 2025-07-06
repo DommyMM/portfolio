@@ -39,19 +39,28 @@ body {
   font-style: normal;
 }
 
-/* Simple Tacet Mark Glow Animation */
-@keyframes tacet-glow {
-  0%, 100% { 
+/* Tacet Mark Alternating Glow Animation */
+@keyframes tacet-alternating-glow {
+  /* 0-70% (0-3500ms): Subtle glow when text is visible */
+  0%, 70% { 
     filter: drop-shadow(0 0 20px rgba(251,191,36,0.3));
   }
-  50% { 
+  35% { 
     filter: drop-shadow(0 0 40px rgba(251,191,36,0.6)) drop-shadow(0 0 60px rgba(251,191,36,0.3));
+  }
+  
+  /* 70-100% (3500-5000ms): Intense glow during text transition */
+  70%, 100% { 
+    filter: drop-shadow(0 0 50px rgba(251,191,36,1)) drop-shadow(0 0 100px rgba(251,191,36,0.7)) drop-shadow(0 0 150px rgba(251,191,36,0.4));
+  }
+  85% { 
+    filter: drop-shadow(0 0 60px rgba(251,191,36,1.2)) drop-shadow(0 0 120px rgba(251,191,36,0.8)) drop-shadow(0 0 180px rgba(251,191,36,0.5));
   }
 }
 
-/* Apply the glow animation to the Tacet Mark */
+/* Apply the alternating glow animation to the Tacet Mark */
 .tacet-mark {
-  animation: tacet-glow 3s ease-in-out infinite;
+  animation: tacet-alternating-glow 5s ease-in-out infinite;
 }
 
 /* Base state for paths */

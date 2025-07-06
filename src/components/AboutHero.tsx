@@ -18,7 +18,7 @@ export default function AboutHero() {
         {/* Background Tacet Mark */}
         <div className="absolute inset-0 pointer-events-none">
             {/* Large Left Tacet Mark with Glow */}
-            <div className="absolute -left-110 top-10 h-full flex items-center">
+            <div className="absolute -left-125 top-10 h-full flex items-center">
                 <TacetMark 
                     className="text-amber-300 drop-shadow-[0_0_50px_rgba(251,191,36,0.4)] rotate-135" 
                     width={1280} 
