@@ -60,15 +60,12 @@ export default function AboutHero() {
                         </div>
                         
                         {/* Level 3: Cycling Specialties */}
-                        <div className="flex items-center gap-4 text-xl md:text-5xl lg:text-6xl text-gray-400">
-                            <span className="block h-1 w-16 md:w-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
-                            <div className="w-80 md:w-[32rem] lg:w-[40rem] text-left">
-                                <TextSlider 
-                                    roles={specialties} 
-                                    className="text-xl md:text-5xl lg:text-6xl text-gray-400"
-                                    showPlus={false}
-                                />
-                            </div>
+                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-400">
+                            <TextSlider 
+                                roles={specialties} 
+                                className="text-xl md:text-5xl lg:text-6xl text-gray-400"
+                                showLine={true}
+                            />
                         </div>
                         
                         {/* Level 4: Education */}

@@ -7,7 +7,7 @@ interface TextSliderProps {
     interval?: number;
     className?: string;
     startupOnly?: boolean;
-    showPlus?: boolean;
+    showLine?: boolean;
 }
 
 export function TextSlider({ 
@@ -15,7 +15,7 @@ export function TextSlider({
     interval = 5000, 
     className = "", 
     startupOnly = false,
-    showPlus = true
+    showLine = false
 }: TextSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(true);
@@ -64,7 +64,16 @@ export function TextSlider({
 
     return (
         <div className={`relative inline-flex items-center ${className}`}>
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden flex items-center">
+                {/* Line element (when showLine is true) */}
+                {showLine && (
+                    <span className={`
+                        h-1 w-16 md:w-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mr-4
+                        transition-opacity duration-500 ease-out
+                        ${isVisible ? 'opacity-100' : 'opacity-0'}
+                    `} />
+                )}
+                
                 {/* Text content with independent opacity */}
                 <span 
                     className={`
@@ -73,13 +82,10 @@ export function TextSlider({
                         ${isVisible ? 'text-gray-300 opacity-100' : 'text-gray-300 opacity-0'}
                     `}
                 >
-                    {showPlus && !startupOnly && (
-                        <span className="text-purple-400 mr-2 opacity-40">+</span>
-                    )}
                     {currentRole}
                 </span>
                 
-                {/* Sliding overlay - independent of text opacity */}
+                {/* Sliding overlay - covers both line and text */}
                 <span 
                     className={`
                         absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 z-10
