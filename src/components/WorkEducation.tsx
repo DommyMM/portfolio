@@ -19,7 +19,7 @@ const workEducationData = [
                                 Lumeno AI
                             </a>
                         </h3>
-                        <p className="text-gray-400 text-sm">July 2025 – Sep. 2025</p>
+                        <p className="text-gray-400 text-sm">July 2025 – Aug. 2025</p>
                     </div>
                     <div className="flex justify-between items-center">
                         <p className="text-white font-medium">Software Engineer Intern</p>
@@ -27,8 +27,10 @@ const workEducationData = [
                     </div>
                 </div>
                 <div className="space-y-2">
-                    <p className="text-gray-300">• Upcoming position developing AI-powered applications</p>
-                    <p className="text-gray-300">• Focus on machine learning infrastructure and data processing</p>
+                    <p className="text-gray-300">• Working alongside <span className="text-blue-400 font-medium">CTO and Lead Engineer</span> on core product development for AI platform</p>
+                    <p className="text-gray-300">• Building <span className="text-green-400 font-medium">full-stack solutions</span> using Python, TypeScript, and AWS infra</p>
+                    <p className="text-gray-300">• Developing products used by <span className="text-green-400 font-medium">students across North America</span></p>
+                    <p className="text-gray-300">• Contributing to both frontend UI and backend AI-powered systems</p>
                 </div>
             </div>
         ),

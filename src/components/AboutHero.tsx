@@ -20,13 +20,13 @@ export default function AboutHero() {
             <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
-                    <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none">
+                    <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none">
                         <TextDecoder text="Dominic Aung" />
                     </h1>
                     {/* Triangular Layout */}
                     <div className="flex flex-col items-center mt-12 space-y-6">
                         {/* Level 2 */}
-                        <div className="text-3xl md:text-6xl lg:text-7xl text-gray-300">
+                        <div className="text-3xl md:text-6xl lg:text-7xl text-gray-300 select-none">
                             <TextSlider 
                                 roles={["Full-Stack Developer"]} 
                                 startupOnly={true} 
@@ -35,7 +35,7 @@ export default function AboutHero() {
                         </div>
                         
                         {/* Level 3: Cycling Specialties */}
-                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-400 mb-2">
+                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-400 mb-2 select-none">
                             <TextSlider 
                                 roles={specialties} 
                                 className="text-xl md:text-5xl lg:text-6xl text-gray-400"
@@ -45,7 +45,7 @@ export default function AboutHero() {
                         {/* Level 4: Education */}
                         <TextGenerateEffect 
                             words="CS @ UC Davis" 
-                            className="text-base md:text-3xl lg:text-4xl font-light mb-0" 
+                            className="font-light mb-0 select-none" 
                             filter={true}
                             duration={1}
                         />
