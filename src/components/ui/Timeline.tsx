@@ -16,7 +16,7 @@ export const Timeline = ({ data }: TimelineProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [height, setHeight] = useState(0);
-    const [isLineMoving, setIsLineMoving] = useState(false);
+    const [itemProgress, setItemProgress] = useState<number[]>(new Array(data.length).fill(0));
 
     useEffect(() => {
         if (ref.current) {
@@ -35,10 +35,17 @@ export const Timeline = ({ data }: TimelineProps) => {
 
     useEffect(() => {
         const unsubscribe = scrollYProgress.on("change", (progress) => {
-            setIsLineMoving(progress > 0);
+            // Calculate individual progress for each item
+            const newProgress = data.map((_, index) => {
+                const itemStart = index / data.length;
+                const itemEnd = (index + 1) / data.length;
+                const itemProgress = Math.max(0, Math.min(1, (progress - itemStart) / (itemEnd - itemStart)));
+                return itemProgress;
+            });
+            setItemProgress(newProgress);
         });
         return () => unsubscribe();
-    }, [scrollYProgress]);
+    }, [scrollYProgress, data.length]);
 
     return (
         <div className="w-full bg-transparent font-sans" ref={containerRef}>
@@ -54,7 +61,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                                     <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
                                 </div>
                                 <div className={`hidden md:block text-xl md:pl-16 md:text-4xl font-black transition-colors duration-300 ${
-                                    isLineMoving ? 'text-white' : 'text-neutral-500'
+                                    itemProgress[index] > 0.3 ? 'text-white' : 'text-neutral-500'
                                 }`}>
                                     {item.title}
                                 </div>
@@ -62,7 +69,7 @@ export const Timeline = ({ data }: TimelineProps) => {
 
                             <div className="relative pl-20 md:pl-2 w-full flex-grow">
                                 <div className={`md:hidden block text-lg mb-4 text-left font-black transition-colors duration-300 ${
-                                    isLineMoving ? 'text-white' : 'text-neutral-500'
+                                    itemProgress[index] > 0.3 ? 'text-white' : 'text-neutral-500'
                                 }`}>
                                     {item.title}
                                 </div>
