@@ -30,6 +30,19 @@ const glyphs = [
     "日", "時", "分", "秒", "週"
 ];
 
+const glyphColors = [
+    "#ef4444",
+    "#f97316",
+    "#eab308",
+    "#22c55e",
+    "#06b6d4",
+    "#3b82f6",
+    "#8b5cf6",
+    "#ec4899",
+    "#f59e0b",
+    "#10b981",
+];
+
 type DecoderTextProps = {
     text: string;
     className?: string;
@@ -48,65 +61,64 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
         const content = text.split("");
 
         const shuffle = (content: string[], output: OutputChar[], position: number): OutputChar[] => {
-        return content.map((value, index) => {
-            if (index < position) {
-            return { type: "value", value };
-            }
-            if (position % 1 < 0.5) {
-            const rand = Math.floor(Math.random() * glyphs.length);
-            return { type: "glyph", value: glyphs[rand] };
-            }
-            return { type: "glyph", value: output[index]?.value || "" };
-        });
+            return content.map((value, index) => {
+                if (index < position) {
+                    return { type: "value", value };
+                }
+                if (position % 1 < 0.5) {
+                    const rand = Math.floor(Math.random() * glyphs.length);
+                    return { type: "glyph", value: glyphs[rand] };
+                }
+                return { type: "glyph", value: output[index]?.value || "" };
+            });
         };
 
         const renderOutput = () => {
-        if (!container.current) return;
-        const characterMap = output.current.map((item) => (
-            `<span style="${item.type === "glyph" ? "opacity:0.5;" : "background: linear-gradient(45deg, #E2CBFF, #393BB2, #06b6d4, #8b5cf6, #ef4444, #eab308, #E2CBFF); background-size: 400% 400%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flowingGradient 4s ease-in-out infinite;"}">${item.value}</span>`
-        ));
-        container.current.innerHTML = characterMap.join("");
+            if (!container.current) return;
+            const characterMap = output.current.map((item) => {
+                if (item.type === "glyph") {
+                    // Random color for each glyph - now using hex colors
+                    const randomColor = glyphColors[Math.floor(Math.random() * glyphColors.length)];
+                    return `<span style="opacity:0.6; color:${randomColor};">${item.value}</span>`;
+                } else {
+                    // Gradient color for the final name
+                    return `<span style="
+                        font-weight:600; 
+                        background: linear-gradient(45deg, #fbbf24, #ef4444, #8b5cf6, #06b6d4);
+                        background-clip: text;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    ">${item.value}</span>`;
+                }
+            });
+            container.current.innerHTML = characterMap.join("");
         };
 
         const unsubscribeSpring = decoderSpring.on("change", (value) => {
-        output.current = shuffle(content, output.current, value);
-        renderOutput();
+            output.current = shuffle(content, output.current, value);
+            renderOutput();
         });
 
         const startSpring = async () => {
-        if (delay) await new Promise((res) => setTimeout(res, delay));
-        decoderSpring.set(content.length);
+            if (delay) await new Promise((res) => setTimeout(res, delay));
+            decoderSpring.set(content.length);
         };
 
         if (!reduceMotion) {
-        startSpring();
+            startSpring();
         } else {
-        output.current = content.map((value) => ({ type: "value" as const, value }));
-        renderOutput();
+            output.current = content.map((value) => ({ type: "value" as const, value }));
+            renderOutput();
         }
 
         return () => {
-        unsubscribeSpring?.();
+            unsubscribeSpring?.();
         };
     }, [decoderSpring, reduceMotion, delay, text]);
 
     return (
         <span className={className}>
-        <span aria-hidden ref={container} />
-        {/* CSS for the flowing animation */}
-        <style jsx>{`
-            @keyframes flowingGradient {
-                0% {
-                    background-position: 0% 50%;
-                }
-                50% {
-                    background-position: 100% 50%;
-                }
-                100% {
-                    background-position: 0% 50%;
-                }
-            }
-        `}</style>
+            <span aria-hidden ref={container} />
         </span>
     );
 }
