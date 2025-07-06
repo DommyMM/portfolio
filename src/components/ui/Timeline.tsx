@@ -49,16 +49,16 @@ export const Timeline = ({ data }: TimelineProps) => {
 
     return (
         <div className="w-full bg-transparent font-sans relative" ref={containerRef}>
-            <div className="max-w-7xl mx-auto py-4 px-4">
+            <div className="max-w-7xl mx-auto py-2 md:py-4 px-4">
                 <div ref={ref} className="relative max-w-6xl mx-auto">
                     {data.map((item, index) => (
                         <div
                             key={index}
-                            className={`flex justify-start ${index === 0 ? 'pt-4 pb-10' : 'pt-16 pb-12'} md:${index === 0 ? 'pt-8 pb-14' : 'pt-46 pb-16'} md:gap-6`}
+                            className={`flex justify-start ${index === 0 ? 'pt-2 pb-6 md:pt-4 md:pb-10' : 'pt-8 pb-8 md:pt-16 md:pb-12'} md:gap-6`}
                         >
-                            <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-[220px] md:w-[220px] flex-shrink-0">
-                                <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-black dark:bg-white flex items-center justify-center">
-                                    <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
+                            <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-[180px] md:max-w-[220px] md:w-[220px] flex-shrink-0">
+                                <div className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full bg-black dark:bg-white flex items-center justify-center">
+                                    <div className="h-3 w-3 md:h-4 md:w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
                                 </div>
                                 <div className={`hidden md:block text-xl md:pl-16 md:text-4xl font-black transition-colors duration-300 ${
                                     itemProgress[index] > 0.3 ? 'text-white' : 'text-neutral-500'
@@ -67,13 +67,13 @@ export const Timeline = ({ data }: TimelineProps) => {
                                 </div>
                             </div>
 
-                            <div className="relative pl-20 md:pl-2 w-full flex-grow">
-                                <div className={`md:hidden block text-lg mb-4 text-left font-black transition-colors duration-300 ${
+                            <div className="relative pl-16 md:pl-2 w-full flex-grow">
+                                <div className={`md:hidden block text-sm mb-3 text-left font-black transition-colors duration-300 ${
                                     itemProgress[index] > 0.3 ? 'text-white' : 'text-neutral-500'
-                                }`}>
+                                } [&>*]:text-left`}>
                                     {item.title}
                                 </div>
-                                <div className="bg-white/5 rounded-lg border border-white/10 p-6 backdrop-blur-sm">
+                                <div className="bg-white/5 rounded-lg border border-white/10 p-4 md:p-6 backdrop-blur-sm [&_h3]:text-base [&_h3]:md:text-xl [&_p]:text-xs [&_p]:md:text-sm [&_a]:text-xs [&_a]:md:text-sm">
                                     {item.content}
                                 </div>
                             </div>
