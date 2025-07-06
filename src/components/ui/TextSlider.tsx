@@ -74,7 +74,7 @@ export function TextSlider({
                     {currentRole}
                 </span>
                 
-                {/* Sliding overlay - covers both line and text */}
+                {/* Sliding overlay - covers text */}
                 <span 
                     className={`
                         absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 z-10

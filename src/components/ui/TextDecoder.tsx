@@ -63,7 +63,7 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
         const renderOutput = () => {
         if (!container.current) return;
         const characterMap = output.current.map((item) => (
-            `<span style="${item.type === "glyph" ? "opacity:0.5;" : "font-weight:600;"}">${item.value}</span>`
+            `<span style="${item.type === "glyph" ? "opacity:0.5;" : "background: linear-gradient(45deg, #E2CBFF, #393BB2, #06b6d4, #8b5cf6, #ef4444, #eab308, #E2CBFF); background-size: 400% 400%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flowingGradient 4s ease-in-out infinite;"}">${item.value}</span>`
         ));
         container.current.innerHTML = characterMap.join("");
         };
@@ -93,6 +93,20 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
     return (
         <span className={className}>
         <span aria-hidden ref={container} />
+        {/* CSS for the flowing animation */}
+        <style jsx>{`
+            @keyframes flowingGradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+        `}</style>
         </span>
     );
-} 
+}
