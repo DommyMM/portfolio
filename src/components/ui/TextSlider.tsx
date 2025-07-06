@@ -74,7 +74,7 @@ export function TextSlider({
                     `}
                 >
                     {showPlus && !startupOnly && (
-                        <span className="text-rose-400 mr-2 opacity-40">+</span>
+                        <span className="text-purple-400 mr-2 opacity-40">+</span>
                     )}
                     {currentRole}
                 </span>
@@ -82,7 +82,7 @@ export function TextSlider({
                 {/* Sliding overlay - independent of text opacity */}
                 <span 
                     className={`
-                        absolute inset-0 bg-rose-500 z-10
+                        absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 z-10
                         transition-transform duration-1000 ease-out
                         ${isAnimating 
                             ? 'transform scale-x-100 origin-left' 

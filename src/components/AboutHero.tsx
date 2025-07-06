@@ -56,7 +56,7 @@ export default function AboutHero() {
                                 startupOnly={true} 
                                 className="text-2xl md:text-6xl text-gray-300"
                             />
-                            <span className="block h-1 w-64 bg-rose-500 rounded-full ml-2" />
+                            <span className="block h-1 w-64 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full ml-2" />
                         </div>
                         {/* Animated Cycling Specialties */}
                         <div className="mt-4">
