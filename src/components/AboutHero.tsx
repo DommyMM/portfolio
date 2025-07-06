@@ -17,36 +17,36 @@ const specialties = [
 
 export default function AboutHero() {
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
+        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-white dark:bg-black transition-colors duration-300">
             <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
-                    <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none">
+                    <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none text-black dark:text-white">
                         <TextDecoder text="Dominic Aung" />
                     </h1>
                     {/* Triangular Layout */}
                     <div className="flex flex-col items-center mt-12 space-y-6">
                         {/* Level 2 */}
-                        <div className="text-3xl md:text-6xl lg:text-7xl text-gray-300 select-none">
+                        <div className="text-3xl md:text-6xl lg:text-7xl text-gray-600 dark:text-gray-300 select-none">
                             <TextSlider 
                                 roles={["Full-Stack Developer"]} 
                                 startupOnly={true} 
-                                className="text-3xl md:text-6xl lg:text-7xl text-gray-300"
+                                className="text-3xl md:text-6xl lg:text-7xl text-gray-600 dark:text-gray-300"
                             />
                         </div>
                         
                         {/* Level 3: Cycling Specialties */}
-                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-400 mb-2 select-none">
+                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl text-gray-500 dark:text-gray-400 mb-2 select-none">
                             <TextSlider 
                                 roles={specialties} 
-                                className="text-xl md:text-5xl lg:text-6xl text-gray-400"
+                                className="text-xl md:text-5xl lg:text-6xl text-gray-500 dark:text-gray-400"
                             />
                         </div>
                         
                         {/* Level 4: Education */}
                         <TextGenerateEffect 
                             words="CS @ UC Davis" 
-                            className="font-light mb-0 select-none" 
+                            className="font-light mb-0 select-none text-gray-500 dark:text-gray-400" 
                             filter={true}
                             duration={1}
                         />
