@@ -4,6 +4,7 @@ import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { MagicButton } from "@/components/ui/MagicButton";
 import { TextGenerateEffect } from "@/components/ui/TextGenerate";
+import { motion } from "motion/react";
 
 const specialties = [
     "AI/ML Pipelines",
@@ -52,15 +53,24 @@ export default function AboutHero() {
                     </div>
                 </div>
 
-                {/* Level 5: CTA Button */}
-                <div className="pt-4">
+                {/* Level 5: CTA Button with Animation */}
+                <motion.div 
+                    className="pt-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ 
+                        duration: 0.8, 
+                        delay: 1,
+                        ease: [0.21, 1.11, 0.81, 0.99]
+                    }}
+                >
                     <MagicButton
                         title="View My Work"
                         icon={<span className="text-sm">→</span>}
                         position="right"
                         otherClasses="w-auto"
                     />
-                </div>
+                </motion.div>
             </div>
         </section>
     );
