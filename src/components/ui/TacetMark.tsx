@@ -4,7 +4,7 @@ interface TacetMarkProps {
     height?: number;
 }
 
-export function TacetMark({ className = "", width = 100, height = 100 }: TacetMarkProps) {
+export function TacetMark({ className = "", width = 1024, height = 1024 }: TacetMarkProps) {
     return (
         <svg 
         width={width} 

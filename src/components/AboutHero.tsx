@@ -5,6 +5,7 @@ import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { TacetMark } from "@/components/ui/TacetMark";
 import { MagicButton } from "@/components/ui/MagicButton";
+import { TextGenerateEffect } from "@/components/ui/TextGenerateEffect";
 
 const specialties = [
     "AI/ML Pipelines",
@@ -68,9 +69,12 @@ export default function AboutHero() {
                         </div>
                         
                         {/* Level 4: Education */}
-                        <div className="text-base md:text-3xl lg:text-4xl text-gray-500 font-light">
-                            CS @ UC Davis
-                        </div>
+                        <TextGenerateEffect 
+                            words="CS @ UC Davis" 
+                            className="text-base md:text-3xl lg:text-4xl font-light" 
+                            filter={true}
+                            duration={1}
+                        />
                     </div>
                 </div>
 
