@@ -104,7 +104,7 @@ export function ToggleButton({
             onMouseLeave={() => setHovered(false)}
             onClick={handleToggle}
             className={cn(
-                "relative flex rounded-full border content-center bg-black/20 hover:bg-black/10 transition duration-500 dark:bg-white/20 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-px decoration-clone w-fit cursor-pointer",
+                "relative flex rounded-full content-center hover:bg-black/5 transition duration-500 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-1 decoration-clone w-fit cursor-pointer",
                 className
             )}
         >
@@ -155,9 +155,6 @@ export function ToggleButton({
                 }}
                 transition={{ ease: "linear", duration: duration }}
             />
-            
-            {/* Background layer */}
-            <div className="bg-black/80 absolute z-1 flex-none inset-[2px] rounded-[inherit]" />
         </div>
     );
 }
