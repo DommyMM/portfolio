@@ -16,6 +16,7 @@ export const Timeline = ({ data }: TimelineProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [height, setHeight] = useState(0);
+    const [isLineMoving, setIsLineMoving] = useState(false);
 
     useEffect(() => {
         if (ref.current) {
@@ -32,6 +33,13 @@ export const Timeline = ({ data }: TimelineProps) => {
     const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
     const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
+    useEffect(() => {
+        const unsubscribe = scrollYProgress.on("change", (progress) => {
+            setIsLineMoving(progress > 0);
+        });
+        return () => unsubscribe();
+    }, [scrollYProgress]);
+
     return (
         <div className="w-full bg-transparent font-sans" ref={containerRef}>
             <div className="max-w-7xl mx-auto py-20 px-4">
@@ -45,13 +53,17 @@ export const Timeline = ({ data }: TimelineProps) => {
                                 <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-black dark:bg-white flex items-center justify-center">
                                     <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
                                 </div>
-                                <div className="hidden md:block text-xl md:pl-16 md:text-4xl font-black text-white dark:text-white">
+                                <div className={`hidden md:block text-xl md:pl-16 md:text-4xl font-black transition-colors duration-300 ${
+                                    isLineMoving ? 'text-white' : 'text-neutral-500'
+                                }`}>
                                     {item.title}
                                 </div>
                             </div>
 
                             <div className="relative pl-20 md:pl-2 w-full flex-grow">
-                                <div className="md:hidden block text-lg mb-4 text-left font-black text-white dark:text-white">
+                                <div className={`md:hidden block text-lg mb-4 text-left font-black transition-colors duration-300 ${
+                                    isLineMoving ? 'text-white' : 'text-neutral-500'
+                                }`}>
                                     {item.title}
                                 </div>
                                 <div className="bg-white/5 rounded-lg border border-white/10 p-6 backdrop-blur-sm">
