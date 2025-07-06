@@ -10,7 +10,7 @@ export function TacetMark({ className = "", width = 100, height = 100 }: TacetMa
         width={width} 
         height={height} 
         viewBox="702 824 1710 352"
-        className={className}
+        className={`tacet-mark ${className}`}
         xmlns="http://www.w3.org/2000/svg"
         >
         {/* Main Body Sections */}

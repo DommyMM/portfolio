@@ -38,3 +38,25 @@ body {
   font-display: swap;
   font-style: normal;
 }
+
+/* Simple Tacet Mark Glow Animation */
+@keyframes tacet-glow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 20px rgba(251,191,36,0.3));
+  }
+  50% { 
+    filter: drop-shadow(0 0 40px rgba(251,191,36,0.6)) drop-shadow(0 0 60px rgba(251,191,36,0.3));
+  }
+}
+
+/* Apply the glow animation to the Tacet Mark */
+.tacet-mark {
+  animation: tacet-glow 3s ease-in-out infinite;
+}
+
+/* Base state for paths */
+.tacet-mark path {
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+

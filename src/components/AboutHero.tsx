@@ -14,14 +14,26 @@ const specialties = [
 
 export default function AboutHero() {
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center px-4">
-        <div className="max-w-4xl text-center space-y-8">
+        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
+        {/* Background Tacet Mark */}
+        <div className="absolute inset-0 pointer-events-none">
+            {/* Large Left Tacet Mark with Glow */}
+            <div className="absolute -left-110 top-10 h-full flex items-center">
+                <TacetMark 
+                    className="text-amber-300 drop-shadow-[0_0_50px_rgba(251,191,36,0.4)] rotate-135" 
+                    width={1280} 
+                    height={1280}
+                />
+            </div>
+        </div>
+        
+        <div className="max-w-4xl text-center space-y-8 relative z-10">
             {/* Main Heading */}
             <div className="space-y-4">
                 <h1 className="text-5xl md:text-8xl font-bold text-amber-200 whitespace-nowrap">
                     <TextDecoder text="Dominic Aung" className="text-amber-200" />
                 </h1>
-                {/* Main Role with Animated TextSlider */}
+                {/* Main Role with Line */}
                 <div className="flex flex-col items-start">
                     <div className="flex items-center gap-2 text-2xl md:text-6xl text-gray-300">
                     <TextSlider roles={["Full-Stack Developer"]} startupOnly={true} className="text-2xl md:text-6xl  text-gray-300"/>
@@ -31,17 +43,6 @@ export default function AboutHero() {
                     <div className="mt-4">
                         <TextSlider roles={specialties} className="text-lg md:text-6xl text-gray-400" />
                     </div>
-                </div>
-            </div>
-
-            {/* Tacet Mark Visualization */}
-            <div className="mt-16 flex justify-center">
-                <div className="text-center">
-                    <TacetMark 
-                        className="transform rotate-90" 
-                        width={1024} 
-                        height={1024}
-                    />
                 </div>
             </div>
 
@@ -58,4 +59,4 @@ export default function AboutHero() {
         </div>
         </section>
     );
-}
+}   
