@@ -10,13 +10,13 @@ interface MagicButtonProps {
     otherClasses?: string;
 }
 
-const MagicButton = ({
+export function MagicButton({
     title,
     icon,
     position = "right",
     handleClick,
     otherClasses = ""
-}: MagicButtonProps) => {
+}: MagicButtonProps) {
     
     return (
         <button
@@ -34,6 +34,4 @@ const MagicButton = ({
             </span>
         </button>
     );
-};
-
-export default MagicButton;
+}

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { TacetMark } from "@/components/ui/TacetMark";
-import MagicButton from "@/components/MagicButton";
+import { MagicButton } from "@/components/ui/MagicButton";
 
 const specialties = [
     "AI/ML Pipelines",
@@ -42,34 +42,42 @@ export default function AboutHero() {
                 </div>
             </div>
             
-            <div className="max-w-4xl text-center space-y-8 relative z-10">
+            <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
-                <div className="space-y-4">
-                    <h1 className="text-5xl md:text-8xl font-bold text-amber-200 whitespace-nowrap">
-                        <TextDecoder text="Dominic Aung" className="text-amber-200" />
+                <div className="space-y-8 mb-4">
+                    <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none">
+                        <TextDecoder text="Dominic Aung" />
                     </h1>
-                    {/* Main Role with Line */}
-                    <div className="flex flex-col items-start">
-                        <div className="flex items-center gap-2 text-2xl md:text-6xl text-gray-300">
+                    {/* Triangular Layout */}
+                    <div className="flex flex-col items-center mt-12 space-y-6">
+                        {/* Level 2 */}
+                        <div className="text-3xl md:text-7xl lg:text-8xl text-gray-300">
                             <TextSlider 
                                 roles={["Full-Stack Developer"]} 
                                 startupOnly={true} 
-                                className="text-2xl md:text-6xl text-gray-300"
+                                className="text-3xl md:text-7xl lg:text-8xl text-gray-300"
                             />
-                            <span className="block h-1 w-64 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full ml-2" />
                         </div>
-                        {/* Animated Cycling Specialties */}
-                        <div className="mt-4">
+                        
+                        {/* Level 3: Cycling Specialties */}
+                        <div className="flex items-center gap-4 text-xl md:text-5xl lg:text-6xl text-gray-400">
+                            <span className="block h-1 w-16 md:w-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
                             <TextSlider 
                                 roles={specialties} 
-                                className="text-lg md:text-6xl text-gray-400" 
+                                className="text-xl md:text-5xl lg:text-6xl text-gray-400"
+                                showPlus={false}
                             />
+                        </div>
+                        
+                        {/* Level 4: Education */}
+                        <div className="text-base md:text-3xl lg:text-4xl text-gray-500 font-light">
+                            CS @ UC Davis
                         </div>
                     </div>
                 </div>
 
-                {/* CTA Button */}
-                <div className="pt-8">
+                {/* Level 5: CTA Button */}
+                <div className="pt-4">
                     <MagicButton
                         title="View My Work"
                         icon={<span className="text-sm">→</span>}
