@@ -64,7 +64,6 @@ export default function AboutHero() {
                             <TextSlider 
                                 roles={specialties} 
                                 className="text-xl md:text-5xl lg:text-6xl text-gray-400"
-                                showLine={true}
                             />
                         </div>
                         

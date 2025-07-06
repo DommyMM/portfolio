@@ -7,15 +7,13 @@ interface TextSliderProps {
     interval?: number;
     className?: string;
     startupOnly?: boolean;
-    showLine?: boolean;
 }
 
 export function TextSlider({ 
     roles, 
     interval = 5000, 
     className = "", 
-    startupOnly = false,
-    showLine = false
+    startupOnly = false
 }: TextSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(true);
@@ -64,16 +62,7 @@ export function TextSlider({
 
     return (
         <div className={`relative inline-flex items-center ${className}`}>
-            <div className="relative overflow-hidden flex items-center">
-                {/* Line element (when showLine is true) */}
-                {showLine && (
-                    <span className={`
-                        h-1 w-16 md:w-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mr-4
-                        transition-opacity duration-500 ease-out
-                        ${isVisible ? 'opacity-100' : 'opacity-0'}
-                    `} />
-                )}
-                
+            <div className="relative overflow-hidden flex items-center">                
                 {/* Text content with independent opacity */}
                 <span 
                     className={`
