@@ -62,13 +62,13 @@ export function TextSlider({
 
     return (
         <div className={`relative inline-flex items-center ${className}`}>
-            <div className="relative overflow-hidden flex items-center">                
+            <div className="relative pb-2 flex items-center">
                 {/* Text content with independent opacity */}
                 <span 
                     className={`
                         inline-block relative font-['Fira_Code']
-                        transition-all duration-500 ease-out
-                        ${isVisible ? 'text-gray-300 opacity-100' : 'text-gray-300 opacity-0'}
+                        transition-all duration-500 ease-out text-gray-600 dark:text-gray-300
+                        ${isVisible ? 'opacity-100' : 'opacity-0'}
                     `}
                 >
                     {currentRole}
