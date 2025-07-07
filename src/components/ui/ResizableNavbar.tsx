@@ -24,6 +24,7 @@ interface NavItemsProps {
     className?: string;
     onItemClick?: () => void;
     visible?: boolean;
+    activeSection?: string;
 }
 
 interface MobileNavProps {
@@ -110,7 +111,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
     );
 };
 
-export const NavItems = ({ items, className, onItemClick, visible }: NavItemsProps) => {
+export const NavItems = ({ items, className, onItemClick, visible, activeSection }: NavItemsProps) => {
     const [hovered, setHovered] = useState<number | null>(null);
 
     return (
@@ -122,23 +123,41 @@ export const NavItems = ({ items, className, onItemClick, visible }: NavItemsPro
                 className,
             )}
         >
-            {items.map((item, idx) => (
-                <a
-                    onMouseEnter={() => setHovered(idx)}
-                    onClick={onItemClick}
-                    className="relative px-5 py-3 text-neutral-600 dark:text-neutral-300"
-                    key={`link-${idx}`}
-                    href={item.link}
-                >
-                    {hovered === idx && (
-                        <motion.div
-                            layoutId="hovered"
-                            className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
-                        />
-                    )}
-                    <span className="relative z-20">{item.name}</span>
-                </a>
-            ))}
+            {items.map((item, idx) => {
+                const sectionId = item.link.substring(1); // Remove # from link
+                const isActive = activeSection === sectionId;
+                return (
+                    <a
+                        onMouseEnter={() => setHovered(idx)}
+                        onClick={onItemClick}
+                        className={cn(
+                            "relative px-5 py-3 transition-colors duration-300",
+                            isActive 
+                                ? "text-blue-600 dark:text-blue-400 font-semibold" 
+                                : "text-neutral-600 dark:text-neutral-300"
+                        )}
+                        key={`link-${idx}`}
+                        href={item.link}
+                    >
+                        {/* Active section highlight */}
+                        {isActive && (
+                            <motion.div
+                                layoutId="activeSection"
+                                className="absolute inset-0 h-full w-full rounded-full bg-blue-100/50 dark:bg-blue-900/30"
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                            />
+                        )}
+                        {/* Hover effect - existing functionality */}
+                        {hovered === idx && !isActive && (
+                            <motion.div
+                                layoutId="hovered"
+                                className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+                            />
+                        )}
+                        <span className="relative z-20">{item.name}</span>
+                    </a>
+                );
+            })}
         </motion.div>
     );
 };

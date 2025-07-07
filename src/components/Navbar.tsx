@@ -7,9 +7,10 @@ import { useState } from "react";
 interface PortfolioNavbarProps {
     isDarkMode: boolean;
     onThemeToggle: (isDark: boolean) => void;
+    activeSection?: string;
 }
 
-export function PortfolioNavbar({ isDarkMode, onThemeToggle }: PortfolioNavbarProps) {
+export function PortfolioNavbar({ isDarkMode, onThemeToggle, activeSection }: PortfolioNavbarProps) {
     const navItems = [
         {
             name: "About",
@@ -40,7 +41,7 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle }: PortfolioNavbarPr
             {/* Desktop Navigation */}
             <NavBody>
                 <NavbarLogo />
-                <NavItems items={navItems} />
+                <NavItems items={navItems} activeSection={activeSection} />
                 <div className="flex items-center gap-4">
                     <ToggleButton 
                         isDark={isDarkMode} 

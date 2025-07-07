@@ -5,6 +5,7 @@ import AboutHero from "@/components/AboutHero";
 import WorkEducation from "@/components/WorkEducation";
 import WaveGradient from "./ui/Gradient";
 import { PortfolioNavbar } from "@/components/Navbar";
+import { useActiveSection } from "@/hooks/useActive";
 
 export default function Home() {
   // Initialize theme state (default to dark mode)
@@ -38,12 +39,16 @@ export default function Home() {
         setIsDarkMode(newIsDark);
     };
 
+    // Track active section based on scroll
+    const activeSection = useActiveSection();
+
     return (
         <div className="min-h-screen transition-colors duration-300">
         {/* Portfolio Navbar */}
         <PortfolioNavbar 
             isDarkMode={isDarkMode} 
-            onThemeToggle={handleThemeToggle} 
+            onThemeToggle={handleThemeToggle}
+            activeSection={activeSection}
         />
 
         <WaveGradient />
