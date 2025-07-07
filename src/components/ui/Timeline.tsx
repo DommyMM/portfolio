@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useEffect, useRef, useState } from "react"
-import { useScroll, useTransform, motion } from "motion/react"
+import { useScroll, useTransform, motion } from "framer-motion"
 
 interface TimelineData {
     title: React.ReactNode
@@ -65,9 +65,8 @@ export const Timeline = ({ data }: TimelineProps) => {
                 >
                 <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-[180px] md:max-w-[220px] md:w-[220px] flex-shrink-0">
                     <motion.div
-                    className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full flex items-center justify-center transition-all duration-500"
+                    className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full bg-black dark:bg-white flex items-center justify-center transition-all duration-500"
                     style={{
-                        backgroundColor: itemProgress[index] > 0.3 ? "rgb(59 130 246)" : "rgb(0 0 0)",
                         boxShadow: itemProgress[index] > 0.3 ? "0 0 20px rgba(59, 130, 246, 0.6)" : "none",
                     }}
                     >
@@ -75,7 +74,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                     </motion.div>
                     <div
                     className={`hidden md:block text-xl md:pl-16 md:text-4xl font-black transition-colors duration-300 ${
-                        itemProgress[index] > 0.3 ? "text-white" : "text-neutral-500"
+                        itemProgress[index] > 0.3 ? "text-gray-800 dark:text-white" : "text-gray-400 dark:text-neutral-500"
                     }`}
                     >
                     {item.title}
@@ -85,17 +84,18 @@ export const Timeline = ({ data }: TimelineProps) => {
                 <div className="relative pl-16 md:pl-2 w-full flex-grow">
                     <div
                     className={`md:hidden block text-sm mb-3 text-left font-black transition-colors duration-300 ${
-                        itemProgress[index] > 0.3 ? "text-white" : "text-neutral-500"
+                        itemProgress[index] > 0.3 ? "text-gray-800 dark:text-white" : "text-gray-400 dark:text-neutral-500"
                     } [&>*]:text-left`}
                     >
                     {item.title}
                     </div>
                     <motion.div
-                    className="rounded-lg border backdrop-blur-sm p-4 md:p-6 transition-all duration-500 [&_h3]:text-base [&_h3]:md:text-xl [&_p]:text-xs [&_p]:md:text-sm [&_a]:text-xs [&_a]:md:text-sm"
+                    className={`rounded-lg border backdrop-blur-sm p-4 md:p-6 transition-all duration-500 [&_h3]:text-base [&_h3]:md:text-xl [&_p]:text-xs [&_p]:md:text-sm [&_a]:text-xs [&_a]:md:text-sm ${
+                        itemProgress[index] > 0.3
+                        ? "bg-gray-900/95 dark:bg-blue-500/10 border-blue-500/50 dark:border-blue-500/30"
+                        : "bg-gray-800/95 dark:bg-white/5 border-gray-700/50 dark:border-white/10"
+                    }`}
                     style={{
-                        backgroundColor:
-                        itemProgress[index] > 0.3 ? "rgba(59, 130, 246, 0.1)" : "rgba(255, 255, 255, 0.05)",
-                        borderColor: itemProgress[index] > 0.3 ? "rgba(59, 130, 246, 0.3)" : "rgba(255, 255, 255, 0.1)",
                         boxShadow:
                         itemProgress[index] > 0.3
                             ? "0 8px 32px rgba(59, 130, 246, 0.15)"
@@ -111,7 +111,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                 style={{
                 height: height + "px",
                 }}
-                className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
+                className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-gray-300 dark:via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
             >
                 <motion.div
                 style={{
