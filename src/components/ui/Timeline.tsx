@@ -3,7 +3,7 @@
 import React from "react"
 
 import { useEffect, useRef, useState } from "react"
-import { useScroll, useTransform, motion } from "framer-motion"
+import { useScroll, useTransform, motion } from "motion/react"
 
 interface TimelineData {
     title: React.ReactNode
@@ -58,6 +58,47 @@ export const Timeline = ({ data }: TimelineProps) => {
         newExpanded.add(index)
         }
         setExpandedItems(newExpanded)
+    }
+    const renderContentWithExpansion = (content: React.ReactNode, index: number) => {
+        if (!React.isValidElement(content)) {
+        return content
+        }
+        const processChildren = (children: React.ReactNode): React.ReactNode => {
+        return React.Children.map(children, (child) => {
+            if (!React.isValidElement(child)) {
+            return child
+            }
+            const childProps = child.props as any
+            if (childProps.className === "expandable-content") {
+            return (
+                <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{
+                    height: expandedItems.has(index) ? "auto" : 0,
+                    opacity: expandedItems.has(index) ? 1 : 0,
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+                >
+                {childProps.children}
+                </motion.div>
+            )
+            }
+            if (childProps.children) {
+            return React.cloneElement(child, {
+                ...childProps,
+                children: processChildren(childProps.children),
+            })
+            }
+            return child
+        })
+        }
+
+        const contentProps = content.props as any
+        return React.cloneElement(content, {
+        ...contentProps,
+        children: processChildren(contentProps.children),
+        })
     }
 
     return (
@@ -114,37 +155,8 @@ export const Timeline = ({ data }: TimelineProps) => {
                             : "0 4px 16px rgba(0, 0, 0, 0.1)",
                     }}
                     >
-                    {/* Render the content */}
-                    <div>
-                        {React.Children.map(item.content as React.ReactElement, (child) => {
-                        if (React.isValidElement(child)) {
-                            return React.cloneElement(child, {
-                            children: React.Children.map(child.props.children, (grandChild) => {
-                                if (
-                                React.isValidElement(grandChild) &&
-                                grandChild.props.className === "expandable-content"
-                                ) {
-                                return (
-                                    <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{
-                                        height: expandedItems.has(index) ? "auto" : 0,
-                                        opacity: expandedItems.has(index) ? 1 : 0,
-                                    }}
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    className="overflow-hidden"
-                                    >
-                                    {grandChild.props.children}
-                                    </motion.div>
-                                )
-                                }
-                                return grandChild
-                            }),
-                            } as any)
-                        }
-                        return child
-                        })}
-                    </div>
+                    {/* Render the content with expansion handling */}
+                    {renderContentWithExpansion(item.content, index)}
 
                     {/* Expand/Collapse button */}
                     <motion.div
