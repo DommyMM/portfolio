@@ -103,18 +103,7 @@ body {
 }
 
 .gradient-dance {
-  background: linear-gradient(
-    50deg,
-    #22c55e,
-    #6366f1,
-    #3b82f6,
-    #06b6d4,
-    #a78bfa,
-    #ec4899,
-    #fbbf24,
-    #ef4444,
-    #8b5cf6
-  );
+  background: linear-gradient(50deg, #22c55e, #6366f1, #3b82f6, #06b6d4, #a78bfa, #ec4899, #fbbf24, #ef4444, #8b5cf6);
   background-size: 200% 200%;
   background-position: 50% 25%;
   background-clip: text;

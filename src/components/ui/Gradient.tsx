@@ -1,11 +1,10 @@
 import React from 'react';
 
 interface WaveGradientProps {
-    isDark?: boolean;
     className?: string;
 }
 
-export default function WaveGradient({ isDark = true, className = "" }: WaveGradientProps) {
+export default function WaveGradient({ className = "" }: WaveGradientProps) {
     return (
         <div className={`fixed inset-0 -z-10 overflow-hidden ${className}`}>
         {/* Base deep purple background */}
