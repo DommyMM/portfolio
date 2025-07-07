@@ -60,10 +60,7 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle }: PortfolioNavbarPr
                     />
                 </MobileNavHeader>
 
-                <MobileNavMenu
-                    isOpen={isMobileMenuOpen}
-                    onClose={() => setIsMobileMenuOpen(false)}
-                >
+                <MobileNavMenu isOpen={isMobileMenuOpen}>
                     {navItems.map((item, idx) => (
                         <a
                             key={`mobile-link-${idx}`}
