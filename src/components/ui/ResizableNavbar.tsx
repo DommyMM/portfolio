@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
-
 import React, { useRef, useState } from "react";
 
 interface NavbarProps {
@@ -84,16 +83,13 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
                 boxShadow: visible
                     ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
                     : "none",
-                width: visible ? "45%" : "100%",
+                width: visible ? "40%" : "100%",
                 y: visible ? 0 : 0,
             }}
             transition={{
                 type: "spring",
                 stiffness: 200,
                 damping: 50,
-            }}
-            style={{
-                minWidth: "900px",
             }}
             className={cn(
                 "relative z-[60] mx-auto hidden w-full max-w-6xl flex-row items-center justify-between self-start rounded-full bg-transparent px-8 py-4 lg:flex dark:bg-transparent",
@@ -149,7 +145,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
                 width: visible ? "85%" : "100%",
                 paddingRight: visible ? "16px" : "0px",
                 paddingLeft: visible ? "16px" : "0px",
-                borderRadius: visible ? "4px" : "2rem",
+                borderRadius: visible ? "12px" : "2rem",
                 y: visible ? 0 : 0,
             }}
             transition={{
@@ -187,7 +183,7 @@ export const MobileNavHeader = ({
 export const MobileNavMenu = ({
     children,
     className,
-    isOpen
+    isOpen,
 }: MobileNavMenuProps) => {
     return (
         <AnimatePresence>
