@@ -125,7 +125,7 @@ export function ToggleButton({
                 {/* Sun Icon */}
                 <LightModeIcon 
                     className={cn(
-                        "absolute w-6 h-6 left-[16px] top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute w-6 h-6 left-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-60" : "text-white opacity-100"
                     )}
                 />
@@ -133,7 +133,7 @@ export function ToggleButton({
                 {/* Moon Icon */}
                 <DarkModeIcon 
                     className={cn(
-                        "absolute w-6 h-6 right-[16px] top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute w-6 h-6 right-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-70" : "text-black opacity-60"
                     )}
                 />

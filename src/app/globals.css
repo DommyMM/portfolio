@@ -124,3 +124,128 @@ body {
   -webkit-text-fill-color: transparent;
   animation: circularDance 10s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+
+/* Wave Gradient Backgrounds */
+.wave-gradient-base {
+  background: linear-gradient(320.54deg, #1a0033 0%, #2d1b69 30%, #4a0e4e 60%, #1a0033 100%);
+  transition: all 1s ease;
+}
+
+.light .wave-gradient-base {
+  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 25%, #f1f5f9 50%, #e2e8f0 75%, #fefefe 100%);
+}
+
+.wave-layer-1 {
+  background: linear-gradient(135deg, 
+    rgba(147, 51, 234, 0.08) 0%, 
+    rgba(88, 28, 135, 0.06) 30%, 
+    rgba(124, 58, 237, 0.05) 60%, 
+    rgba(147, 51, 234, 0.08) 100%);
+  animation: slowOscillation1 38s ease-in-out infinite;
+  filter: blur(120px);
+}
+
+.light .wave-layer-1 {
+  background: linear-gradient(135deg, 
+    rgba(147, 51, 234, 0.03) 0%, 
+    rgba(88, 28, 135, 0.02) 30%, 
+    rgba(124, 58, 237, 0.025) 60%, 
+    rgba(147, 51, 234, 0.03) 100%);
+}
+
+.wave-layer-2 {
+  background: linear-gradient(45deg, 
+    rgba(99, 102, 241, 0.06) 0%, 
+    rgba(139, 92, 246, 0.05) 25%, 
+    rgba(147, 51, 234, 0.07) 50%, 
+    rgba(124, 58, 237, 0.04) 75%, 
+    rgba(99, 102, 241, 0.06) 100%);
+  animation: slowOscillation2 34s ease-in-out infinite reverse;
+  filter: blur(140px);
+}
+
+.light .wave-layer-2 {
+  background: linear-gradient(45deg, 
+    rgba(99, 102, 241, 0.025) 0%, 
+    rgba(139, 92, 246, 0.02) 25%, 
+    rgba(147, 51, 234, 0.03) 50%, 
+    rgba(124, 58, 237, 0.015) 75%, 
+    rgba(99, 102, 241, 0.025) 100%);
+}
+
+.wave-layer-3 {
+  background: linear-gradient(225deg, 
+    rgba(126, 34, 206, 0.05) 0%, 
+    rgba(147, 51, 234, 0.04) 40%, 
+    rgba(88, 28, 135, 0.06) 70%, 
+    rgba(126, 34, 206, 0.05) 100%);
+  animation: slowOscillation3 46s ease-in-out infinite;
+  filter: blur(100px);
+}
+
+.light .wave-layer-3 {
+  background: linear-gradient(225deg, 
+    rgba(126, 34, 206, 0.02) 0%, 
+    rgba(147, 51, 234, 0.015) 40%, 
+    rgba(88, 28, 135, 0.025) 70%, 
+    rgba(126, 34, 206, 0.02) 100%);
+}
+
+/* Wave Animation Keyframes */
+@keyframes slowOscillation1 {
+  0%, 100% { 
+    transform: translateX(0%) translateY(0%) scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+  25% { 
+    transform: translateX(-6%) translateY(4%) scale(1.05) rotate(1deg);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translateX(4%) translateY(-6%) scale(0.95) rotate(-1deg);
+    opacity: 0.9;
+  }
+  75% { 
+    transform: translateX(-3%) translateY(2%) scale(1.02) rotate(0.5deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes slowOscillation2 {
+  0%, 100% { 
+    transform: translateX(0%) translateY(0%) scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+  20% { 
+    transform: translateX(5%) translateY(-3%) scale(1.08) rotate(-0.8deg);
+    opacity: 0.9;
+  }
+  40% { 
+    transform: translateX(-4%) translateY(6%) scale(0.92) rotate(1.2deg);
+    opacity: 0.5;
+  }
+  60% { 
+    transform: translateX(7%) translateY(-4%) scale(1.03) rotate(-0.5deg);
+    opacity: 0.8;
+  }
+  80% { 
+    transform: translateX(-2%) translateY(3%) scale(0.98) rotate(0.8deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes slowOscillation3 {
+  0%, 100% { 
+    transform: translateX(0%) translateY(0%) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  30% { 
+    transform: translateX(-5%) translateY(7%) scale(1.1) rotate(1.5deg);
+    opacity: 0.8;
+  }
+  70% { 
+    transform: translateX(6%) translateY(-5%) scale(0.9) rotate(-1deg);
+    opacity: 0.4;
+  }
+}

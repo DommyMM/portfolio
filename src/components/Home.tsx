@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import AboutHero from "@/components/AboutHero";
 import WorkEducation from "@/components/WorkEducation";
 import { ToggleButton } from "@/components/ui/Button";
+import WaveGradient from "./ui/Gradient";
 
 export default function Home() {
   // Initialize theme state (default to dark mode)
@@ -47,6 +48,7 @@ export default function Home() {
             />
         </div>
 
+        <WaveGradient />
         {/* Main Content */}
         <AboutHero />
         
