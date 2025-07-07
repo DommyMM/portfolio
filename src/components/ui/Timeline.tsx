@@ -1,6 +1,7 @@
 "use client"
 
-import type React from "react"
+import React from "react"
+
 import { useEffect, useRef, useState } from "react"
 import { useScroll, useTransform, motion } from "framer-motion"
 
@@ -18,6 +19,7 @@ export const Timeline = ({ data }: TimelineProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0)
     const [itemProgress, setItemProgress] = useState<number[]>(new Array(data.length).fill(0))
+    const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set())
 
     useEffect(() => {
         if (ref.current) {
@@ -47,6 +49,16 @@ export const Timeline = ({ data }: TimelineProps) => {
         })
         return () => unsubscribe()
     }, [scrollYProgress, data])
+
+    const toggleExpanded = (index: number) => {
+        const newExpanded = new Set(expandedItems)
+        if (newExpanded.has(index)) {
+        newExpanded.delete(index)
+        } else {
+        newExpanded.add(index)
+        }
+        setExpandedItems(newExpanded)
+    }
 
     return (
         <div className="w-full bg-transparent font-sans relative" ref={containerRef}>
@@ -102,7 +114,58 @@ export const Timeline = ({ data }: TimelineProps) => {
                             : "0 4px 16px rgba(0, 0, 0, 0.1)",
                     }}
                     >
-                    {item.content}
+                    {/* Render the content */}
+                    <div>
+                        {React.Children.map(item.content as React.ReactElement, (child) => {
+                        if (React.isValidElement(child)) {
+                            return React.cloneElement(child, {
+                            children: React.Children.map(child.props.children, (grandChild) => {
+                                if (
+                                React.isValidElement(grandChild) &&
+                                grandChild.props.className === "expandable-content"
+                                ) {
+                                return (
+                                    <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{
+                                        height: expandedItems.has(index) ? "auto" : 0,
+                                        opacity: expandedItems.has(index) ? 1 : 0,
+                                    }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    className="overflow-hidden"
+                                    >
+                                    {grandChild.props.children}
+                                    </motion.div>
+                                )
+                                }
+                                return grandChild
+                            }),
+                            } as any)
+                        }
+                        return child
+                        })}
+                    </div>
+
+                    {/* Expand/Collapse button */}
+                    <motion.div
+                        className="flex items-center justify-between mt-4 pt-3 border-t border-gray-600/30 dark:border-white/10 cursor-pointer"
+                        onClick={() => toggleExpanded(index)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
+                        <span className="text-xs text-gray-400 dark:text-gray-500">
+                        Click to {expandedItems.has(index) ? "collapse" : "expand"}
+                        </span>
+                        <motion.div
+                        animate={{ rotate: expandedItems.has(index) ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-blue-400"
+                        >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                        </motion.div>
+                    </motion.div>
                     </motion.div>
                 </div>
                 </motion.div>
