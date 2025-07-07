@@ -23,6 +23,7 @@ interface NavItemsProps {
     }[];
     className?: string;
     onItemClick?: () => void;
+    visible?: boolean;
 }
 
 interface MobileNavProps {
@@ -97,19 +98,27 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
                 className,
             )}
         >
-            {children}
+            {React.Children.map(children, (child) =>
+                React.isValidElement(child) && typeof child.type !== "string"
+                    ? React.cloneElement(
+                        child as React.ReactElement<{ visible?: boolean }>,
+                        { visible },
+                    )
+                    : child,
+            )}
         </motion.div>
     );
 };
 
-export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
+export const NavItems = ({ items, className, onItemClick, visible }: NavItemsProps) => {
     const [hovered, setHovered] = useState<number | null>(null);
 
     return (
         <motion.div
             onMouseLeave={() => setHovered(null)}
             className={cn(
-                "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-2xl font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+                "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-2",
+                visible ? "text-xl" : "text-2xl",
                 className,
             )}
         >
@@ -218,13 +227,16 @@ export const MobileNavToggle = ({
     );
 };
 
-export const NavbarLogo = () => {
+export const NavbarLogo = ({ visible }: { visible?: boolean }) => {
     return (
         <a
             href="#"
-            className="relative z-20 mr-4 flex items-center space-x-2 px-3 py-2 text-sm font-normal text-black"
+            className="relative z-20 mr-4 flex items-center space-x-2 px-3 py-2font-normal text-black"
         >
-            <span className="font-bold text-black dark:text-white text-3xl">
+            <span className={cn(
+                "font-bold text-black dark:text-white transition-all duration-300",
+                visible ? "text-2xl" : "text-3xl"
+            )}>
                 Dominic Aung
             </span>
         </a>
@@ -249,7 +261,7 @@ export const NavbarButton = ({
     | React.ComponentPropsWithoutRef<"button">
 )) => {
     const baseStyles =
-        "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+        "px-4 py-2 rounded-md bg-white button bg-white text-black font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
     const variantStyles = {
         primary:
