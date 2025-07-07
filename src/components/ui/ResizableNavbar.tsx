@@ -114,7 +114,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <motion.div
             onMouseLeave={() => setHovered(null)}
             className={cn(
-                "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-base font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+                "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-2xl font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
                 className,
             )}
         >
@@ -230,7 +230,7 @@ export const NavbarLogo = () => {
             href="#"
             className="relative z-20 mr-4 flex items-center space-x-2 px-3 py-2 text-sm font-normal text-black"
         >
-            <span className="font-bold text-black dark:text-white text-xl">
+            <span className="font-bold text-black dark:text-white text-3xl">
                 Dominic Aung
             </span>
         </a>
