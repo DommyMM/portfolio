@@ -30,7 +30,7 @@ export function TextSlider({
         // Setup cycling if not startupOnly
         if (!startupOnly && roles.length > 1) {
             intervalRef.current = setInterval(() => {
-                // Step 1: Hide text completely (fade out)
+                // Step 1: Hide text completely (fade out + slide down)
                 setIsVisible(false);
                 
                 // Step 2: After fade-out is complete, change word and start overlay
@@ -39,7 +39,7 @@ export function TextSlider({
                     setIsAnimating(true);
                 }, 400); // Wait for fade-out transition to complete
                 
-                // Step 3: End the slide animation and reveal text
+                // Step 3: End the slide animation and reveal text (slide up + fade in)
                 setTimeout(() => {
                     setIsAnimating(false);
                     setIsVisible(true);
@@ -62,13 +62,16 @@ export function TextSlider({
 
     return (
         <div className={`relative inline-flex items-center ${className}`}>
-            <div className="relative pb-2 flex items-center">
-                {/* Text content with independent opacity */}
+            <div className="relative pb-2 flex items-center overflow-hidden">
+                {/* Text content with slide-up animation + opacity */}
                 <span 
                     className={`
                         inline-block relative font-['Fira_Code']
                         transition-all duration-500 ease-out text-gray-600 dark:text-gray-300
-                        ${isVisible ? 'opacity-100' : 'opacity-0'}
+                        ${isVisible 
+                            ? 'opacity-100 translate-y-0' 
+                            : 'opacity-0 translate-y-[75px]'
+                        }
                     `}
                 >
                     {currentRole}
