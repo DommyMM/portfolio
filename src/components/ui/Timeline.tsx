@@ -73,7 +73,7 @@ export const Timeline = ({ data }: TimelineProps) => {
             return child
             }
 
-            const childProps = child.props as any
+            const childProps = child.props as { className?: string; children?: React.ReactNode };
 
             if (childProps.className === "expandable-content") {
             return (
@@ -92,21 +92,23 @@ export const Timeline = ({ data }: TimelineProps) => {
             }
 
             if (childProps.children) {
-            return React.cloneElement(child, {
-                ...childProps,
-                children: processChildren(childProps.children),
-            })
+            return React.isValidElement(child)
+                ? React.cloneElement(child as React.ReactElement<any>, {
+                    children: processChildren(childProps.children),
+                })
+                : child;
             }
 
             return child
         })
         }
 
-        const contentProps = content.props as any
-        return React.cloneElement(content, {
-        ...contentProps,
-        children: processChildren(contentProps.children),
-        })
+        const contentProps = content.props as { children?: React.ReactNode };
+        return React.isValidElement(content)
+            ? React.cloneElement(content as React.ReactElement<any>, {
+                children: processChildren(contentProps.children),
+            })
+            : content;
     }
 
     return (

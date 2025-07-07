@@ -110,7 +110,7 @@ const workEducationData = [
                 multi-parameter queries
                 </p>
                 <p className="text-gray-300">
-                • Implemented fuzzy matching algorithm, enabling partial searches like ("Spa" → "Space Exploration")
+                • Implemented fuzzy matching algorithm, enabling queries for partial matches like (&quot;Spa&quot; → &quot;Space Exploration&quot;)
                 </p>
                 <p className="text-gray-300">
                 • Developed <span className="text-blue-400 font-medium">React + Tailwind</span> front-end with aesthetic
