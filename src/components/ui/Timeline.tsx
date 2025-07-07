@@ -126,7 +126,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                 >
                 <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-[180px] md:max-w-[220px] md:w-[220px] flex-shrink-0">
                     <motion.div
-                    className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full bg-black dark:bg-white flex items-center justify-center transition-all duration-500 overflow-hidden"
+                    className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full bg-white flex items-center justify-center transition-all duration-500 overflow-hidden"
                     style={{
                         boxShadow: itemProgress[index] > 0.3 ? "0 0 20px rgba(59, 130, 246, 0.6)" : "none",
                     }}
