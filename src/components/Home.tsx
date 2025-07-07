@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import AboutHero from "@/components/AboutHero";
 import WorkEducation from "@/components/WorkEducation";
-import { ToggleButton } from "@/components/ui/Button";
 import WaveGradient from "./ui/Gradient";
+import { PortfolioNavbar } from "@/components/Navbar";
 
 export default function Home() {
   // Initialize theme state (default to dark mode)
@@ -40,17 +40,18 @@ export default function Home() {
 
     return (
         <div className="min-h-screen transition-colors duration-300">
-        {/* Fixed Theme Toggle - Top Right */}
-        <div className="fixed top-4 right-4 z-50">
-            <ToggleButton 
-            isDark={isDarkMode} 
-            onToggle={handleThemeToggle} 
-            />
-        </div>
+        {/* Portfolio Navbar */}
+        <PortfolioNavbar 
+            isDarkMode={isDarkMode} 
+            onThemeToggle={handleThemeToggle} 
+        />
 
         <WaveGradient />
+        
         {/* Main Content */}
-        <AboutHero />
+        <section id="about">
+            <AboutHero />
+        </section>
         
         {/* Other Sections */}
         <div className="max-w-4xl mx-auto px-4 space-y-32 pb-24">
@@ -61,7 +62,9 @@ export default function Home() {
             </div>
             </section>
 
+            <section id="work">
             <WorkEducation />
+            </section>
 
             <section id="skills" className="py-24">
             <h2 className="text-3xl font-semibold text-neutral-800 dark:text-white mb-8">Skills & Tech</h2>

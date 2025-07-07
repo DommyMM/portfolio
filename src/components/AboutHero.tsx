@@ -16,6 +16,16 @@ const specialties = [
 ];
 
 export default function AboutHero() {
+    const handleViewWork = () => {
+        const projectsSection = document.getElementById('projects');
+        if (projectsSection) {
+            projectsSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    };
+
     return (
         <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden transition-colors duration-300">
             <div className="max-w-6xl text-center space-y-12 relative z-10">
@@ -69,6 +79,7 @@ export default function AboutHero() {
                         icon={<span className="text-sm">→</span>}
                         position="right"
                         otherClasses="w-auto"
+                        handleClick={handleViewWork}
                     />
                 </motion.div>
             </div>
