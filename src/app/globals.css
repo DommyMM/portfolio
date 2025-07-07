@@ -125,12 +125,16 @@ body {
 
 /* Wave Gradient Backgrounds */
 .wave-gradient-base {
-  background: linear-gradient(320.54deg, #1a0033 0%, #2d1b69 30%, #4a0e4e 60%, #1a0033 100%);
+  background: linear-gradient(320.54deg, #1a0033 0%, #2d1b69 30%, #4a0e4e 60%, #5e0202 100%);
+  background-size: 200% 200%;
+  animation: baseGradientShift 33s ease-in-out infinite;
   transition: all 1s ease;
 }
 
 .light .wave-gradient-base {
   background: linear-gradient(320.54deg, #fef2f2 0%, #fef3c7 25%, #ecfdf5 40%, #eff6ff 65%, #fdf4ff 80%, #fef2f2 100%);
+  background-size: 200% 200%;
+  animation: baseGradientShift 33s ease-in-out infinite;
 }
 
 .wave-layer-1 {
@@ -187,6 +191,22 @@ body {
     rgba(16, 185, 129, 0.04) 40%, 
     rgba(6, 182, 212, 0.06) 70%, 
     rgba(34, 197, 94, 0.05) 100%);
+}
+
+/* Base Gradient Movement Animation */
+@keyframes baseGradientShift {
+  0%, 100% { 
+    background-position: 0% 0%;
+  }
+  25% { 
+    background-position: 100% 0%;
+  }
+  50% { 
+    background-position: 100% 100%;
+  }
+  75% { 
+    background-position: 0% 100%;
+  }
 }
 
 /* Wave Animation Keyframes */
