@@ -48,6 +48,15 @@ export const Timeline = ({ data }: TimelineProps) => {
             return itemProgress
         })
         setItemProgress(newProgress)
+        
+        // Auto-expand items when selection animation is triggered
+        const newExpanded = new Set<number>()
+        newProgress.forEach((progress, index) => {
+            if (progress > 0.3) {
+                newExpanded.add(index)
+            }
+        })
+        setExpandedItems(newExpanded)
         })
         return () => unsubscribe()
     }, [scrollYProgress, data])
@@ -93,7 +102,7 @@ export const Timeline = ({ data }: TimelineProps) => {
 
             if (childProps.children) {
             return React.isValidElement(child)
-                ? React.cloneElement(child as React.ReactElement<any>, {
+                ? React.cloneElement(child as React.ReactElement<{ children?: React.ReactNode }>, {
                     children: processChildren(childProps.children),
                 })
                 : child;
@@ -105,7 +114,7 @@ export const Timeline = ({ data }: TimelineProps) => {
 
         const contentProps = content.props as { children?: React.ReactNode };
         return React.isValidElement(content)
-            ? React.cloneElement(content as React.ReactElement<any>, {
+            ? React.cloneElement(content as React.ReactElement<{ children?: React.ReactNode }>, {
                 children: processChildren(contentProps.children),
             })
             : content;
