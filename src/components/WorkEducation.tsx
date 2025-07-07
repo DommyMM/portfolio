@@ -1,6 +1,5 @@
 "use client"
 import { Timeline } from "@/components/ui/Timeline"
-import Image from "next/image"
 
 const workEducationData = [
     {
@@ -9,6 +8,8 @@ const workEducationData = [
             <div className="text-4xl font-black">2025</div>
         </div>
         ),
+        logo: "/lumeno.png",
+        logoAlt: "Lumeno AI",
         content: (
         <div>
             {/* Always visible: Company, Position, Dates, Location */}
@@ -32,9 +33,8 @@ const workEducationData = [
             </div>
             </div>
 
-            {/* Logo and main descriptor */}
-            <div className="flex items-start gap-3 mb-4">
-            <Image src="/lumeno.png" alt="Lumeno AI" width={32} height={32} className="rounded-lg flex-shrink-0" />
+            {/* Main descriptor */}
+            <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 Working alongside <span className="text-blue-400 font-medium">CTO and Lead Engineer</span> on core product
                 development for AI platform
@@ -64,6 +64,8 @@ const workEducationData = [
             <div className="text-4xl font-black">2025</div>
         </div>
         ),
+        logo: "/aggieworks.jpeg",
+        logoAlt: "AggieWorks",
         content: (
         <div>
             <div className="mb-4">
@@ -86,8 +88,7 @@ const workEducationData = [
             </div>
             </div>
 
-            <div className="flex items-start gap-3 mb-4">
-            <Image src="/aggieworks.jpeg" alt="AggieWorks" width={32} height={32} className="rounded-lg flex-shrink-0" />
+            <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 Working on{" "}
                 <a
@@ -126,6 +127,8 @@ const workEducationData = [
             <div className="text-4xl font-black">2024</div>
         </div>
         ),
+        logo: "/ucdavis.png",
+        logoAlt: "UC Davis",
         content: (
         <div>
             <div className="mb-4">
@@ -148,8 +151,7 @@ const workEducationData = [
             </div>
             </div>
 
-            <div className="flex items-start gap-3 mb-4">
-            <Image src="/ucdavis.png" alt="UC Davis" width={32} height={32} className="rounded-lg flex-shrink-0" />
+            <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 Optimized document processing workflows achieving{" "}
                 <span className="text-blue-400 font-medium">30% reduction</span> in completion time across{" "}
@@ -177,13 +179,15 @@ const workEducationData = [
             <div className="text-4xl font-black">2023</div>
         </div>
         ),
+        logo: "/ucdavis.png",
+        logoAlt: "UC Davis",
         content: (
         <div>
             <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
                 <h3 className="text-xl font-semibold text-white">
                 <a
-                    href="https://www.ucdavis.edu/admissions/undergraduate"
+                    href="https://cs.ucdavis.edu/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:text-blue-300 transition-colors underline"
@@ -199,10 +203,12 @@ const workEducationData = [
             </div>
             </div>
 
-            <div className="flex items-start gap-3 mb-4">
-            <Image src="/ucdavis.png" alt="UC Davis" width={32} height={32} className="rounded-lg flex-shrink-0" />
+            {/* Preserved original double-line format */}
+            <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 <span className="text-green-400 font-medium">3.8 GPA</span> in Computer Science Department
+                <br />
+                Expected Graduation: June 2027
             </p>
             </div>
 
@@ -216,7 +222,6 @@ const workEducationData = [
                 Languages, AI, HCI, Theory of Computation, Software Development (C++), Discrete Math, Computer
                 Organization, Probability & Statistics
                 </p>
-                <p className="text-gray-300">• Expected Graduation: June 2027</p>
             </div>
             </div>
         </div>
@@ -228,6 +233,8 @@ const workEducationData = [
             <div className="text-4xl font-black">2022</div>
         </div>
         ),
+        logo: "/ace.jpeg",
+        logoAlt: "ACE Data Systems",
         content: (
         <div>
             <div className="mb-4">
@@ -250,8 +257,7 @@ const workEducationData = [
             </div>
             </div>
 
-            <div className="flex items-start gap-3 mb-4">
-            <Image src="/ace.jpeg" alt="ACE Data Systems" width={32} height={32} className="rounded-lg flex-shrink-0" />
+            <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 Developed backend features for fitness tracking application using{" "}
                 <span className="text-blue-400 font-medium">Spring MVC and SQL</span>, achieving{" "}

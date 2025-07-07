@@ -1,13 +1,15 @@
 "use client"
 
 import React from "react"
-
+import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { useScroll, useTransform, motion } from "motion/react"
 
 interface TimelineData {
     title: React.ReactNode
     content: React.ReactNode
+    logo?: string
+    logoAlt?: string
 }
 
 interface TimelineProps {
@@ -59,16 +61,20 @@ export const Timeline = ({ data }: TimelineProps) => {
         }
         setExpandedItems(newExpanded)
     }
+
     const renderContentWithExpansion = (content: React.ReactNode, index: number) => {
         if (!React.isValidElement(content)) {
         return content
         }
+
         const processChildren = (children: React.ReactNode): React.ReactNode => {
         return React.Children.map(children, (child) => {
             if (!React.isValidElement(child)) {
             return child
             }
+
             const childProps = child.props as any
+
             if (childProps.className === "expandable-content") {
             return (
                 <motion.div
@@ -84,12 +90,14 @@ export const Timeline = ({ data }: TimelineProps) => {
                 </motion.div>
             )
             }
+
             if (childProps.children) {
             return React.cloneElement(child, {
                 ...childProps,
                 children: processChildren(childProps.children),
             })
             }
+
             return child
         })
         }
@@ -118,12 +126,22 @@ export const Timeline = ({ data }: TimelineProps) => {
                 >
                 <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-[180px] md:max-w-[220px] md:w-[220px] flex-shrink-0">
                     <motion.div
-                    className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full bg-black dark:bg-white flex items-center justify-center transition-all duration-500"
+                    className="h-8 md:h-10 absolute left-4 md:left-3 w-8 md:w-10 rounded-full bg-black dark:bg-white flex items-center justify-center transition-all duration-500 overflow-hidden"
                     style={{
                         boxShadow: itemProgress[index] > 0.3 ? "0 0 20px rgba(59, 130, 246, 0.6)" : "none",
                     }}
                     >
-                    <div className="h-3 w-3 md:h-4 md:w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
+                    {item.logo ? (
+                        <Image
+                        src={item.logo || "/placeholder.svg"}
+                        alt={item.logoAlt || "Company logo"}
+                        width={20}
+                        height={20}
+                        className="rounded-full object-cover md:w-6 md:h-6"
+                        />
+                    ) : (
+                        <div className="h-3 w-3 md:h-4 md:w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
+                    )}
                     </motion.div>
                     <div
                     className={`hidden md:block text-xl md:pl-16 md:text-4xl font-black transition-colors duration-300 ${
