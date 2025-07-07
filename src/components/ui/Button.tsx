@@ -111,29 +111,29 @@ export function ToggleButton({
         >
             {/* Toggle Content */}
             <div className="w-auto z-10 rounded-[inherit] p-1">
-                {/* Toggle Track */}
+                {/* Toggle Track - responsive sizing */}
                 <div className={cn(
-                    "relative w-[110px] h-[50px] rounded-full transition-all duration-300 shadow-sm",
-                    "after:absolute after:content-[''] after:w-[40px] after:h-[40px] after:rounded-full after:top-[5px] after:left-[5px]",
+                    "relative w-[80px] md:w-[110px] h-[36px] md:h-[50px] rounded-full transition-all duration-300 shadow-sm",
+                    "after:absolute after:content-[''] after:w-[28px] md:after:w-[40px] after:h-[28px] md:after:h-[40px] after:rounded-full after:top-[4px] md:after:top-[5px] after:left-[4px] md:after:left-[5px]",
                     "after:transition-all after:duration-300 after:shadow-md",
-                    "active:after:w-[50px]",
+                    "active:after:w-[32px] md:active:after:w-[50px]",
                     isChecked 
-                        ? "bg-zinc-500 after:bg-gradient-to-r after:from-zinc-900 after:to-zinc-900 after:left-[105px] after:-translate-x-full"
+                        ? "bg-zinc-500 after:bg-gradient-to-r after:from-zinc-900 after:to-zinc-900 after:left-[76px] md:after:left-[105px] after:-translate-x-full"
                         : "bg-white after:bg-gradient-to-r after:from-orange-500 after:to-yellow-400"
                 )} />
 
-                {/* Sun Icon */}
+                {/* Sun Icon - responsive sizing */}
                 <LightModeIcon 
                     className={cn(
-                        "absolute w-6 h-6 left-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute w-4 md:w-6 h-4 md:h-6 left-3 md:left-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-60" : "text-white opacity-100"
                     )}
                 />
 
-                {/* Moon Icon */}
+                {/* Moon Icon - responsive sizing */}
                 <DarkModeIcon 
                     className={cn(
-                        "absolute w-6 h-6 right-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute w-4 md:w-6 h-4 md:h-6 right-3 md:right-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-70" : "text-black opacity-60"
                     )}
                 />
