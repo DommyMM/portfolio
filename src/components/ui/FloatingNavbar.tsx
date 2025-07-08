@@ -215,11 +215,11 @@ const NavItem = ({
                 />
             )}
             
-            {/* HOVER: Shorter glassmorphic pill - 3) Using Tailwind classes for shorter height */}
+            {/* HOVER: Shorter glassmorphic pill */}
             {isActive && isNavbarHovered && (
                 <motion.div
                     layoutId="activeSection"
-                    className="absolute inset-x-0 top-2 bottom-2 rounded-full backdrop-blur-md bg-white/10 border border-white/20"
+                    className="absolute inset-x-0 top-2 bottom-2 rounded-full backdrop-blur-md bg-black/20 dark:bg-white/10 border border-black/20 dark:border-white/20"
                     style={{
                         boxShadow: `
                             inset 0px -8px 24px -14px rgba(255, 255, 255, 0.74),
