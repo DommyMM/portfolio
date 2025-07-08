@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants, MotionProps } from "motion/react";
+import { AnimatePresence, motion, Variants, MotionProps } from "motion/react";
 import { cn } from "@/lib/utils";
 import { ElementType } from "react";
 import React from "react";
@@ -10,6 +10,8 @@ interface FlipTextProps extends MotionProps {
     duration?: number;
     /** The delay between each character */
     delayMultiple?: number;
+    /** The variants of the animation */
+    framerProps?: Variants;
     /** The class name of the component */
     className?: string;
     /** The element type of the component */
@@ -25,13 +27,12 @@ interface FlipTextProps extends MotionProps {
 const defaultVariants: Variants = {
     hidden: { rotateX: -90, opacity: 0 },
     visible: { rotateX: 0, opacity: 1 },
-    exit: { rotateX: 90, opacity: 0 },
 };
 
 export function FlipText({
     children,
-    duration = 0.3,
-    delayMultiple = 0.05,
+    duration = 0.5,
+    delayMultiple = 0.08,
     className,
     as: Component = "span",
     variants,
@@ -43,22 +44,21 @@ export function FlipText({
 
     return (
         <div className="flex justify-center">
-        {characters.map((char, i) => (
+        <AnimatePresence mode="wait">
+            {characters.map((char, i) => (
             <MotionComponent
-            key={`${char}-${i}`}
-            initial="hidden"
-            animate={trigger ? "visible" : "exit"}
-            variants={variants || defaultVariants}
-            transition={{ 
-                duration, 
-                delay: trigger ? i * delayMultiple : (characters.length - 1 - i) * delayMultiple // Reverse order on exit
-            }}
-            className={cn("origin-center drop-shadow-sm", className)}
-            {...props}
+                key={`${char}-${i}`}
+                initial="hidden"
+                animate={trigger ? "visible" : "hidden"}
+                variants={variants || defaultVariants}
+                transition={{ duration, delay: i * delayMultiple }}
+                className={cn("origin-center drop-shadow-sm", className)}
+                {...props}
             >
-            {char === " " ? "\u00A0" : char}
+                {char === " " ? "\u00A0" : char}
             </MotionComponent>
-        ))}
+            ))}
+        </AnimatePresence>
         </div>
     );
 }

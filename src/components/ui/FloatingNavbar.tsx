@@ -238,13 +238,14 @@ const NavItem = ({
             <span className="relative z-20">
                 {/* Hybrid animation for non-active items */}
                 {!isActive ? (
-                    <div className="h-[20px] overflow-hidden">
+                    <div className={isItemHovered ? "h-[24px] overflow-hidden" : "h-[20px] overflow-hidden"}>
                         {isItemHovered ? (
-                            // ENTER: FlipText animation
+                            // ENTER: FlipText animation - needs more height
                             <FlipText 
                                 duration={0.3} 
                                 delayMultiple={0.05}
                                 trigger={isItemHovered}
+                                className="h-[20px] flex items-center"
                             >
                                 {item.name}
                             </FlipText>
