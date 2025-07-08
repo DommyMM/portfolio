@@ -85,11 +85,11 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
             const vw = window.innerWidth;
             if (!visible) {
                 setWidth("100%");
-            } else if (vw < 640) {
+            } else if (vw <= 640) {
                 setWidth("85%");
-            } else if (vw < 1400) {
-                setWidth("60%");
-            } else if (vw < 1920) {
+            } else if (vw <= 1400) {
+                setWidth("65%");
+            } else if (vw <= 1920) {
                 setWidth("50%");
             } else {
                 setWidth("40%");
