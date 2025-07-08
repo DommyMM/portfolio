@@ -21,14 +21,11 @@ export const Timeline = ({ data }: TimelineProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0)
     const [itemProgress, setItemProgress] = useState<number[]>(new Array(data.length).fill(0))
-    const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0])) // First item starts expanded
+    const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0]))
+    const [hasBeenOpened, setHasBeenOpened] = useState<Set<number>>(new Set([0])) // Track what's been opened
+    const [autoOpenedItems, setAutoOpenedItems] = useState<Set<number>>(new Set()) // Track auto-opened items
 
-    useEffect(() => {
-        if (ref.current) {
-            const rect = ref.current.getBoundingClientRect()
-            setHeight(rect.height)
-        }
-    }, [ref])
+    // ... existing useEffect for height
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -49,29 +46,39 @@ export const Timeline = ({ data }: TimelineProps) => {
             })
             setItemProgress(newProgress)
             
-            // Auto-expand items when selection animation is triggered (always include first item)
-            const newExpanded = new Set<number>([0]) // Always keep first item expanded
-            newProgress.forEach((progress, index) => {
-                if (progress > 0.3 || index === 0) { // Always expand first item
-                    newExpanded.add(index)
-                }
+            // Only auto-expand items that haven't been opened before
+            setExpandedItems(prev => {
+                const newExpanded = new Set(prev)
+                
+                newProgress.forEach((progress, index) => {
+                    if (progress > 0.3 && !hasBeenOpened.has(index)) {
+                        newExpanded.add(index)
+                        // Mark as having been opened
+                        setHasBeenOpened(prevOpened => new Set([...prevOpened, index]))
+                    }
+                })
+                
+                return newExpanded
             })
-            setExpandedItems(newExpanded)
         })
         return () => unsubscribe()
-    }, [scrollYProgress, data])
+    }, [scrollYProgress, data, hasBeenOpened])
 
     const toggleExpanded = (index: number) => {
         // Prevent collapsing the first item
         if (index === 0) return
         
-        const newExpanded = new Set(expandedItems)
-        if (newExpanded.has(index)) {
-            newExpanded.delete(index)
-        } else {
-            newExpanded.add(index)
-        }
-        setExpandedItems(newExpanded)
+        setExpandedItems(prev => {
+            const newExpanded = new Set(prev)
+            if (newExpanded.has(index)) {
+                newExpanded.delete(index)
+            } else {
+                newExpanded.add(index)
+                // Mark as having been opened (manual open)
+                setHasBeenOpened(prevOpened => new Set([...prevOpened, index]))
+            }
+            return newExpanded
+        })
     }
 
     const renderContentWithExpansion = (content: React.ReactNode, index: number) => {
