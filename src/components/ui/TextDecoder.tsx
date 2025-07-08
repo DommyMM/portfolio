@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSpring, useReducedMotion } from "motion/react";
+import React, { memo } from "react";
 
 const glyphs = [
     "က", "ခ", "ဂ", "ဃ", "င",
@@ -56,6 +57,7 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
     const container = useRef<HTMLSpanElement>(null);
     const reduceMotion = useReducedMotion();
     const decoderSpring = useSpring(0, { stiffness: 8, damping: 5 });
+    const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
         const content = text.split("");
@@ -75,13 +77,19 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
 
         const renderOutput = () => {
             if (!container.current) return;
+            
+            const allResolved = output.current.every(item => item.type === "value");
+            if (allResolved && !isComplete) {
+                setIsComplete(true);
+                return;
+            }
+            
             const characterMap = output.current.map((item) => {
                 if (item.type === "glyph") {
-                    // Random color for each glyph - now using hex colors
                     const randomColor = glyphColors[Math.floor(Math.random() * glyphColors.length)];
                     return `<span style="opacity:0.6; color:${randomColor};">${item.value}</span>`;
                 } else {
-                    return `<span class="gradient-dance font-semibold">${item.value}</span>`;
+                    return `<span class="font-semibold">${item.value}</span>`;
                 }
             });
             container.current.innerHTML = characterMap.join("");
@@ -107,7 +115,17 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
         return () => {
             unsubscribeSpring?.();
         };
-    }, [decoderSpring, reduceMotion, delay, text]);
+    }, [decoderSpring, reduceMotion, delay, text, isComplete]);
+
+    if (isComplete) {
+        return (
+            <span className={className}>
+                <AuroraText className="font-semibold">
+                    {text}
+                </AuroraText>
+            </span>
+        );
+    }
 
     return (
         <span className={className}>
@@ -115,3 +133,39 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
         </span>
     );
 }
+
+interface AuroraTextProps {
+    children: React.ReactNode;
+    className?: string;
+    colors?: string[];
+    speed?: number;
+}
+
+const AuroraText = memo(
+    ({
+        children,
+        className = "",
+        colors = ["#FF0080", "#7928CA", "#0070F3", "#38bdf8"],
+        speed = 1,
+    }: AuroraTextProps) => {
+        const gradientStyle = {
+            backgroundImage: `linear-gradient(135deg, ${colors.join(", ")}, ${colors[0]})`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            animationDuration: `${10 / speed}s`,
+        };
+
+        return (
+            <span className={`relative inline-block ${className}`}>
+                <span className="sr-only">{children}</span>
+                <span
+                    className="relative animate-aurora bg-[length:200%_auto] bg-clip-text text-transparent"
+                    style={gradientStyle}
+                    aria-hidden="true"
+                >
+                    {children}
+                </span>
+            </span>
+        );
+    },
+);
