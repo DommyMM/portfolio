@@ -236,16 +236,15 @@ const NavItem = ({
             )}
             
             <span className="relative z-20">
-                {/* Hybrid animation for non-active items */}
                 {!isActive ? (
-                    <div className={isItemHovered ? "h-[24px] overflow-hidden" : "h-[20px] overflow-hidden"}>
+                    <div className={isItemHovered ? "h-[26px] overflow-hidden" : "h-[24px] overflow-hidden"}>
                         {isItemHovered ? (
-                            // ENTER: FlipText animation - needs more height
+                            // ENTER: FlipText animation
                             <FlipText 
                                 duration={0.3} 
                                 delayMultiple={0.05}
                                 trigger={isItemHovered}
-                                className="h-[20px] flex items-center"
+                                className="h-[25px] flex items-center"
                             >
                                 {item.name}
                             </FlipText>
@@ -257,10 +256,10 @@ const NavItem = ({
                                 animate={{ y: 0 }}
                                 transition={{ duration: 0.2, ease: "easeOut" }}
                             >
-                                <span className="h-[20px] flex items-center text-neutral-800 dark:text-neutral-100 font-medium">
+                                <span className="h-[25px] flex items-center text-neutral-800 dark:text-neutral-100 font-medium">
                                     {item.name}
                                 </span>
-                                <span className="h-[20px] flex items-center text-neutral-600 dark:text-neutral-300">
+                                <span className="h-[25px] flex items-center text-neutral-600 dark:text-neutral-300">
                                     {item.name}
                                 </span>
                             </motion.div>
