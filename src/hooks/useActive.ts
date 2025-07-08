@@ -1,32 +1,66 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useScroll } from "motion/react";
 
 const sections = ['about', 'projects', 'work', 'skills', 'contact'];
 
 export function useActiveSection() {
     const [activeSection, setActiveSection] = useState<string>('about');
-    const { scrollYProgress } = useScroll();
 
     useEffect(() => {
-        const unsubscribe = scrollYProgress.on("change", (progress) => {
-            // Calculate which section should be active based on scroll progress
-            const sectionIndex = Math.floor(progress * sections.length);
-            
-            // Handle edge cases
-            if (progress === 0) {
-                setActiveSection('about');
-            } else if (progress >= 0.95) {
-                setActiveSection('contact');
-            } else {
-                const currentSection = sections[sectionIndex] || 'about';
-                setActiveSection(currentSection);
+        const observers = new Map();
+        const sectionElements = new Map();
+
+        // Find all section elements
+        sections.forEach(sectionId => {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                sectionElements.set(sectionId, element);
             }
         });
 
-        return () => unsubscribe();
-    }, [scrollYProgress]);
+        // Track which sections are currently intersecting
+        const intersectingSections = new Set<string>();
+
+        // Create intersection observer
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    const sectionId = entry.target.id;
+                    
+                    if (entry.isIntersecting) {
+                        intersectingSections.add(sectionId);
+                    } else {
+                        intersectingSections.delete(sectionId);
+                    }
+                });
+
+                // Determine active section based on intersecting sections
+                if (intersectingSections.size > 0) {
+                    // Get the first intersecting section in our sections order
+                    const activeId = sections.find(id => intersectingSections.has(id));
+                    if (activeId) {
+                        setActiveSection(activeId);
+                    }
+                }
+            },
+            {
+                // Trigger when section is 30% visible
+                threshold: 0.3,
+                // Start observing 100px before the section enters viewport
+                rootMargin: '-100px 0px -100px 0px'
+            }
+        );
+
+        // Observe all sections
+        sectionElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     return activeSection;
 }
