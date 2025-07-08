@@ -163,6 +163,8 @@ export const NavItems = ({ items, className, onItemClick, visible, activeSection
     );
 };
 
+import { FlipText } from "./FlipText";
+
 const NavItem = ({ 
     item, 
     mouseX, 
@@ -177,6 +179,7 @@ const NavItem = ({
     isNavbarHovered: boolean;
 }) => {
     const ref = useRef<HTMLAnchorElement>(null);
+    const [isItemHovered, setIsItemHovered] = useState(false);
 
     const distance = useTransform(mouseX, (val) => {
         const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
@@ -197,6 +200,8 @@ const NavItem = ({
         <motion.a
             ref={ref}
             onClick={onItemClick}
+            onMouseEnter={() => setIsItemHovered(true)}
+            onMouseLeave={() => setIsItemHovered(false)}
             className={cn(
                 "relative px-5 py-3 transition-colors duration-300 cursor-pointer",
                 isActive 
@@ -231,7 +236,20 @@ const NavItem = ({
                 />
             )}
             
-            <span className="relative z-20">{item.name}</span>
+            <span className="relative z-20">
+                {/* Flip text animation for non-active items when hovered */}
+                {!isActive && isItemHovered ? (
+                    <FlipText 
+                        duration={0.3} 
+                        delayMultiple={0.05}
+                        trigger={isItemHovered}
+                    >
+                        {item.name}
+                    </FlipText>
+                ) : (
+                    item.name
+                )}
+            </span>
         </motion.a>
     );
 };
@@ -405,7 +423,7 @@ export const NavbarButton = ({
     | React.ComponentPropsWithoutRef<"button">
 )) => {
     const baseStyles =
-        "px-4 py-2 rounded-md bg-white button bg-white text-black font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+        "px-4 py-2 rounded-md bg-white button text-black font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
     const variantStyles = {
         primary:
