@@ -133,11 +133,16 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 
 export const NavItems = ({ items, className, onItemClick, visible, activeSection }: NavItemsProps) => {
     const mouseX = useMotionValue(Infinity);
+    const [isNavbarHovered, setIsNavbarHovered] = useState(false);
 
     return (
         <motion.div
             onMouseMove={(e) => mouseX.set(e.pageX)}
-            onMouseLeave={() => mouseX.set(Infinity)}
+            onMouseEnter={() => setIsNavbarHovered(true)}
+            onMouseLeave={() => {
+                mouseX.set(Infinity);
+                setIsNavbarHovered(false);
+            }}
             className={cn(
                 "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-2",
                 visible ? "text-xl" : "text-2xl",
@@ -151,6 +156,7 @@ export const NavItems = ({ items, className, onItemClick, visible, activeSection
                     mouseX={mouseX}
                     onItemClick={onItemClick}
                     activeSection={activeSection}
+                    isNavbarHovered={isNavbarHovered}
                 />
             ))}
         </motion.div>
@@ -161,12 +167,14 @@ const NavItem = ({
     item, 
     mouseX, 
     onItemClick, 
-    activeSection 
+    activeSection,
+    isNavbarHovered 
 }: {
     item: { name: string; link: string };
     mouseX: MotionValue<number>;
     onItemClick?: () => void;
     activeSection?: string;
+    isNavbarHovered: boolean;
 }) => {
     const ref = useRef<HTMLAnchorElement>(null);
 
@@ -175,7 +183,7 @@ const NavItem = ({
         return val - bounds.x - bounds.width / 2;
     });
 
-    const scaleTransform = useTransform(distance, [-150, 0, 150], [1, 1.4, 1]);
+    const scaleTransform = useTransform(distance, [-100, 0, 100], [1, 1.4, 1]);
     const scale = useSpring(scaleTransform, {
         mass: 0.1,
         stiffness: 150,
@@ -198,11 +206,27 @@ const NavItem = ({
             href={item.link}
             style={{ scale }}
         >
-            {/* Active section background */}
-            {isActive && (
+            {/* DEFAULT: Original blue tall pill */}
+            {isActive && !isNavbarHovered && (
                 <motion.div
                     layoutId="activeSection"
                     className="absolute inset-0 h-full w-full rounded-full bg-blue-100/50 dark:bg-blue-900/30"
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                />
+            )}
+            
+            {/* HOVER: Shorter glassmorphic pill - 3) Using Tailwind classes for shorter height */}
+            {isActive && isNavbarHovered && (
+                <motion.div
+                    layoutId="activeSection"
+                    className="absolute inset-x-0 top-2 bottom-2 rounded-full backdrop-blur-md bg-white/10 border border-white/20"
+                    style={{
+                        boxShadow: `
+                            inset 0px -8px 24px -14px rgba(255, 255, 255, 0.74),
+                            0px 6px 61px -15px rgba(255, 255, 255, 0.54),
+                            0px 0px 20px rgba(59, 130, 246, 0.3)
+                        `,
+                    }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
                 />
             )}

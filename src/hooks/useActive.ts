@@ -8,7 +8,6 @@ export function useActiveSection() {
     const [activeSection, setActiveSection] = useState<string>('about');
 
     useEffect(() => {
-        const observers = new Map();
         const sectionElements = new Map();
 
         // Find all section elements
