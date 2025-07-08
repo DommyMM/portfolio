@@ -145,13 +145,15 @@ const AuroraText = memo(
     ({
         children,
         className = "",
-        colors = ["#FF0080", "#7928CA", "#0070F3", "#38bdf8"],
+        colors = ["#22c55e", "#6366f1", "#3b82f6", "#06b6d4", "#a78bfa", "#ec4899", "#fbbf24", "#ef4444", "#8b5cf6"],
         speed = 1,
     }: AuroraTextProps) => {
         const gradientStyle = {
-            backgroundImage: `linear-gradient(135deg, ${colors.join(", ")}, ${colors[0]})`,
+            backgroundImage: `linear-gradient(50deg, ${colors.join(", ")})`,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
+            backgroundSize: "200% 200%",
+            backgroundPosition: "50% 25%",
             animationDuration: `${10 / speed}s`,
         };
 
@@ -159,7 +161,7 @@ const AuroraText = memo(
             <span className={`relative inline-block ${className}`}>
                 <span className="sr-only">{children}</span>
                 <span
-                    className="relative animate-aurora bg-[length:200%_auto] bg-clip-text text-transparent"
+                    className="relative animate-gradient-dance bg-clip-text text-transparent"
                     style={gradientStyle}
                     aria-hidden="true"
                 >
