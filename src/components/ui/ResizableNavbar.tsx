@@ -1,7 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import React, { useRef, useState, useEffect } from "react";
 
@@ -243,7 +241,7 @@ export const MobileNavMenu = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className={cn(
-                        "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] mt-4 border-t border-neutral-300 dark:border-neutral-800",
+                        "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] mt-6 border-t border-neutral-300 dark:border-neutral-800",
                         className,
                     )}
                 >
@@ -261,10 +259,23 @@ export const MobileNavToggle = ({
     isOpen: boolean;
     onClick: () => void;
 }) => {
-    return isOpen ? (
-        <CloseIcon className="text-black dark:text-white cursor-pointer" onClick={onClick} />
-    ) : (
-        <MenuIcon className="text-black dark:text-white cursor-pointer" onClick={onClick} />
+    return (
+        <button
+            className={cn(
+                "hamburger hamburger--squeeze",
+                isOpen && "is-active"
+            )}
+            onClick={onClick}
+            aria-label="Toggle menu"
+            type="button"
+        >
+            <span className="hamburger-box">
+                <span className={cn(
+                    "hamburger-inner",
+                    "bg-black dark:bg-white",
+                )}></span>
+            </span>
+        </button>
     );
 };
 
