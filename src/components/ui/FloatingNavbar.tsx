@@ -193,11 +193,20 @@ const NavItem = ({
                 "relative px-5 py-3 transition-colors duration-300 cursor-pointer",
                 isActive 
                     ? "text-blue-600 dark:text-blue-400 font-semibold" 
-                    : "text-neutral-600 dark:text-neutral-300"
+                    : "text-neutral-600 dark:text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-100"
             )}
             href={item.link}
             style={{ scale }}
         >
+            {/* Active section background */}
+            {isActive && (
+                <motion.div
+                    layoutId="activeSection"
+                    className="absolute inset-0 h-full w-full rounded-full bg-blue-100/50 dark:bg-blue-900/30"
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                />
+            )}
+            
             <span className="relative z-20">{item.name}</span>
         </motion.a>
     );
