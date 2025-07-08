@@ -302,7 +302,22 @@ export const MobileNavToggle = ({
     );
 };
 
-export const NavbarLogo = ({ visible }: { visible?: boolean }) => {
+export const NavbarLogo = ({ 
+    visible, 
+    activeSection, 
+    isMobile = false 
+}: { 
+    visible?: boolean; 
+    activeSection?: string;
+    isMobile?: boolean;
+}) => {
+    const getDisplayText = () => {
+        if (isMobile && activeSection) {
+            return activeSection.charAt(0).toUpperCase() + activeSection.slice(1);
+        }
+        return visible ? "DA" : "Dominic Aung";
+    };
+
     return (
         <a
             href="#"
@@ -312,7 +327,7 @@ export const NavbarLogo = ({ visible }: { visible?: boolean }) => {
                 "font-bold text-black dark:text-white transition-all duration-300",
                 visible ? "text-2xl" : "text-3xl"
             )}>
-                {visible ? "DA" : "Dominic Aung"}
+                {getDisplayText()}
             </span>
         </a>
     );

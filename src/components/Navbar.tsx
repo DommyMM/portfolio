@@ -54,7 +54,16 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, activeSection }: Po
             {/* Mobile Navigation */}
             <MobileNav>
                 <MobileNavHeader>
-                    <NavbarLogo />
+                    {/* Invisible hamburger clone on LEFT for spacing */}
+                    <div className="invisible">
+                        <MobileNavToggle isOpen={false} onClick={() => {}} />
+                    </div>
+                    {/* Perfectly centered title */}
+                    <NavbarLogo 
+                        activeSection={activeSection}
+                        isMobile={true}
+                    />
+                    {/* Real hamburger on RIGHT */}
                     <MobileNavToggle
                         isOpen={isMobileMenuOpen}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
