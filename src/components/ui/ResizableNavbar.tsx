@@ -272,7 +272,7 @@ export const NavbarLogo = ({ visible }: { visible?: boolean }) => {
     return (
         <a
             href="#"
-            className="relative z-20 flex items-center justify-center w-full space-x-2 px-3 py-2 font-normal text-black"
+            className="relative z-20 flex items-center space-x-2 px-3 py-2 font-normal text-black w-full justify-center md:w-auto md:justify-start"
         >
             <span className={cn(
                 "font-bold text-black dark:text-white transition-all duration-300",
