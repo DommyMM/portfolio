@@ -123,17 +123,19 @@ export function ToggleButton({
                 )} />
 
                 {/* Sun Icon - responsive sizing */}
-                <LightModeIcon 
+                <LightModeIcon
+                    sx={{ fontSize: { xs: 20, md: 24 } }}
                     className={cn(
-                        "absolute w-4 md:w-6 h-4 md:h-6 left-3 md:left-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute left-4 md:left-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-60" : "text-white opacity-100"
                     )}
                 />
 
                 {/* Moon Icon - responsive sizing */}
-                <DarkModeIcon 
+                <DarkModeIcon
+                    sx={{ fontSize: { xs: 20, md: 24 } }}
                     className={cn(
-                        "absolute w-4 md:w-6 h-4 md:h-6 right-3 md:right-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
+                        "absolute right-4 md:right-5 top-1/2 -translate-y-1/2 transition-opacity duration-300 pointer-events-none",
                         isChecked ? "text-white opacity-70" : "text-black opacity-60"
                     )}
                 />
