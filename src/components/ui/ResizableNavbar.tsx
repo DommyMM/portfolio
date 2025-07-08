@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 interface NavbarProps {
     children: React.ReactNode;
@@ -78,9 +78,32 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 };
 
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
+    const [width, setWidth] = useState("100%");
+
+    useEffect(() => {
+        function updateWidth() {
+            const vw = window.innerWidth;
+            if (!visible) {
+                setWidth("100%");
+            } else if (vw < 640) {
+                setWidth("85%");
+            } else if (vw < 1400) {
+                setWidth("60%");
+            } else if (vw < 1920) {
+                setWidth("50%");
+            } else {
+                setWidth("40%");
+            }
+        }
+        updateWidth();
+        window.addEventListener("resize", updateWidth);
+        return () => window.removeEventListener("resize", updateWidth);
+    }, [visible]);
+
     return (
         <motion.div
             animate={{
+                width,
                 backdropFilter: visible ? "blur(10px)" : "none",
                 boxShadow: visible
                     ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
@@ -93,10 +116,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
                 damping: 50,
             }}
             className={cn(
-                "relative z-[60] mx-auto hidden flex-row items-center self-start rounded-full bg-transparent lg:flex dark:bg-transparent",
-                visible
-                    ? "w-[85%] md:w-[65%] xl:w-[50%] 2xl:w-[40%] px-4 py-2 lg:px-6 lg:py-3 xl:px-8 xl:py-4 justify-between"
-                    : "w-full px-8 py-4 justify-between",
+                "relative z-[60] mx-auto hidden flex-row items-center self-start rounded-full bg-transparent lg:flex dark:bg-transparent px-4 py-2 lg:px-6 lg:py-3 xl:px-8 xl:py-4 justify-between",
                 visible && "bg-white/80 dark:bg-neutral-950/80",
                 className,
             )}
