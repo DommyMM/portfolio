@@ -237,9 +237,32 @@ export const MobileNavMenu = ({
         <AnimatePresence>
             {isOpen && (
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ 
+                        opacity: 0,
+                        scale: 0,
+                        transformOrigin: "top right"
+                    }}
+                    animate={{ 
+                        opacity: 1,
+                        scale: 1,
+                        transformOrigin: "top right"
+                    }}
+                    exit={{ 
+                        opacity: 0,
+                        scale: 0,
+                        transformOrigin: "top right",
+                        transition: {
+                            duration: 0.2,
+                            ease: "easeInOut"
+                        }
+                    }}
+                    transition={{
+                        duration: 0.3,
+                        ease: "easeOut",
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30
+                    }}
                     className={cn(
                         "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] mt-6 border-t border-neutral-300 dark:border-neutral-800",
                         className,
