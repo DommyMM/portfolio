@@ -89,7 +89,7 @@ export function TextDecoder({ text, className = "", delay = 0 }: DecoderTextProp
                     const randomColor = glyphColors[Math.floor(Math.random() * glyphColors.length)];
                     return `<span style="opacity:0.6; color:${randomColor};">${item.value}</span>`;
                 } else {
-                    return `<span class="font-semibold">${item.value}</span>`;
+                    return `<span class="gradient-dance font-semibold">${item.value}</span>`;
                 }
             });
             container.current.innerHTML = characterMap.join("");
