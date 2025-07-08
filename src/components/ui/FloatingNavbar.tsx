@@ -236,16 +236,37 @@ const NavItem = ({
             )}
             
             <span className="relative z-20">
-                {/* Flip text animation for non-active items when hovered */}
-                {!isActive && isItemHovered ? (
-                    <FlipText 
-                        duration={0.4} 
-                        delayMultiple={0.05}
-                        trigger={isItemHovered}
-                    >
-                        {item.name}
-                    </FlipText>
+                {/* Hybrid animation for non-active items */}
+                {!isActive ? (
+                    <div className="h-[20px] overflow-hidden">
+                        {isItemHovered ? (
+                            // ENTER: FlipText animation
+                            <FlipText 
+                                duration={0.3} 
+                                delayMultiple={0.05}
+                                trigger={isItemHovered}
+                            >
+                                {item.name}
+                            </FlipText>
+                        ) : (
+                            // EXIT: Slide down animation
+                            <motion.div 
+                                className="flex flex-col"
+                                initial={{ y: -20 }}
+                                animate={{ y: 0 }}
+                                transition={{ duration: 0.2, ease: "easeOut" }}
+                            >
+                                <span className="h-[20px] flex items-center text-neutral-800 dark:text-neutral-100 font-medium">
+                                    {item.name}
+                                </span>
+                                <span className="h-[20px] flex items-center text-neutral-600 dark:text-neutral-300">
+                                    {item.name}
+                                </span>
+                            </motion.div>
+                        )}
+                    </div>
                 ) : (
+                    // Active items show normally
                     item.name
                 )}
             </span>
