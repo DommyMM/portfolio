@@ -1,6 +1,6 @@
 "use client";
 
-import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "@/components/ui/ResizableNavbar";
+import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "@/components/ui/FloatingNavbar";
 import { ToggleButton } from "@/components/ui/Button";
 import { useState } from "react";
 
