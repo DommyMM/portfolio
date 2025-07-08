@@ -21,10 +21,8 @@ export const Timeline = ({ data }: TimelineProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [height, ] = useState(0)
     const [itemProgress, setItemProgress] = useState<number[]>(new Array(data.length).fill(0))
+    const [manualItems, setManualItems] = useState<Set<number>>(new Set([0]))
     const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0]))
-    const [, setHasBeenOpened] = useState<Set<number>>(new Set([0]))
-    const [autoOpenedItems, setAutoOpenedItems] = useState<Set<number>>(new Set())
-    const [manuallyOpenedItems, setManuallyOpenedItems] = useState<Set<number>>(new Set())
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -45,32 +43,17 @@ export const Timeline = ({ data }: TimelineProps) => {
             })
             setItemProgress(newProgress)
             
-            // Only auto-expand items that haven't been opened before
+            // Auto-expand/collapse items based on scroll progress
             setExpandedItems(prev => {
                 const newExpanded = new Set(prev)
                 
                 newProgress.forEach((progress, index) => {
-                    if (progress > 0.3 && !manuallyOpenedItems.has(index)) {
-                        // Can auto-open if it's not manually opened (regardless of hasBeenOpened)
-                        newExpanded.add(index)
-                        setHasBeenOpened(prevOpened => new Set([...prevOpened, index]))
-                        setAutoOpenedItems(prevAuto => new Set([...prevAuto, index]))
-                    }
-                    // Auto-collapse items that were auto-opened when scrolling past
-                    else if (progress < 0.1 && autoOpenedItems.has(index) && index !== 0) {
-                        newExpanded.delete(index)
-                        // Remove from hasBeenOpened so it can auto-open again
-                        setHasBeenOpened(prev => {
-                            const newSet = new Set(prev)
-                            newSet.delete(index)
-                            return newSet
-                        })
-                        // Remove from autoOpenedItems
-                        setAutoOpenedItems(prev => {
-                            const newSet = new Set(prev)
-                            newSet.delete(index)
-                            return newSet
-                        })
+                    if (!manualItems.has(index)) {
+                        if (progress > 0.3) {
+                            newExpanded.add(index)
+                        } else if (index !== 0) {
+                            newExpanded.delete(index)
+                        }
                     }
                 })
                 
@@ -78,20 +61,19 @@ export const Timeline = ({ data }: TimelineProps) => {
             })
         })
         return () => unsubscribe()
-    }, [scrollYProgress, data, manuallyOpenedItems, autoOpenedItems])
+    }, [scrollYProgress, data, manualItems])
 
     const toggleExpanded = (index: number) => {
         // Prevent collapsing the first item
         if (index === 0) return
         
+        setManualItems(prev => new Set([...prev, index]))
         setExpandedItems(prev => {
             const newExpanded = new Set(prev)
             if (newExpanded.has(index)) {
                 newExpanded.delete(index)
             } else {
                 newExpanded.add(index)
-                setHasBeenOpened(prevOpened => new Set([...prevOpened, index]))
-                setManuallyOpenedItems(prevManual => new Set([...prevManual, index]))
             }
             return newExpanded
         })
