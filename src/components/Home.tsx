@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import AboutHero from "@/components/AboutHero";
 import WorkEducation from "@/components/WorkEducation";
+import SkillsSection from "@/components/SkillSection";
 import WaveGradient from "./ui/Gradient";
 import { PortfolioNavbar } from "@/components/Navbar";
 import { useActiveSection } from "@/hooks/useActive";
@@ -71,12 +72,7 @@ export default function Home() {
             <WorkEducation />
             </section>
 
-            <section id="skills" className="py-24">
-            <h2 className="text-3xl font-semibold text-neutral-800 dark:text-white mb-8">Skills & Tech</h2>
-            <div className="h-32 bg-neutral-100 dark:bg-white/5 rounded-lg border border-neutral-200 dark:border-white/10 flex items-center justify-center text-neutral-500 dark:text-white/40">
-                Coming soon...
-            </div>
-            </section>
+            <SkillsSection />
 
             <section id="contact" className="py-24">
             <h2 className="text-3xl font-semibold text-neutral-800 dark:text-white mb-8">Contact</h2>
