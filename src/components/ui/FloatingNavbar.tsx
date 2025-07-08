@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, MotionValue, useTransform, useSpring } from "motion/react";
 import React, { useRef, useState, useEffect } from "react";
 
 interface NavbarProps {
@@ -132,53 +132,74 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 };
 
 export const NavItems = ({ items, className, onItemClick, visible, activeSection }: NavItemsProps) => {
-    const [hovered, setHovered] = useState<number | null>(null);
+    const mouseX = useMotionValue(Infinity);
 
     return (
         <motion.div
-            onMouseLeave={() => setHovered(null)}
+            onMouseMove={(e) => mouseX.set(e.pageX)}
+            onMouseLeave={() => mouseX.set(Infinity)}
             className={cn(
                 "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-2",
                 visible ? "text-xl" : "text-2xl",
                 className,
             )}
         >
-            {items.map((item, idx) => {
-                const sectionId = item.link.substring(1); // Remove # from link
-                const isActive = activeSection === sectionId;
-                return (
-                    <a
-                        onMouseEnter={() => setHovered(idx)}
-                        onClick={onItemClick}
-                        className={cn(
-                            "relative px-5 py-3 transition-colors duration-300",
-                            isActive 
-                                ? "text-blue-600 dark:text-blue-400 font-semibold" 
-                                : "text-neutral-600 dark:text-neutral-300"
-                        )}
-                        key={`link-${idx}`}
-                        href={item.link}
-                    >
-                        {/* Active section highlight */}
-                        {isActive && (
-                            <motion.div
-                                layoutId="activeSection"
-                                className="absolute inset-0 h-full w-full rounded-full bg-blue-100/50 dark:bg-blue-900/30"
-                                transition={{ duration: 0.3, ease: "easeOut" }}
-                            />
-                        )}
-                        {/* Hover effect - existing functionality */}
-                        {hovered === idx && !isActive && (
-                            <motion.div
-                                layoutId="hovered"
-                                className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
-                            />
-                        )}
-                        <span className="relative z-20">{item.name}</span>
-                    </a>
-                );
-            })}
+            {items.map((item, idx) => (
+                <NavItem
+                    key={`link-${idx}`}
+                    item={item}
+                    mouseX={mouseX}
+                    onItemClick={onItemClick}
+                    activeSection={activeSection}
+                />
+            ))}
         </motion.div>
+    );
+};
+
+const NavItem = ({ 
+    item, 
+    mouseX, 
+    onItemClick, 
+    activeSection 
+}: {
+    item: { name: string; link: string };
+    mouseX: MotionValue<number>;
+    onItemClick?: () => void;
+    activeSection?: string;
+}) => {
+    const ref = useRef<HTMLAnchorElement>(null);
+
+    const distance = useTransform(mouseX, (val) => {
+        const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+        return val - bounds.x - bounds.width / 2;
+    });
+
+    const scaleTransform = useTransform(distance, [-150, 0, 150], [1, 1.4, 1]);
+    const scale = useSpring(scaleTransform, {
+        mass: 0.1,
+        stiffness: 150,
+        damping: 12,
+    });
+
+    const sectionId = item.link.substring(1);
+    const isActive = activeSection === sectionId;
+
+    return (
+        <motion.a
+            ref={ref}
+            onClick={onItemClick}
+            className={cn(
+                "relative px-5 py-3 transition-colors duration-300 cursor-pointer",
+                isActive 
+                    ? "text-blue-600 dark:text-blue-400 font-semibold" 
+                    : "text-neutral-600 dark:text-neutral-300"
+            )}
+            href={item.link}
+            style={{ scale }}
+        >
+            <span className="relative z-20">{item.name}</span>
+        </motion.a>
     );
 };
 
