@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, MotionValue, useTransform, useSpring } from "motion/react";
 import React, { useRef, useState, useEffect } from "react";
+import { FlipText } from "./FlipText";
 
 interface NavbarProps {
     children: React.ReactNode;
@@ -163,8 +164,6 @@ export const NavItems = ({ items, className, onItemClick, visible, activeSection
     );
 };
 
-import { FlipText } from "./FlipText";
-
 const NavItem = ({ 
     item, 
     mouseX, 
@@ -240,7 +239,7 @@ const NavItem = ({
                 {/* Flip text animation for non-active items when hovered */}
                 {!isActive && isItemHovered ? (
                     <FlipText 
-                        duration={0.3} 
+                        duration={0.4} 
                         delayMultiple={0.05}
                         trigger={isItemHovered}
                     >
