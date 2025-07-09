@@ -70,11 +70,7 @@ export function Marquee({
             {...props}
             ref={containerRef}
             className={cn(
-                "group flex p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none mb-0",
-                {
-                    "flex-row": !vertical,
-                    "flex-col": vertical,
-                },
+                "group flex flex-row p-2 [--gap:1rem] [gap:var(--gap)] select-none mb-0 overflow-hidden",
                 className,
             )}
             style={{
@@ -184,7 +180,7 @@ interface SkillsMarqueeProps {
 // Main Skills Marquee Component
 export default function SkillsMarquee({ skillsData, isReducedMotion = false }: SkillsMarqueeProps) {
     const reversePattern = [false, true, false, true];
-    const durationPattern = [30, 40, 30, 40];
+    const durationPattern = [40, 40, 40, 40];
     
     // Flatten all skills from all categories
     const allSkills = skillsData.flatMap(category => category.skills);
