@@ -372,3 +372,12 @@ body {
 .animate-gradient-dance {
   animation: gradientDance 10s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+@keyframes marquee {
+  from { transform: translateX(0) }
+  to { transform: translateX(calc(-100% - var(--gap))) }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration) linear infinite;
+}
