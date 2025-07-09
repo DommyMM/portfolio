@@ -2,6 +2,7 @@
 
 import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "@/components/ui/FloatingNavbar";
 import { ToggleButton, MotionToggle } from "@/components/ui/Button";
+import { Tooltip } from "@/components/ui/ToolTip";
 import { useState } from "react";
 
 interface PortfolioNavbarProps {
@@ -45,16 +46,28 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                 <NavbarLogo />
                 <NavItems items={navItems} activeSection={activeSection} />
                 <div className="flex items-center gap-4">
-                    <MotionToggle
-                        isReducedMotion={isReducedMotion}
-                        onToggle={onMotionToggle}
-                        className="scale-90"
-                    />
-                    <ToggleButton 
-                        isDark={isDarkMode} 
-                        onToggle={onThemeToggle}
-                        className="scale-75"
-                    />
+                    <Tooltip 
+                        content={isReducedMotion ? "Enable animations" : "Reduce motion"}
+                        placement="bottom"
+                        delay={500}
+                    >
+                        <MotionToggle
+                            isReducedMotion={isReducedMotion}
+                            onToggle={onMotionToggle}
+                            className="scale-90"
+                        />
+                    </Tooltip>
+                    <Tooltip 
+                        content={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                        placement="bottom"
+                        delay={500}
+                    >
+                        <ToggleButton 
+                            isDark={isDarkMode} 
+                            onToggle={onThemeToggle}
+                            className="scale-75"
+                        />
+                    </Tooltip>
                 </div>
             </NavBody>
 
@@ -90,14 +103,26 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                     ))}
                     <div className="flex w-full flex-col gap-4 mt-4 pt-4 border-t border-gray-300 dark:border-gray-700">
                         <div className="flex items-center justify-center gap-4">
-                            <MotionToggle
-                                isReducedMotion={isReducedMotion}
-                                onToggle={onMotionToggle}
-                            />
-                            <ToggleButton 
-                                isDark={isDarkMode} 
-                                onToggle={onThemeToggle}
-                            />
+                            <Tooltip 
+                                content={isReducedMotion ? "Enable animations" : "Reduce motion"}
+                                placement="top"
+                                delay={500}
+                            >
+                                <MotionToggle
+                                    isReducedMotion={isReducedMotion}
+                                    onToggle={onMotionToggle}
+                                />
+                            </Tooltip>
+                            <Tooltip 
+                                content={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                                placement="top"
+                                delay={500}
+                            >
+                                <ToggleButton 
+                                    isDark={isDarkMode} 
+                                    onToggle={onThemeToggle}
+                                />
+                            </Tooltip>
                         </div>
                     </div>
                 </MobileNavMenu>
