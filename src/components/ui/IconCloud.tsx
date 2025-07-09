@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { renderToString } from "react-dom/server";
 
 interface Icon {
     x: number;
@@ -22,7 +21,7 @@ function easeOutCubic(t: number): number {
 }
 
 export function IconCloud({ icons, images }: IconCloudProps) {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [iconPositions, setIconPositions] = useState<Icon[]>([]);
     const [rotation, setRotation] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
@@ -39,60 +38,6 @@ export function IconCloud({ icons, images }: IconCloudProps) {
     } | null>(null);
     const animationFrameRef = useRef<number | undefined>(undefined);
     const rotationRef = useRef(rotation);
-    const iconCanvasesRef = useRef<HTMLCanvasElement[]>([]);
-    const imagesLoadedRef = useRef<boolean[]>([]);
-
-    // Create icon canvases once when icons/images change
-    useEffect(() => {
-        if (!icons && !images) return;
-
-        const items = icons || images || [];
-        imagesLoadedRef.current = new Array(items.length).fill(false);
-
-        const newIconCanvases = items.map((item, index) => {
-            const offscreen = document.createElement("canvas");
-            offscreen.width = 40;
-            offscreen.height = 40;
-            const offCtx = offscreen.getContext("2d");
-
-            if (offCtx) {
-                if (images) {
-                    // Handle image URLs directly
-                    const img = new Image();
-                    img.crossOrigin = "anonymous";
-                    img.src = items[index] as string;
-                    img.onload = () => {
-                        offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
-
-                        // Create circular clipping path
-                        offCtx.beginPath();
-                        offCtx.arc(20, 20, 20, 0, Math.PI * 2);
-                        offCtx.closePath();
-                        offCtx.clip();
-
-                        // Draw the image
-                        offCtx.drawImage(img, 0, 0, 40, 40);
-
-                        imagesLoadedRef.current[index] = true;
-                    };
-                } else {
-                    // Handle SVG icons
-                    offCtx.scale(0.4, 0.4);
-                    const svgString = renderToString(item as React.ReactElement);
-                    const img = new Image();
-                    img.src = "data:image/svg+xml;base64," + btoa(svgString);
-                    img.onload = () => {
-                        offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
-                        offCtx.drawImage(img, 0, 0);
-                        imagesLoadedRef.current[index] = true;
-                    };
-                }
-            }
-            return offscreen;
-        });
-
-        iconCanvasesRef.current = newIconCanvases;
-    }, [icons, images]);
 
     // Generate initial icon positions on a sphere
     useEffect(() => {
@@ -113,9 +58,9 @@ export function IconCloud({ icons, images }: IconCloudProps) {
             const z = Math.sin(phi) * r;
 
             newIcons.push({
-                x: x * 100,
-                y: y * 100,
-                z: z * 100,
+                x: x * 120,
+                y: y * 120,
+                z: z * 120,
                 scale: 1,
                 opacity: 1,
                 id: i,
@@ -125,16 +70,14 @@ export function IconCloud({ icons, images }: IconCloudProps) {
     }, [icons, images]);
 
     // Handle mouse events
-    const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (!rect || !canvasRef.current) return;
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (!rect) return;
 
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const ctx = canvasRef.current.getContext("2d");
-        if (!ctx) return;
-
+        // Check if clicking on an icon for focus animation
         iconPositions.forEach((icon) => {
             const cosX = Math.cos(rotationRef.current.x);
             const sinX = Math.sin(rotationRef.current.x);
@@ -145,8 +88,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
             const rotatedZ = icon.x * sinY + icon.z * cosY;
             const rotatedY = icon.y * cosX + rotatedZ * sinX;
 
-            const screenX = canvasRef.current!.width / 2 + rotatedX;
-            const screenY = canvasRef.current!.height / 2 + rotatedY;
+            const screenX = 200 + rotatedX;
+            const screenY = 200 + rotatedY;
 
             const scale = (rotatedZ + 200) / 300;
             const radius = 20 * scale;
@@ -185,8 +128,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         setLastMousePos({ x: e.clientX, y: e.clientY });
     };
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        const rect = canvasRef.current?.getBoundingClientRect();
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = containerRef.current?.getBoundingClientRect();
         if (rect) {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -210,17 +153,11 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         setIsDragging(false);
     };
 
-    // Animation and rendering
+    // Animation loop
     useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas?.getContext("2d");
-        if (!canvas || !ctx) return;
-
         const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
+            const centerX = 200;
+            const centerY = 200;
             const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY);
             const dx = mousePos.x - centerX;
             const dy = mousePos.y - centerY;
@@ -246,55 +183,12 @@ export function IconCloud({ icons, images }: IconCloudProps) {
                 }
             } else if (!isDragging) {
                 rotationRef.current = {
-                    x: rotationRef.current.x + (dy / canvas.height) * speed,
-                    y: rotationRef.current.y + (dx / canvas.width) * speed,
+                    x: rotationRef.current.x + (dy / 400) * speed,
+                    y: rotationRef.current.y + (dx / 400) * speed,
                 };
             }
 
-            iconPositions.forEach((icon, index) => {
-                const cosX = Math.cos(rotationRef.current.x);
-                const sinX = Math.sin(rotationRef.current.x);
-                const cosY = Math.cos(rotationRef.current.y);
-                const sinY = Math.sin(rotationRef.current.y);
-
-                const rotatedX = icon.x * cosY - icon.z * sinY;
-                const rotatedZ = icon.x * sinY + icon.z * cosY;
-                const rotatedY = icon.y * cosX + rotatedZ * sinX;
-
-                const scale = (rotatedZ + 200) / 300;
-                const opacity = Math.max(0.2, Math.min(1, (rotatedZ + 150) / 200));
-
-                ctx.save();
-                ctx.translate(
-                    canvas.width / 2 + rotatedX,
-                    canvas.height / 2 + rotatedY,
-                );
-                ctx.scale(scale, scale);
-                ctx.globalAlpha = opacity;
-
-                if (icons || images) {
-                    // Only try to render icons/images if they exist
-                    if (
-                        iconCanvasesRef.current[index] &&
-                        imagesLoadedRef.current[index]
-                    ) {
-                        ctx.drawImage(iconCanvasesRef.current[index], -20, -20, 40, 40);
-                    }
-                } else {
-                    // Show numbered circles if no icons/images are provided
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 20, 0, Math.PI * 2);
-                    ctx.fillStyle = "#4444ff";
-                    ctx.fill();
-                    ctx.fillStyle = "white";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.font = "16px Arial";
-                    ctx.fillText(`${icon.id + 1}`, 0, 0);
-                }
-
-                ctx.restore();
-            });
+            setRotation({ ...rotationRef.current });
             animationFrameRef.current = requestAnimationFrame(animate);
         };
 
@@ -305,20 +199,86 @@ export function IconCloud({ icons, images }: IconCloudProps) {
                 cancelAnimationFrame(animationFrameRef.current);
             }
         };
-    }, [icons, images, iconPositions, isDragging, mousePos, targetRotation]);
+    }, [mousePos, isDragging, targetRotation]);
+
+    const items = icons || images || [];
 
     return (
-        <canvas
-            ref={canvasRef}
-            width={400}
-            height={400}
+        <div
+            ref={containerRef}
+            className="relative w-[400px] h-[400px] rounded-lg overflow-hidden cursor-grab active:cursor-grabbing"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
-            className="rounded-lg"
             aria-label="Interactive 3D Icon Cloud"
             role="img"
-        />
+            style={{ 
+                perspective: '800px',
+                transformStyle: 'preserve-3d'
+            }}
+        >
+            <div 
+                className="absolute inset-0 transition-transform duration-75 ease-out"
+                style={{
+                    transform: `rotateX(${rotation.x}rad) rotateY(${rotation.y}rad)`,
+                    transformStyle: 'preserve-3d'
+                }}
+            >
+                {iconPositions.map((icon, index) => {
+                    if (index >= items.length) return null;
+
+                    const cosX = Math.cos(rotation.x);
+                    const sinX = Math.sin(rotation.x);
+                    const cosY = Math.cos(rotation.y);
+                    const sinY = Math.sin(rotation.y);
+
+                    const rotatedX = icon.x * cosY - icon.z * sinY;
+                    const rotatedZ = icon.x * sinY + icon.z * cosY;
+                    const rotatedY = icon.y * cosX + rotatedZ * sinX;
+
+                    const scale = Math.max(0.3, Math.min(1.2, (rotatedZ + 200) / 300));
+                    const opacity = Math.max(0.2, Math.min(1, (rotatedZ + 150) / 200));
+                    const zIndex = Math.round(rotatedZ + 200);
+
+                    return (
+                        <div
+                            key={index}
+                            className="absolute transition-all duration-100 ease-out hover:scale-110"
+                            style={{
+                                left: '50%',
+                                top: '50%',
+                                transform: `translate(-50%, -50%) translate3d(${rotatedX}px, ${rotatedY}px, ${rotatedZ}px) scale(${scale})`,
+                                opacity,
+                                zIndex,
+                                transformStyle: 'preserve-3d'
+                            }}
+                        >
+                            <div className="w-10 h-10 flex items-center justify-center transition-transform duration-200 hover:scale-110">
+                                {icons ? (
+                                    // Render React component
+                                    <div className="w-8 h-8 flex items-center justify-center">
+                                        {items[index]}
+                                    </div>
+                                ) : images ? (
+                                    // Render image
+                                    <img
+                                        src={items[index] as string}
+                                        alt={`Icon ${index + 1}`}
+                                        className="w-8 h-8 object-contain rounded"
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    // Fallback numbered circles
+                                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                                        {icon.id + 1}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
     );
 }

@@ -183,9 +183,7 @@ export default function SkillsSection() {
 
                             <div className="flex flex-col items-center">
                                 <div className="mb-3">
-                                    <IconCloud 
-                                        icons={getIconComponents(selectedCategory.icons)}
-                                    />
+                                <IconCloud icons={getIconComponents(selectedCategory.icons)} />
                                 </div>
                                 
                                 <div className="grid grid-cols-2 gap-3 w-full">
