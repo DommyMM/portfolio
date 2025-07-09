@@ -35,6 +35,11 @@ interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
      * @default 4
      */
     repeat?: number;
+    /**
+     * Whether to disable animation for reduced motion preference
+     * @default false
+     */
+    isReducedMotion?: boolean;
 }
 
 export function Marquee({
@@ -44,11 +49,26 @@ export function Marquee({
     children,
     vertical = false,
     repeat = 4,
+    isReducedMotion = false,
     ...props
 }: MarqueeProps) {
+    // Use ref to access the container after mount
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    // Pause animations when reduced motion is enabled
+    React.useEffect(() => {
+        if (!containerRef.current) return;
+        
+        const marqueeElements = containerRef.current.querySelectorAll('[data-marquee-item]');
+        marqueeElements.forEach((el) => {
+            (el as HTMLElement).style.animationPlayState = isReducedMotion ? 'paused' : 'running';
+        });
+    }, [isReducedMotion]);
+
     return (
         <div
             {...props}
+            ref={containerRef}
             className={cn(
                 "group flex p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none mb-0",
                 {
@@ -60,13 +80,13 @@ export function Marquee({
             style={{
                 '--pause-on-hover': pauseOnHover ? 'paused' : 'running'
             } as React.CSSProperties}
-            onMouseEnter={pauseOnHover ? (e) => {
+            onMouseEnter={pauseOnHover && !isReducedMotion ? (e) => {
                 const marqueeElements = e.currentTarget.querySelectorAll('[data-marquee-item]');
                 marqueeElements.forEach((el) => {
                     (el as HTMLElement).style.animationPlayState = 'paused';
                 });
             } : undefined}
-            onMouseLeave={pauseOnHover ? (e) => {
+            onMouseLeave={pauseOnHover && !isReducedMotion ? (e) => {
                 const marqueeElements = e.currentTarget.querySelectorAll('[data-marquee-item]');
                 marqueeElements.forEach((el) => {
                     (el as HTMLElement).style.animationPlayState = 'running';
@@ -84,7 +104,8 @@ export function Marquee({
                             "animate-marquee-vertical flex-col": vertical,
                         })}
                         style={{
-                            animationDirection: reverse ? 'reverse' : 'normal'
+                            animationDirection: reverse ? 'reverse' : 'normal',
+                            animationPlayState: isReducedMotion ? 'paused' : 'running'
                         }}
                     >
                         {children}
@@ -157,10 +178,11 @@ export interface SkillCategory {
 
 interface SkillsMarqueeProps {
     skillsData: SkillCategory[];
+    isReducedMotion?: boolean;
 }
 
 // Main Skills Marquee Component
-export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
+export default function SkillsMarquee({ skillsData, isReducedMotion = false }: SkillsMarqueeProps) {
     const reversePattern = [false, true, false, true];
     const durationPattern = [30, 40, 30, 40];
     
@@ -184,6 +206,7 @@ export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
                     pauseOnHover
                     className={`[--duration:${durationPattern[index]}s]`}
                     reverse={reversePattern[index]}
+                    isReducedMotion={isReducedMotion}
                 >
                     {rowSkills.map((skill) => (
                         <SkillChip

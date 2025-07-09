@@ -153,7 +153,7 @@ export default function SkillsSection({ isReducedMotion = false }: SkillsSection
                         transition={{ duration: 0.6, delay: 0.4 }}
                         viewport={{ once: true }}
                     >
-                        <SkillsMarquee skillsData={skillsData} />
+                        <SkillsMarquee skillsData={skillsData} isReducedMotion={isReducedMotion} />
                     </motion.div>
                     
                     {/* Left fade overlay */}
