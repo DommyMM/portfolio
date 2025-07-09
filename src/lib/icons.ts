@@ -32,6 +32,7 @@ export const iconMap: Record<string, IconDataUnion> = {
     tailwindcss: { type: 'simple', data: SimpleIcons.siTailwindcss },
     svelte: { type: 'simple', data: SimpleIcons.siSvelte },
     javascript: { type: 'simple', data: SimpleIcons.siJavascript },
+    java: { type: 'local', path: '/java.svg' },
     html5: { type: 'simple', data: SimpleIcons.siHtml5 },
     css3: { type: 'simple', data: SimpleIcons.siCss },
     vite: { type: 'simple', data: SimpleIcons.siVite },
@@ -46,6 +47,8 @@ export const iconMap: Record<string, IconDataUnion> = {
     nodedotjs: { type: 'simple', data: SimpleIcons.siNodedotjs },
     express: { type: 'simple', data: SimpleIcons.siExpress },
     go: { type: 'simple', data: SimpleIcons.siGo },
+    cplusplus: { type: 'local', path: '/cplusplus.svg' },
+    c: { type: 'local', path: '/c.svg' },
     python: { type: 'simple', data: SimpleIcons.siPython },
     postman: { type: 'simple', data: SimpleIcons.siPostman },
     swagger: { type: 'simple', data: SimpleIcons.siSwagger },
@@ -57,7 +60,8 @@ export const iconMap: Record<string, IconDataUnion> = {
 
     // AI/ML Engineering
     pytorch: { type: 'simple', data: SimpleIcons.siPytorch },
-    opencv: { type: 'simple', data: SimpleIcons.siOpencv },
+    computervision: { type: 'simple', data: SimpleIcons.siOpencv },
+    opencv: { type: 'local', path: '/opencv.svg' },
     openai: { type: 'simple', data: SimpleIcons.siOpenai },
     tensorflow: { type: 'simple', data: SimpleIcons.siTensorflow },
     scikitlearn: { type: 'simple', data: SimpleIcons.siScikitlearn },
