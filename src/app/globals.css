@@ -381,3 +381,76 @@ body {
 .animate-marquee {
   animation: marquee var(--duration) linear infinite;
 }
+
+/* Motion Toggle Button - Neumorphic Design */
+.motion-toggle-button {
+  width: 50px;
+  height: 50px;
+  background-color: #191A1E;
+  border-radius: 25px;
+  padding: 6px;
+  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%);
+  transition: all ease 0.3s;
+  position: relative;
+}
+
+/* Hide the checkbox input */
+.motion-toggle-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  display: none;
+}
+
+.motion-toggle-surface {
+  width: 100%;
+  height: 100%;
+  border-radius: 19px;
+  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%);
+  transition: all ease 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a5a5a5;
+}
+
+/* Pressed state (when motion is reduced) */
+.motion-toggle-input:checked + .motion-toggle-surface {
+  box-shadow: inset 1.5px 1.5px 3px #0e0e0e, inset -1.5px -1.5px 3px #5f5e5e;
+  color: rgb(77, 124, 255);
+}
+
+/* Glow effect when motion is enabled (not checked) */
+.motion-toggle-button:not(:has(.motion-toggle-input:checked)) {
+  box-shadow: 
+    1.5px 1.5px 3px #0e0e0e, 
+    -1.5px -1.5px 3px rgb(95 94 94 / 25%), 
+    0 0 20px rgba(34, 197, 94, 0.3),
+    0 0 40px rgba(34, 197, 94, 0.1);
+}
+
+/* Light mode adjustments */
+.light .motion-toggle-button {
+  background-color: #f0f0f0;
+  box-shadow: 1.5px 1.5px 3px #d0d0d0, -1.5px -1.5px 3px #ffffff;
+}
+
+.light .motion-toggle-surface {
+  box-shadow: 1.5px 1.5px 3px #d0d0d0, -1.5px -1.5px 3px #ffffff;
+  color: #666666;
+}
+
+.light .motion-toggle-input:checked + .motion-toggle-surface {
+  box-shadow: inset 1.5px 1.5px 3px #d0d0d0, inset -1.5px -1.5px 3px #ffffff;
+  color: rgb(77, 124, 255);
+}
+
+.light .motion-toggle-button:not(:has(.motion-toggle-input:checked)) {
+  box-shadow: 
+    1.5px 1.5px 3px #d0d0d0, 
+    -1.5px -1.5px 3px #ffffff, 
+    0 0 20px rgba(34, 197, 94, 0.3),
+    0 0 40px rgba(34, 197, 94, 0.1);
+}

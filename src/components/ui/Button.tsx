@@ -5,6 +5,8 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
 
 interface MagicButtonProps {
     title: string;
@@ -158,6 +160,50 @@ export function ToggleButton({
                 }}
                 transition={{ ease: "linear", duration: duration }}
             />
+        </div>
+    );
+}
+
+interface MotionToggleProps {
+    isReducedMotion?: boolean;
+    onToggle?: (isReduced: boolean) => void;
+    className?: string;
+}
+
+export function MotionToggle({ 
+    isReducedMotion = false, 
+    onToggle, 
+    className 
+}: MotionToggleProps) {
+    const handleToggle = () => {
+        onToggle?.(!isReducedMotion);
+    };
+
+    return (
+        <div
+            onClick={handleToggle}
+            className={cn(
+                "motion-toggle-button cursor-pointer select-none",
+                className
+            )}
+        >
+            {/* Hidden checkbox for accessibility */}
+            <input 
+                type="checkbox" 
+                checked={isReducedMotion}
+                onChange={handleToggle}
+                className="motion-toggle-input"
+                aria-label="Toggle motion preferences"
+            />
+            
+            {/* Button surface */}
+            <div className="motion-toggle-surface">
+                {isReducedMotion ? (
+                    <PauseIcon sx={{ fontSize: 16 }} />
+                ) : (
+                    <PlayArrowIcon sx={{ fontSize: 16 }} />
+                )}
+            </div>
         </div>
     );
 }

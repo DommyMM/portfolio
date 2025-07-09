@@ -1,7 +1,7 @@
 "use client";
 
 import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "@/components/ui/FloatingNavbar";
-import { ToggleButton } from "@/components/ui/Button";
+import { ToggleButton, MotionToggle } from "@/components/ui/Button";
 import { useState } from "react";
 
 interface PortfolioNavbarProps {
@@ -45,6 +45,11 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                 <NavbarLogo />
                 <NavItems items={navItems} activeSection={activeSection} />
                 <div className="flex items-center gap-4">
+                    <MotionToggle
+                        isReducedMotion={isReducedMotion}
+                        onToggle={onMotionToggle}
+                        className="scale-90"
+                    />
                     <ToggleButton 
                         isDark={isDarkMode} 
                         onToggle={onThemeToggle}
@@ -84,11 +89,16 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                         </a>
                     ))}
                     <div className="flex w-full flex-col gap-4 mt-4 pt-4 border-t border-gray-300 dark:border-gray-700">
-                        <ToggleButton 
-                            isDark={isDarkMode} 
-                            onToggle={onThemeToggle}
-                            className="self-center"
-                        />
+                        <div className="flex items-center justify-center gap-4">
+                            <MotionToggle
+                                isReducedMotion={isReducedMotion}
+                                onToggle={onMotionToggle}
+                            />
+                            <ToggleButton 
+                                isDark={isDarkMode} 
+                                onToggle={onThemeToggle}
+                            />
+                        </div>
                     </div>
                 </MobileNavMenu>
             </MobileNav>
