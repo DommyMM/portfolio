@@ -145,31 +145,23 @@ interface SkillsMarqueeProps {
 // Main Skills Marquee Component
 export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
     return (
-        <div className="relative backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 rounded-2xl border border-neutral-300 dark:border-neutral-800 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] overflow-hidden">
-            <div className="w-full space-y-8 p-8">
-                {skillsData.map((category: SkillCategory, index: number) => (
-                    <Marquee
-                        key={category.title}
-                        pauseOnHover
-                        className="[--duration:30s]"
-                        reverse={index % 2 === 1}
-                    >
-                        {category.skills.map((skill) => (
-                            <SkillChip
-                                key={skill.name}
-                                name={skill.name}
-                                icon={skill.icon}
-                            />
-                        ))}
-                    </Marquee>
-                ))}
-            </div>
-            
-            {/* Left fade overlay */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-white/80 dark:from-neutral-950/80 to-transparent rounded-l-2xl"></div>
-            
-            {/* Right fade overlay */}
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-white/80 dark:from-neutral-950/80 to-transparent rounded-r-2xl"></div>
+        <div className="w-full space-y-8">
+            {skillsData.map((category: SkillCategory, index: number) => (
+                <Marquee
+                    key={category.title}
+                    pauseOnHover
+                    className="[--duration:30s]"
+                    reverse={index % 2 === 1}
+                >
+                    {category.skills.map((skill) => (
+                        <SkillChip
+                            key={skill.name}
+                            name={skill.name}
+                            icon={skill.icon}
+                        />
+                    ))}
+                </Marquee>
+            ))}
         </div>
     );
 }
