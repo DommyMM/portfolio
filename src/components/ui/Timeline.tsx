@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { useScroll, useTransform, motion } from "motion/react"
 
@@ -193,7 +192,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                                     }}
                                 >
                                     {item.logo ? (
-                                        <Image
+                                        <img
                                             src={item.logo || "/placeholder.svg"}
                                             alt={item.logoAlt || "Company logo"}
                                             width={20}
