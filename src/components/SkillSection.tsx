@@ -5,6 +5,7 @@ import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { IconCloud } from "@/components/ui/IconCloud";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
+import { getIconComponents } from "@/lib/icons";
 
 const skillsData = [
     {
@@ -183,9 +184,7 @@ export default function SkillsSection() {
                             <div className="flex flex-col items-center">
                                 <div className="mb-3">
                                     <IconCloud 
-                                        images={selectedCategory.icons.map(
-                                            (slug) => `https://cdn.simpleicons.org/${slug}/${slug}`
-                                        )} 
+                                        icons={getIconComponents(selectedCategory.icons)}
                                     />
                                 </div>
                                 
