@@ -67,8 +67,10 @@ export function Marquee({
                             "animate-marquee flex-row": !vertical,
                             "animate-marquee-vertical flex-col": vertical,
                             "group-hover:[animation-play-state:paused]": pauseOnHover,
-                            "[animation-direction:reverse]": reverse,
                         })}
+                        style={{
+                            animationDirection: reverse ? 'reverse' : 'normal'
+                        }}
                     >
                         {children}
                     </div>
@@ -144,14 +146,17 @@ interface SkillsMarqueeProps {
 
 // Main Skills Marquee Component
 export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
+    const reversePattern = [false, true, false, true];
+    const durationPattern = [30, 40, 30, 40];
+    
     return (
         <div className="w-full space-y-8">
             {skillsData.map((category: SkillCategory, index: number) => (
                 <Marquee
                     key={category.title}
                     pauseOnHover
-                    className="[--duration:30s]"
-                    reverse={index % 2 === 1}
+                    className={`[--duration:${durationPattern[index]}s]`}
+                    reverse={reversePattern[index]}
                 >
                     {category.skills.map((skill) => (
                         <SkillChip
