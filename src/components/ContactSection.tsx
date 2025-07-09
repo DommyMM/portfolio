@@ -2,12 +2,13 @@
 
 import { motion } from "motion/react";
 import { MagicButton } from "@/components/ui/Button";
+import { useGamingProfilesModal, GamingProfilesModal } from "@/components/ui/GameModal";
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import LanguageIcon from '@mui/icons-material/Language';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -46,16 +47,27 @@ const socialLinks = [
         icon: <LinkedInIcon className="w-5 h-5" />
     },
     {
-        label: "Portfolio",
-        value: "dominicau.ng",
-        href: "https://dominicau.ng",
-        icon: <LanguageIcon className="w-5 h-5" />
+        label: "Game Corner",
+        value: "Let's play together!",
+        href: undefined,
+        icon: <SportsEsportsIcon className="w-5 h-5" />,
+        isModal: true
     }
 ];
 
 export default function ContactSection() {
+    const { isOpen, openModal, closeModal } = useGamingProfilesModal();
+
     const handleEmailClick = () => {
         window.location.href = "mailto:daung@ucdavis.edu?subject=Let's work together!&body=Hi Dominic,%0A%0AI'd love to discuss...";
+    };
+
+    const handleSocialClick = (link: any) => {
+        if (link.isModal) {
+            openModal();
+        } else if (link.href) {
+            window.open(link.href, '_blank');
+        }
     };
 
     return (
@@ -187,7 +199,7 @@ export default function ContactSection() {
                             <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
                         </motion.a>
 
-                        {/* Row 3: Location & Portfolio */}
+                        {/* Row 3: Location & Game Corner */}
                         <motion.div
                             className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
                             initial={{ opacity: 0, x: -20 }}
@@ -206,10 +218,8 @@ export default function ContactSection() {
                             </div>
                         </motion.div>
 
-                        <motion.a
-                            href={socialLinks[2].href}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <motion.button
+                            onClick={() => handleSocialClick(socialLinks[2])}
                             className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -225,8 +235,7 @@ export default function ContactSection() {
                                 <p className="text-sm text-neutral-500 dark:text-neutral-400">{socialLinks[2].label}</p>
                                 <p className="text-neutral-800 dark:text-neutral-200 font-medium">{socialLinks[2].value}</p>
                             </div>
-                            <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
-                        </motion.a>
+                        </motion.button>
                     </div>
                 </motion.div>
 
@@ -247,6 +256,9 @@ export default function ContactSection() {
                     />
                 </motion.div>
             </div>
+
+            {/* Gaming Profiles Modal */}
+            <GamingProfilesModal isOpen={isOpen} onClose={closeModal} />
         </section>
     );
 }

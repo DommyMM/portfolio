@@ -57,7 +57,7 @@ export const Timeline = ({ data }: TimelineProps) => {
         return () => unsubscribe()
     }, [scrollYProgress, data])
 
-    const renderContentWithSlideIn = (content: React.ReactNode, index: number) => {
+    const renderContentWithSlideIn = (content: React.ReactNode) => {
         if (!React.isValidElement(content)) {
             return content
         }
@@ -186,7 +186,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                                                 : "0 4px 16px rgba(0, 0, 0, 0.1)",
                                     }}
                                 >
-                                    {renderContentWithSlideIn(item.content, index)}
+                                    {renderContentWithSlideIn(item.content)}
                                 </motion.div>
                             </div>
                         </motion.div>

@@ -47,6 +47,13 @@ export const iconMap: Record<string, IconData> = {
     docker: { type: 'simple', data: SimpleIcons.siDocker },
     amazonaws: { type: 'local', path: '/amazon.svg' },
     git: { type: 'simple', data: SimpleIcons.siGit },
+
+    // Gaming Platforms
+    steam: { type: 'simple', data: SimpleIcons.siSteam },
+    discord: { type: 'simple', data: SimpleIcons.siDiscord },
+    genshin: { type: 'local', path: '/genshin.webp' },
+    honkai: { type: 'local', path: '/hsr.webp' },
+    wuwa: { type: 'local', path: '/wuwa.webp' },
 };
 
 // Create React component from icon data - the only function we actually use
