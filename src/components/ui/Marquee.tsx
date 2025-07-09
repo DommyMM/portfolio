@@ -40,6 +40,11 @@ interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
      * @default false
      */
     isReducedMotion?: boolean;
+    /**
+     * Animation duration in seconds
+     * @default 30
+     */
+    duration?: number;
 }
 
 export function Marquee({
@@ -50,6 +55,7 @@ export function Marquee({
     vertical = false,
     repeat = 4,
     isReducedMotion = false,
+    duration = 30,
     ...props
 }: MarqueeProps) {
     // Use ref to access the container after mount
@@ -70,7 +76,7 @@ export function Marquee({
             {...props}
             ref={containerRef}
             className={cn(
-                "group flex p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none mb-0",
+                "group flex p-2 [--gap:1rem] [gap:var(--gap)] select-none mb-0",
                 {
                     "flex-row": !vertical,
                     "flex-col": vertical,
@@ -78,7 +84,8 @@ export function Marquee({
                 className,
             )}
             style={{
-                '--pause-on-hover': pauseOnHover ? 'paused' : 'running'
+                '--pause-on-hover': pauseOnHover ? 'paused' : 'running',
+                '--duration': `${duration}s`
             } as React.CSSProperties}
             onMouseEnter={pauseOnHover && !isReducedMotion ? (e) => {
                 const marqueeElements = e.currentTarget.querySelectorAll('[data-marquee-item]');
@@ -184,7 +191,7 @@ interface SkillsMarqueeProps {
 // Main Skills Marquee Component
 export default function SkillsMarquee({ skillsData, isReducedMotion = false }: SkillsMarqueeProps) {
     const reversePattern = [false, true, false, true];
-    const durationPattern = [40, 40, 40, 40];
+    const durationPattern = [30, 40, 30, 40];
     
     // Flatten all skills from all categories
     const allSkills = skillsData.flatMap(category => category.skills);
@@ -204,8 +211,8 @@ export default function SkillsMarquee({ skillsData, isReducedMotion = false }: S
                 <Marquee
                     key={index}
                     pauseOnHover
-                    className={`[--duration:${durationPattern[index]}s]`}
                     reverse={reversePattern[index]}
+                    duration={durationPattern[index]}
                     isReducedMotion={isReducedMotion}
                 >
                     {rowSkills.map((skill) => (
