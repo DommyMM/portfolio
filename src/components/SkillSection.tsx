@@ -59,7 +59,7 @@ const skillsData = [
 
 export default function SkillsSection() {
     return (
-        <section id="skills" className="py-24 relative">
+        <section id="skills">
             <div className="text-center mb-12">
                 <motion.h2 
                     className="text-3xl font-semibold text-neutral-800 dark:text-white mb-4"

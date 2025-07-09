@@ -7,6 +7,7 @@ import SkillsSection from "@/components/SkillSection";
 import WaveGradient from "./ui/Gradient";
 import { PortfolioNavbar } from "@/components/Navbar";
 import { useActiveSection } from "@/hooks/useActive";
+import ContactSection from "./ContactSection";
 
 export default function Home() {
   // Initialize theme state (default to dark mode)
@@ -75,10 +76,7 @@ export default function Home() {
             <SkillsSection />
 
             <section id="contact" className="py-24">
-            <h2 className="text-3xl font-semibold text-neutral-800 dark:text-white mb-8">Contact</h2>
-            <div className="h-32 bg-neutral-100 dark:bg-white/5 rounded-lg border border-neutral-200 dark:border-white/10 flex items-center justify-center text-neutral-500 dark:text-white/40">
-                Coming soon...
-            </div>
+                <ContactSection />
             </section>
         </div>
         </div>
