@@ -10,9 +10,9 @@ const skillsData = [
         title: "Programming Languages",
         skills: [
             { name: "Python", icon: "python" },
-            { name: "Go", icon: "go" },
             { name: "TypeScript", icon: "typescript" },
             { name: "JavaScript", icon: "javascript" },
+            { name: "Go", icon: "go" },
             { name: "C++", icon: "cplusplus" },
             { name: "Java", icon: "java" },
             { name: "SQL", icon: "postgresql" },
@@ -23,12 +23,13 @@ const skillsData = [
         title: "AI/ML Engineering",
         skills: [
             { name: "PyTorch", icon: "pytorch" },
-            { name: "Computer Vision", icon: "computervision" },
             { name: "OpenAI APIs", icon: "openai" },
-            { name: "TensorFlow", icon: "tensorflow" },
+            { name: "Transformers", icon: "huggingface" },
+            { name: "RAG Architecture", icon: "rag" },
+            { name: "Computer Vision", icon: "computervision" },
             { name: "OpenCV", icon: "opencv" },
-            { name: "NumPy", icon: "numpy" },
-            { name: "Pandas", icon: "pandas" }
+            { name: "TensorFlow", icon: "tensorflow" },
+            { name: "NumPy", icon: "numpy" }
         ]
     },
     {
@@ -37,11 +38,11 @@ const skillsData = [
             { name: "React", icon: "react" },
             { name: "Next.js", icon: "nextdotjs" },
             { name: "Tailwind CSS", icon: "tailwindcss" },
+            { name: "Web Speech API", icon: "speechapi" },
             { name: "Svelte", icon: "svelte" },
-            { name: "HTML", icon: "html5" },
-            { name: "CSS", icon: "css3" },
             { name: "Vite", icon: "vite" },
-            { name: "Figma", icon: "figma" }
+            { name: "Figma", icon: "figma" },
+            { name: "Vercel", icon: "vercel" }
         ]
     },
     {
@@ -49,8 +50,8 @@ const skillsData = [
         skills: [
             { name: "FastAPI", icon: "fastapi" },
             { name: "Node.js", icon: "nodedotjs" },
-            { name: "Express", icon: "express" },
-            { name: "Vercel", icon: "vercel" },
+            { name: "CI/CD", icon: "cicd" },
+            { name: "SEO", icon: "seo" },
             { name: "MongoDB", icon: "mongodb" },
             { name: "Docker", icon: "docker" },
             { name: "AWS", icon: "amazonaws" },
