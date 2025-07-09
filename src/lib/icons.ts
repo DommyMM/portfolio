@@ -121,22 +121,23 @@ export function createIconComponent(slug: string, props: React.SVGProps<SVGSVGEl
     if (iconData.type === 'local') {
         // For local SVG files, return an img element
         return React.createElement('img', {
-        src: iconData.path,
-        alt: slug,
-        width: 24,
-        height: 24,
-        ...props
+            src: iconData.path,
+            alt: slug,
+            width: 40,
+            height: 40,
+            ...props
         });
     } else {
-        // For SimpleIcons, create an SVG element
+        // For SimpleIcons, create an SVG element with the actual brand color
+        const iconColor = `#${iconData.data.hex}`;
         return React.createElement('svg', {
-        viewBox: '0 0 24 24',
-        fill: 'currentColor',
-        width: 24,
-        height: 24,
-        ...props
+            viewBox: '0 0 40 40',
+            fill: iconColor,
+            width: 40,
+            height: 40,
+            ...props
         }, React.createElement('path', {
-        d: iconData.data.path
+            d: iconData.data.path
         }));
     }
 }
@@ -146,4 +147,4 @@ export function getIconComponents(slugs: string[], props: React.SVGProps<SVGSVGE
     return slugs
         .map(slug => createIconComponent(slug, props))
         .filter((icon): icon is React.ReactElement => icon !== null);
-} 
+}
