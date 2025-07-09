@@ -27,7 +27,7 @@ export default function Home() {
             activeSection={activeSection}
         />
 
-        <WaveGradient isReducedMotion={isReducedMotion} />
+        <WaveGradient />
         
         {/* Main Content */}
         <section id="about">
