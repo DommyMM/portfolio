@@ -144,9 +144,16 @@ export function GamingProfilesModal({ isOpen, onClose }: GamingProfilesModalProp
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-neutral-800 dark:text-white">{profile.game}</p>
-                                                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                                                    Creator of WuWaBuilds
-                                                </p>
+                                                                                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                                    Creator of <a 
+                                        href="https://wuwabuilds.moe" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors duration-200"
+                                    >
+                                        WuWaBuilds
+                                    </a>
+                                </p>
                                                 {profile.userId && (
                                                     <p className="text-sm font-mono text-neutral-700 dark:text-neutral-300">
                                                         ID: {profile.userId}

@@ -1,6 +1,6 @@
 "use client";
 
-import AboutHero from "@/components/AboutHero";
+import AboutHero from "@/components/Hero";
 import WorkEducation from "@/components/WorkEducation";
 import SkillsSection from "@/components/SkillSection";
 import WaveGradient from "./ui/Gradient";
