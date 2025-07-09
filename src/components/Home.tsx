@@ -75,9 +75,7 @@ export default function Home() {
 
             <SkillsSection />
 
-            <section id="contact" className="py-24">
-                <ContactSection />
-            </section>
+            <ContactSection />
         </div>
         </div>
     );
