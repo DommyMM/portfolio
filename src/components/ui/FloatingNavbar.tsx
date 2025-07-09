@@ -145,8 +145,10 @@ export const NavItems = ({ items, className, onItemClick, visible, activeSection
                 setIsNavbarHovered(false);
             }}
             className={cn(
-                "hidden flex-1 flex-row items-center justify-start space-x-2 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-2 pl-8",
-                visible ? "text-xl" : "text-2xl",
+                "hidden flex-1 flex-row items-center space-x-2 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-2",
+                visible 
+                    ? "justify-start pl-8 text-xl" 
+                    : "justify-center text-2xl",
                 className,
             )}
         >
