@@ -20,8 +20,6 @@ export const Timeline = ({ data }: TimelineProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0)
     const [itemProgress, setItemProgress] = useState<number[]>(new Array(data.length).fill(0))
-    const [manualItems, setManualItems] = useState<Set<number>>(new Set([0]))
-    const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0]))
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -55,44 +53,11 @@ export const Timeline = ({ data }: TimelineProps) => {
                 return itemProgress
             })
             setItemProgress(newProgress)
-            
-            // Auto-expand/collapse items based on scroll progress
-            setExpandedItems(prev => {
-                const newExpanded = new Set(prev)
-                
-                newProgress.forEach((progress, index) => {
-                    if (!manualItems.has(index)) {
-                        if (progress > 0.3) {
-                            newExpanded.add(index)
-                        } else if (index !== 0) {
-                            newExpanded.delete(index)
-                        }
-                    }
-                })
-                
-                return newExpanded
-            })
         })
         return () => unsubscribe()
-    }, [scrollYProgress, data, manualItems])
+    }, [scrollYProgress, data])
 
-    const toggleExpanded = (index: number) => {
-        // Prevent collapsing the first item
-        if (index === 0) return
-        
-        setManualItems(prev => new Set([...prev, index]))
-        setExpandedItems(prev => {
-            const newExpanded = new Set(prev)
-            if (newExpanded.has(index)) {
-                newExpanded.delete(index)
-            } else {
-                newExpanded.add(index)
-            }
-            return newExpanded
-        })
-    }
-
-    const renderContentWithExpansion = (content: React.ReactNode, index: number) => {
+    const renderContentWithSlideIn = (content: React.ReactNode, index: number) => {
         if (!React.isValidElement(content)) {
             return content
         }
@@ -108,57 +73,31 @@ export const Timeline = ({ data }: TimelineProps) => {
                 if (childProps.className === "expandable-content") {
                     return (
                         <motion.div
-                            initial={{ 
-                                height: 0, 
-                                opacity: 0,
-                                scale: 0.95,
-                                transformOrigin: "top center"
-                            }}
-                            animate={{
-                                height: expandedItems.has(index) ? "auto" : 0,
-                                opacity: expandedItems.has(index) ? 1 : 0,
-                                scale: expandedItems.has(index) ? 1 : 0.95,
-                            }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             transition={{ 
                                 duration: 0.4, 
-                                ease: "easeOut",
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 30
+                                delay: 0.2,
+                                ease: "easeOut"
                             }}
-                            className="overflow-hidden"
+                            viewport={{ once: true, amount: 0.3 }}
                         >
-                            <motion.div
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{
-                                    y: expandedItems.has(index) ? 0 : 20,
-                                    opacity: expandedItems.has(index) ? 1 : 0,
-                                }}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: expandedItems.has(index) ? 0.1 : 0,
-                                    ease: "easeOut"
-                                }}
-                            >
-                                {/* Stagger individual bullets */}
-                                {React.Children.map(childProps.children, (bullet, bulletIndex) => (
-                                    <motion.div
-                                        key={bulletIndex}
-                                        initial={{ x: -10, opacity: 0 }}
-                                        animate={{
-                                            x: expandedItems.has(index) ? 0 : -10,
-                                            opacity: expandedItems.has(index) ? 1 : 0,
-                                        }}
-                                        transition={{
-                                            duration: 0.3,
-                                            delay: expandedItems.has(index) ? 0.15 + (bulletIndex * 0.1) : 0,
-                                            ease: "easeOut"
-                                        }}
-                                    >
-                                        {bullet}
-                                    </motion.div>
-                                ))}
-                            </motion.div>
+                            {/* Stagger individual bullets */}
+                            {React.Children.map(childProps.children, (bullet, bulletIndex) => (
+                                <motion.div
+                                    key={bulletIndex}
+                                    initial={{ x: -20, opacity: 0 }}
+                                    whileInView={{ x: 0, opacity: 1 }}
+                                    transition={{
+                                        duration: 0.4,
+                                        delay: 0.3 + (bulletIndex * 0.1),
+                                        ease: "easeOut"
+                                    }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                >
+                                    {bullet}
+                                </motion.div>
+                            ))}
                         </motion.div>
                     )
                 }
@@ -247,31 +186,7 @@ export const Timeline = ({ data }: TimelineProps) => {
                                                 : "0 4px 16px rgba(0, 0, 0, 0.1)",
                                     }}
                                 >
-                                    {/* Render the content with expansion handling */}
-                                    {renderContentWithExpansion(item.content, index)}
-
-                                    {/* Expand/Collapse button - hide for first item */}
-                                    {index !== 0 && (
-                                        <motion.div
-                                            className="flex items-center justify-between mt-4 pt-3 border-t border-gray-600/30 dark:border-white/10 cursor-pointer"
-                                            onClick={() => toggleExpanded(index)}
-                                            whileHover={{ scale: 1.02 }}
-                                            whileTap={{ scale: 0.98 }}
-                                        >
-                                            <span className="text-xs text-gray-400 dark:text-gray-500">
-                                                Click to {expandedItems.has(index) ? "collapse" : "expand"}
-                                            </span>
-                                            <motion.div
-                                                animate={{ rotate: expandedItems.has(index) ? 180 : 0 }}
-                                                transition={{ duration: 0.3 }}
-                                                className="text-blue-400"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </motion.div>
-                                        </motion.div>
-                                    )}
+                                    {renderContentWithSlideIn(item.content, index)}
                                 </motion.div>
                             </div>
                         </motion.div>

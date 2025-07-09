@@ -69,9 +69,7 @@ export default function Home() {
             </div>
             </section>
 
-            <section id="work">
             <WorkEducation />
-            </section>
 
             <SkillsSection />
 
