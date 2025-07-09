@@ -50,7 +50,7 @@ export function Marquee({
         <div
             {...props}
             className={cn(
-                "group flex p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none cursor-default mb-0",
+                "group flex p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none mb-0",
                 {
                     "flex-row": !vertical,
                     "flex-col": vertical,
@@ -92,7 +92,7 @@ const SkillChip = ({
     return (
         <div
             className={cn(
-                "group relative transform-gpu overflow-hidden rounded-full bg-white/10 px-4 py-2 transition-transform hover:scale-105 cursor-default select-none",
+                "group relative transform-gpu overflow-hidden rounded-full bg-white/10 px-4 py-2 transition-transform hover:scale-105 cursor-pointer select-none",
                 className
             )}
             ref={parentRef}

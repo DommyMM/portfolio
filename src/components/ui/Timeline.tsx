@@ -18,7 +18,7 @@ interface TimelineProps {
 export const Timeline = ({ data }: TimelineProps) => {
     const ref = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
-    const [height, ] = useState(0)
+    const [height, setHeight] = useState(0)
     const [itemProgress, setItemProgress] = useState<number[]>(new Array(data.length).fill(0))
     const [manualItems, setManualItems] = useState<Set<number>>(new Set([0]))
     const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set([0]))
@@ -30,6 +30,20 @@ export const Timeline = ({ data }: TimelineProps) => {
 
     const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height])
     const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1])
+
+    // Reactive height calculation using ResizeObserver
+    useEffect(() => {
+        if (!ref.current) return;
+        
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                setHeight(entry.contentRect.height);
+            }
+        });
+        
+        resizeObserver.observe(ref.current);
+        return () => resizeObserver.disconnect();
+    }, []);
 
     useEffect(() => {
         const unsubscribe = scrollYProgress.on("change", (progress) => {
