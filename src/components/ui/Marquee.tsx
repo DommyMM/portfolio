@@ -70,7 +70,11 @@ export function Marquee({
             {...props}
             ref={containerRef}
             className={cn(
-                "group flex flex-row p-2 [--gap:1rem] [gap:var(--gap)] select-none mb-0 overflow-hidden",
+                "group flex p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none mb-0",
+                {
+                    "flex-row": !vertical,
+                    "flex-col": vertical,
+                },
                 className,
             )}
             style={{
