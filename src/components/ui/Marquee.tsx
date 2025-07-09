@@ -50,7 +50,7 @@ export function Marquee({
         <div
             {...props}
             className={cn(
-                "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+                "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] select-none cursor-default mb-0",
                 {
                     "flex-row": !vertical,
                     "flex-col": vertical,
@@ -92,7 +92,7 @@ const SkillChip = ({
     return (
         <div
             className={cn(
-                "group relative transform-gpu overflow-hidden rounded-full bg-white/10 px-4 py-2 transition-transform hover:scale-105",
+                "group relative transform-gpu overflow-hidden rounded-full bg-white/10 px-4 py-2 transition-transform hover:scale-105 cursor-default select-none",
                 className
             )}
             ref={parentRef}
@@ -117,11 +117,11 @@ const SkillChip = ({
             
             <div className="absolute inset-px rounded-full bg-neutral-100/80 dark:bg-neutral-900/80" />
             
-            <div className="relative flex items-center space-x-2 px-2 py-1">
+            <div className="relative flex items-center space-x-2 px-2 py-1 select-none">
                 <div className="w-4 h-4 flex items-center justify-center">
                     {createIconComponent(icon, { className: "w-4 h-4" })}
                 </div>
-                <span className="text-sm font-medium text-neutral-800 dark:text-neutral-300 whitespace-nowrap">
+                <span className="text-sm font-medium text-neutral-800 dark:text-neutral-300 whitespace-nowrap select-none">
                     {name}
                 </span>
             </div>
@@ -142,31 +142,26 @@ interface SkillsMarqueeProps {
     skillsData: SkillCategory[];
 }
 
-// Main Skills Marquee Component (Default Export)
+// Main Skills Marquee Component
 export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
     return (
         <div className="relative backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 rounded-2xl border border-neutral-300 dark:border-neutral-800 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] p-8">
             <div className="w-full space-y-8">
                 {skillsData.map((category: SkillCategory, index: number) => (
-                    <div key={category.title} className="space-y-4">
-                        <h3 className="text-lg font-semibold text-neutral-800 dark:text-white text-center">
-                            {category.title}
-                        </h3>
-                        
-                        <Marquee
-                            pauseOnHover
-                            className="[--duration:30s]"
-                            reverse={index % 2 === 1}
-                        >
-                            {category.skills.map((skill) => (
-                                <SkillChip
-                                    key={skill.name}
-                                    name={skill.name}
-                                    icon={skill.icon}
-                                />
-                            ))}
-                        </Marquee>
-                    </div>
+                    <Marquee
+                        key={category.title}
+                        pauseOnHover
+                        className="[--duration:30s]"
+                        reverse={index % 2 === 1}
+                    >
+                        {category.skills.map((skill) => (
+                            <SkillChip
+                                key={skill.name}
+                                name={skill.name}
+                                icon={skill.icon}
+                            />
+                        ))}
+                    </Marquee>
                 ))}
             </div>
         </div>

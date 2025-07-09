@@ -123,18 +123,18 @@ export function createIconComponent(slug: string, props: React.SVGProps<SVGSVGEl
         return React.createElement('img', {
             src: iconData.path,
             alt: slug,
-            width: 40,
-            height: 40,
+            width: 24,
+            height: 24,
             ...props
         });
     } else {
         // For SimpleIcons, create an SVG element with the actual brand color
         const iconColor = `#${iconData.data.hex}`;
         return React.createElement('svg', {
-            viewBox: '0 0 40 40',
+            viewBox: '0 0 24 24',
             fill: iconColor,
-            width: 40,
-            height: 40,
+            width: 24,
+            height: 24,
             ...props
         }, React.createElement('path', {
             d: iconData.data.path
