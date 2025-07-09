@@ -129,67 +129,25 @@ const SkillChip = ({
     );
 };
 
-// Skills data
-const skillsData = [
-    {
-        title: "Programming Languages",
-        skills: [
-            { name: "Python", icon: "python" },
-            { name: "TypeScript", icon: "typescript" },
-            { name: "JavaScript", icon: "javascript" },
-            { name: "Go", icon: "go" },
-            { name: "Java", icon: "java" },
-            { name: "C++", icon: "cplusplus" },
-            { name: "SQL", icon: "postgresql" }
-        ]
-    },
-    {
-        title: "AI/ML Engineering",
-        skills: [
-            { name: "PyTorch", icon: "pytorch" },
-            { name: "Computer Vision", icon: "opencv" },
-            { name: "OpenAI APIs", icon: "openai" },
-            { name: "TensorFlow", icon: "tensorflow" },
-            { name: "Scikit-Learn", icon: "scikitlearn" },
-            { name: "Jupyter", icon: "jupyter" },
-            { name: "NumPy", icon: "numpy" },
-            { name: "Pandas", icon: "pandas" }
-        ]
-    },
-    {
-        title: "Frontend Development",
-        skills: [
-            { name: "React", icon: "react" },
-            { name: "Next.js", icon: "nextdotjs" },
-            { name: "Tailwind CSS", icon: "tailwindcss" },
-            { name: "Svelte", icon: "svelte" },
-            { name: "HTML5", icon: "html5" },
-            { name: "CSS3", icon: "css3" },
-            { name: "Vite", icon: "vite" },
-            { name: "Figma", icon: "figma" }
-        ]
-    },
-    {
-        title: "Backend & Infrastructure",
-        skills: [
-            { name: "FastAPI", icon: "fastapi" },
-            { name: "Node.js", icon: "nodedotjs" },
-            { name: "Express", icon: "express" },
-            { name: "PostgreSQL", icon: "postgresql" },
-            { name: "MongoDB", icon: "mongodb" },
-            { name: "Docker", icon: "docker" },
-            { name: "AWS", icon: "amazonaws" },
-            { name: "Git", icon: "git" }
-        ]
-    }
-];
+// Skills data type
+export interface SkillCategory {
+    title: string;
+    skills: Array<{
+        name: string;
+        icon: string;
+    }>;
+}
+
+interface SkillsMarqueeProps {
+    skillsData: SkillCategory[];
+}
 
 // Main Skills Marquee Component (Default Export)
-export default function SkillsMarquee() {
+export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
     return (
         <div className="relative backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 rounded-2xl border border-neutral-300 dark:border-neutral-800 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] p-8">
             <div className="w-full space-y-8">
-                {skillsData.map((category, index) => (
+                {skillsData.map((category: SkillCategory, index: number) => (
                     <div key={category.title} className="space-y-4">
                         <h3 className="text-lg font-semibold text-neutral-800 dark:text-white text-center">
                             {category.title}

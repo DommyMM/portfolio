@@ -3,6 +3,60 @@
 import { motion } from "motion/react";
 import SkillsMarquee from "@/components/ui/Marquee";
 
+// Skills data
+const skillsData = [
+    {
+        title: "Programming Languages",
+        skills: [
+            { name: "Python", icon: "python" },
+            { name: "TypeScript", icon: "typescript" },
+            { name: "JavaScript", icon: "javascript" },
+            { name: "Go", icon: "go" },
+            { name: "Java", icon: "java" },
+            { name: "C++", icon: "cplusplus" },
+            { name: "SQL", icon: "postgresql" }
+        ]
+    },
+    {
+        title: "AI/ML Engineering",
+        skills: [
+            { name: "PyTorch", icon: "pytorch" },
+            { name: "Computer Vision", icon: "opencv" },
+            { name: "OpenAI APIs", icon: "openai" },
+            { name: "TensorFlow", icon: "tensorflow" },
+            { name: "Jupyter", icon: "jupyter" },
+            { name: "NumPy", icon: "numpy" },
+            { name: "Pandas", icon: "pandas" }
+        ]
+    },
+    {
+        title: "Frontend Development",
+        skills: [
+            { name: "React", icon: "react" },
+            { name: "Next.js", icon: "nextdotjs" },
+            { name: "Tailwind CSS", icon: "tailwindcss" },
+            { name: "Svelte", icon: "svelte" },
+            { name: "HTML", icon: "html5" },
+            { name: "CSS", icon: "css3" },
+            { name: "Vite", icon: "vite" },
+            { name: "Figma", icon: "figma" }
+        ]
+    },
+    {
+        title: "Backend & Infrastructure",
+        skills: [
+            { name: "FastAPI", icon: "fastapi" },
+            { name: "Node.js", icon: "nodedotjs" },
+            { name: "Express", icon: "express" },
+            { name: "PostgreSQL", icon: "postgresql" },
+            { name: "MongoDB", icon: "mongodb" },
+            { name: "Docker", icon: "docker" },
+            { name: "AWS", icon: "amazonaws" },
+            { name: "Git", icon: "git" }
+        ]
+    }
+];
+
 export default function SkillsSection() {
     return (
         <section id="skills" className="py-24 relative">
@@ -33,7 +87,7 @@ export default function SkillsSection() {
                 viewport={{ once: true }}
                 className="max-w-6xl mx-auto px-4"
             >
-                <SkillsMarquee />
+                <SkillsMarquee skillsData={skillsData} />
             </motion.div>
         </section>
     );

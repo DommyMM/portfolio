@@ -25,7 +25,7 @@ const workEducationData = [
                     Lumeno AI
                 </a>
                 </h3>
-                <p className="text-gray-400 text-sm">July 2025 – Aug. 2025</p>
+                <p className="text-gray-400 text-sm">July 2025 – Sep. 2025</p>
             </div>
             <div className="flex justify-between items-center">
                 <p className="text-white font-medium">Software Engineer Intern</p>
