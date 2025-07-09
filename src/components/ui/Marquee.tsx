@@ -164,18 +164,30 @@ export default function SkillsMarquee({ skillsData }: SkillsMarqueeProps) {
     const reversePattern = [false, true, false, true];
     const durationPattern = [30, 40, 30, 40];
     
+    // Flatten all skills from all categories
+    const allSkills = skillsData.flatMap(category => category.skills);
+    
+    // Diagonal distribution: take every 4th skill starting from different offsets
+    const skillRows = Array.from({ length: 4 }, (_, rowIndex) => {
+        const rowSkills = [];
+        for (let i = rowIndex; i < allSkills.length; i += 4) {
+            rowSkills.push(allSkills[i]);
+        }
+        return rowSkills;
+    });
+    
     return (
         <div className="w-full space-y-8">
-            {skillsData.map((category: SkillCategory, index: number) => (
+            {skillRows.map((rowSkills, index) => (
                 <Marquee
-                    key={category.title}
+                    key={index}
                     pauseOnHover
                     className={`[--duration:${durationPattern[index]}s]`}
                     reverse={reversePattern[index]}
                 >
-                    {category.skills.map((skill) => (
+                    {rowSkills.map((skill) => (
                         <SkillChip
-                            key={skill.name}
+                            key={`${skill.name}-${index}`}
                             name={skill.name}
                             icon={skill.icon}
                         />
