@@ -36,7 +36,14 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
                     <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none">
-                        <TextDecoder text="Dominic Aung" />
+                        {isReducedMotion ? (
+                            <TextGenerateEffect 
+                                words="Dominic Aung" 
+                                className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none [&>div>div]:!text-6xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
+                            />
+                        ) : (
+                            <TextDecoder text="Dominic Aung" />
+                        )}
                     </h1>
                     {/* Triangular Layout */}
                     <div className="flex flex-col items-center mt-12 space-y-6">
