@@ -105,7 +105,11 @@ function SimpleSkills({ skillsData }: { skillsData: SkillCategory[] }) {
     );
 }
 
-export default function SkillsSection() {
+interface SkillsSectionProps {
+    isReducedMotion?: boolean;
+}
+
+export default function SkillsSection({ isReducedMotion = false }: SkillsSectionProps) {
     return (
         <section id="skills" className="py-24">
             <div className="text-center mb-12">

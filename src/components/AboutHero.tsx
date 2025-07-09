@@ -15,7 +15,11 @@ const specialties = [
     "Gacha Games"
 ];
 
-export default function AboutHero() {
+interface AboutHeroProps {
+    isReducedMotion?: boolean;
+}
+
+export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
     const handleViewWork = () => {
         const projectsSection = document.getElementById('projects');
         if (projectsSection) {

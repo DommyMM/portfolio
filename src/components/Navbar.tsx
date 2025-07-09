@@ -7,10 +7,12 @@ import { useState } from "react";
 interface PortfolioNavbarProps {
     isDarkMode: boolean;
     onThemeToggle: (isDark: boolean) => void;
+    isReducedMotion: boolean;
+    onMotionToggle: (isReduced: boolean) => void;
     activeSection?: string;
 }
 
-export function PortfolioNavbar({ isDarkMode, onThemeToggle, activeSection }: PortfolioNavbarProps) {
+export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, onMotionToggle, activeSection }: PortfolioNavbarProps) {
     const navItems = [
         {
             name: "About",

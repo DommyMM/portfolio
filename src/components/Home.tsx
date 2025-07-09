@@ -1,45 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import AboutHero from "@/components/AboutHero";
 import WorkEducation from "@/components/WorkEducation";
 import SkillsSection from "@/components/SkillSection";
 import WaveGradient from "./ui/Gradient";
 import { PortfolioNavbar } from "@/components/Navbar";
 import { useActiveSection } from "@/hooks/useActive";
+import { usePreferences } from "@/hooks/usePreferences";
 import ContactSection from "./ContactSection";
 
 export default function Home() {
-  // Initialize theme state (default to dark mode)
-    const [isDarkMode, setIsDarkMode] = useState(true);
-
-    // Apply theme class to document root on mount and theme changes
-    useEffect(() => {
-        const root = document.documentElement;
-        if (isDarkMode) {
-        root.classList.add('dark');
-        root.classList.remove('light');
-        } else {
-        root.classList.add('light');
-        root.classList.remove('dark');
-        }
-    }, [isDarkMode]);
-
-    // Persist theme preference in localStorage
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-        setIsDarkMode(savedTheme === 'dark');
-        }
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    }, [isDarkMode]);
-
-    const handleThemeToggle = (newIsDark: boolean) => {
-        setIsDarkMode(newIsDark);
-    };
+    // Use unified preferences hook for both theme and motion
+    const { isDarkMode, isReducedMotion, toggleTheme, toggleMotion } = usePreferences();
 
     // Track active section based on scroll
     const activeSection = useActiveSection();
@@ -49,15 +21,17 @@ export default function Home() {
         {/* Portfolio Navbar */}
         <PortfolioNavbar 
             isDarkMode={isDarkMode} 
-            onThemeToggle={handleThemeToggle}
+            onThemeToggle={toggleTheme}
+            isReducedMotion={isReducedMotion}
+            onMotionToggle={toggleMotion}
             activeSection={activeSection}
         />
 
-        <WaveGradient />
+        <WaveGradient isReducedMotion={isReducedMotion} />
         
         {/* Main Content */}
         <section id="about">
-            <AboutHero />
+            <AboutHero isReducedMotion={isReducedMotion} />
         </section>
         
         {/* Other Sections */}
@@ -71,7 +45,7 @@ export default function Home() {
 
             <WorkEducation />
 
-            <SkillsSection />
+            <SkillsSection isReducedMotion={isReducedMotion} />
 
             <ContactSection />
         </div>
