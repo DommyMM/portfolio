@@ -57,16 +57,31 @@ export function Marquee({
                 },
                 className,
             )}
+            style={{
+                '--pause-on-hover': pauseOnHover ? 'paused' : 'running'
+            } as React.CSSProperties}
+            onMouseEnter={pauseOnHover ? (e) => {
+                const marqueeElements = e.currentTarget.querySelectorAll('[data-marquee-item]');
+                marqueeElements.forEach((el) => {
+                    (el as HTMLElement).style.animationPlayState = 'paused';
+                });
+            } : undefined}
+            onMouseLeave={pauseOnHover ? (e) => {
+                const marqueeElements = e.currentTarget.querySelectorAll('[data-marquee-item]');
+                marqueeElements.forEach((el) => {
+                    (el as HTMLElement).style.animationPlayState = 'running';
+                });
+            } : undefined}
         >
             {Array(repeat)
                 .fill(0)
                 .map((_, i) => (
                     <div
                         key={i}
+                        data-marquee-item
                         className={cn("flex shrink-0 justify-around [gap:var(--gap)]", {
                             "animate-marquee flex-row": !vertical,
                             "animate-marquee-vertical flex-col": vertical,
-                            "group-hover:[animation-play-state:paused]": pauseOnHover,
                         })}
                         style={{
                             animationDirection: reverse ? 'reverse' : 'normal'
