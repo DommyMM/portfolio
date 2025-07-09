@@ -37,7 +37,7 @@ export const TextGenerateEffect = ({
             return (
                 <motion.span
                 key={char + idx}
-                className="dark:text-gray-500 text-black opacity-0"
+                className="gradient-dance font-semibold opacity-0"
                 style={{
                     filter: filter ? "blur(10px)" : "none",
                 }}
@@ -53,7 +53,7 @@ export const TextGenerateEffect = ({
     return (
         <div className={cn("font-bold", className)}>
         <div className="mt-4">
-            <div className=" dark:text-gray-500 text-black text-xl md:text-2xl lg:text-3xl leading-snug tracking-wide">
+            <div className="text-xl md:text-2xl lg:text-3xl leading-snug tracking-wide">
             {renderChars()}
             </div>
         </div>
