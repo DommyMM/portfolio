@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { createIconComponent } from "@/lib/icons";
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LaunchIcon from '@mui/icons-material/Launch';
 import CloseIcon from '@mui/icons-material/Close';
@@ -54,14 +53,29 @@ interface GamingProfilesModalProps {
 
 export function GamingProfilesModal({ isOpen, onClose }: GamingProfilesModalProps) {
     const [copiedId, setCopiedId] = useState<string>("");
+    const [showToast, setShowToast] = useState(false);
+    const [toastText, setToastText] = useState("");
 
     const copyToClipboard = async (text: string, game: string) => {
         try {
             await navigator.clipboard.writeText(text);
             setCopiedId(game);
+            
+            // Determine if it's a UID (numeric) or username
+            const isUID = /^\d+$/.test(text);
+            setToastText(isUID ? "UID copied" : "Username copied");
+            setShowToast(true);
+            
+            // Hide button state after 2s
             setTimeout(() => setCopiedId(""), 2000);
+            
+            // Hide toast after 3s
+            setTimeout(() => setShowToast(false), 3000);
         } catch (err) {
             console.error('Failed to copy: ', err);
+            setToastText("Failed to copy");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
         }
     };
 
@@ -69,24 +83,37 @@ export function GamingProfilesModal({ isOpen, onClose }: GamingProfilesModalProp
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop */}
+                    {/* Modal Container with Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
-                    />
-                    
-                    {/* Modal */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
                     >
-                        <div className="relative backdrop-blur-md bg-white/90 dark:bg-neutral-950/90 rounded-2xl border border-neutral-300 dark:border-neutral-800 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            className="relative backdrop-blur-md bg-white/90 dark:bg-neutral-950/90 rounded-2xl border border-neutral-300 dark:border-neutral-800 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            
+                            {/* Toast */}
+                            <AnimatePresence>
+                                {showToast && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                                        transition={{ duration: 0.3, ease: "easeOut" }}
+                                        className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium"
+                                    >
+                                        {toastText}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                             
                             {/* Header */}
                             <div className="flex items-center justify-center mb-6 relative">
@@ -181,7 +208,7 @@ export function GamingProfilesModal({ isOpen, onClose }: GamingProfilesModalProp
                                     </motion.div>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
                     </motion.div>
                 </>
             )}
@@ -197,7 +224,7 @@ export function useGamingProfilesModal() {
         isOpen,
         openModal: () => setIsOpen(true),
         closeModal: () => setIsOpen(false),
-        Modal: ({ children, ...props }: { children?: React.ReactNode }) => (
+        Modal: (props: object) => (
             <GamingProfilesModal isOpen={isOpen} onClose={() => setIsOpen(false)} {...props} />
         )
     };

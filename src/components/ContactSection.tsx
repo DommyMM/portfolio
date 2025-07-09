@@ -15,8 +15,8 @@ import SendIcon from '@mui/icons-material/Send';
 const contactInfo = [
     {
         label: "Email",
-        value: "daung@ucdavis.edu",
-        href: "mailto:daung@ucdavis.edu",
+        value: "dominichhaung@gmail.com",
+        href: "mailto:dominichhaung@gmail.com",
         icon: <EmailIcon className="w-5 h-5" />
     },
     {
@@ -47,8 +47,8 @@ const socialLinks = [
         icon: <LinkedInIcon className="w-5 h-5" />
     },
     {
-        label: "Game Corner",
-        value: "Let's play together!",
+        label: "Accounts",
+        value: "Video Games",
         href: undefined,
         icon: <SportsEsportsIcon className="w-5 h-5" />,
         isModal: true
@@ -59,10 +59,10 @@ export default function ContactSection() {
     const { isOpen, openModal, closeModal } = useGamingProfilesModal();
 
     const handleEmailClick = () => {
-        window.location.href = "mailto:daung@ucdavis.edu?subject=Let's work together!&body=Hi Dominic,%0A%0AI'd love to discuss...";
+        window.location.href = "mailto:dominichhaung@gmail.com?subject=Let's work together!&body=Hi Dominic,%0A%0AI'd love to discuss...";
     };
 
-    const handleSocialClick = (link: any) => {
+    const handleSocialClick = (link: { isModal?: boolean; href?: string }) => {
         if (link.isModal) {
             openModal();
         } else if (link.href) {
@@ -220,7 +220,7 @@ export default function ContactSection() {
 
                         <motion.button
                             onClick={() => handleSocialClick(socialLinks[2])}
-                            className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
+                            className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group w-full text-left"
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: 0.6 }}
@@ -235,6 +235,7 @@ export default function ContactSection() {
                                 <p className="text-sm text-neutral-500 dark:text-neutral-400">{socialLinks[2].label}</p>
                                 <p className="text-neutral-800 dark:text-neutral-200 font-medium">{socialLinks[2].value}</p>
                             </div>
+                            <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
                         </motion.button>
                     </div>
                 </motion.div>
