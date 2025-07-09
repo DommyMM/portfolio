@@ -51,7 +51,7 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                         <div className="text-3xl md:text-6xl lg:text-7xl select-none">
                             <TextSlider 
                                 roles={["Full-Stack Developer"]} 
-                                startupOnly={true} 
+                                isReducedMotion={isReducedMotion}
                                 className="text-3xl md:text-6xl lg:text-7xl"
                             />
                         </div>
@@ -60,6 +60,7 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                         <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl mb-2 select-none">
                             <TextSlider 
                                 roles={specialties} 
+                                isReducedMotion={isReducedMotion}
                                 className="text-xl md:text-5xl lg:text-6xl"
                             />
                         </div>

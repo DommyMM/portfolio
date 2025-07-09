@@ -6,14 +6,14 @@ interface TextSliderProps {
     roles: string[];
     interval?: number;
     className?: string;
-    startupOnly?: boolean;
+    isReducedMotion?: boolean;
 }
 
 export function TextSlider({ 
     roles, 
     interval = 5000, 
     className = "", 
-    startupOnly = false
+    isReducedMotion = false
 }: TextSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(true);
@@ -27,8 +27,8 @@ export function TextSlider({
             setIsAnimating(false);
         }, 500); // Match the overlay animation duration
     
-        // Setup cycling if not startupOnly
-        if (!startupOnly && roles.length > 1) {
+        // Setup cycling if multiple roles
+        if (roles.length > 1) {
             intervalRef.current = setInterval(() => {
                 // Step 1: Hide text completely (fade out + slide down)
                 setIsVisible(false);
@@ -54,7 +54,7 @@ export function TextSlider({
                 clearInterval(intervalRef.current);
             }
         };
-    }, [roles.length, interval, startupOnly]);
+    }, [roles.length, interval, isReducedMotion]);
 
     if (roles.length === 0) return null;
 
@@ -78,16 +78,18 @@ export function TextSlider({
                 </span>
                 
                 {/* Sliding overlay - covers text */}
-                <span 
-                    className={`
-                        absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 z-10
-                        transition-transform duration-1000 ease-out
-                        ${isAnimating 
-                            ? 'transform scale-x-100 origin-left' 
-                            : 'transform scale-x-0 origin-right'
-                        }
-                    `}
-                />
+                {!isReducedMotion && (
+                    <span 
+                        className={`
+                            absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 z-10
+                            transition-transform duration-1000 ease-out
+                            ${isAnimating 
+                                ? 'transform scale-x-100 origin-left' 
+                                : 'transform scale-x-0 origin-right'
+                            }
+                        `}
+                    />
+                )}
             </div>
         </div>
     );
