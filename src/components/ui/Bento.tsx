@@ -114,12 +114,12 @@ export function BentoCard({
                 </div>
             </motion.div>
 
-            {/* Tech Stack Icons - Bottom Right, above name row */}
+            {/* Tech Stack Icons - Middle Center */}
             {techStack.length > 0 && (
                 <motion.div 
-                    className="absolute bottom-12 right-4 flex gap-2 z-10"
-                    initial={isReducedMotion ? {} : { opacity: 0, x: 20 }}
-                    animate={isReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex gap-3 z-10"
+                    initial={isReducedMotion ? {} : { opacity: 0, scale: 0.8 }}
+                    animate={isReducedMotion ? {} : { opacity: 1, scale: 1 }}
                     transition={isReducedMotion ? {} : { 
                         duration: 0.4,
                         delay: index * 0.1 + 0.4
@@ -128,14 +128,14 @@ export function BentoCard({
                     {techStack.slice(0, 5).map((tech) => (
                         <div 
                             key={tech}
-                            className="w-5 h-5 flex items-center justify-center"
+                            className="w-6 h-6 flex items-center justify-center"
                         >
-                            {createIconComponent(tech, { className: "w-4 h-4 drop-shadow-lg" })}
+                            {createIconComponent(tech, { className: "w-5 h-5 drop-shadow-lg" })}
                         </div>
                     ))}
                     {techStack.length > 5 && (
-                        <div className="w-5 h-5 flex items-center justify-center">
-                            <span className="text-white text-xs font-medium drop-shadow-lg">+{techStack.length - 5}</span>
+                        <div className="w-6 h-6 flex items-center justify-center">
+                            <span className="text-white text-sm font-medium drop-shadow-lg">+{techStack.length - 5}</span>
                         </div>
                     )}
                 </motion.div>
