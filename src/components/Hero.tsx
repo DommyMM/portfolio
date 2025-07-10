@@ -35,11 +35,11 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
             <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
-                    <h1 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none">
+                    <h1 className="text-5xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none">
                         {isReducedMotion ? (
                             <TextGenerateEffect 
                                 words="Dominic Aung" 
-                                className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none [&>div>div]:!text-6xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
+                                className="text-5xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none [&>div>div]:!text-5xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
                                 useGradient={true}
                             />
                         ) : (
@@ -49,11 +49,11 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                     {/* Triangular Layout */}
                     <div className="flex flex-col items-center mt-12 space-y-6">
                         {/* Level 2 */}
-                        <div className="text-3xl md:text-6xl lg:text-7xl select-none">
+                        <div className="text-2xl md:text-6xl lg:text-7xl select-none">
                             <TextSlider 
                                 roles={["Full-Stack Developer"]} 
                                 isReducedMotion={isReducedMotion}
-                                className="text-3xl md:text-6xl lg:text-7xl"
+                                className="text-2xl md:text-6xl lg:text-7xl"
                             />
                         </div>
                         

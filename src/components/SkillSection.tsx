@@ -88,12 +88,12 @@ function SimpleSkills({ skillsData }: { skillsData: SkillCategory[] }) {
                                     delay: categoryIndex * 0.1 + skillIndex * 0.05 
                                 }}
                                 viewport={{ once: true }}
-                                className="flex items-center space-x-3 p-3 rounded-lg bg-neutral-100/50 dark:bg-white/5 hover:bg-neutral-200/50 dark:hover:bg-white/10 transition-colors duration-200"
+                                className="flex space-x-3 p-3 rounded-lg bg-neutral-100/50 dark:bg-white/5 hover:bg-neutral-200/50 dark:hover:bg-white/10 transition-colors duration-200"
                             >
-                                <div className="w-5 h-5 flex items-center justify-center">
+                                <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
                                     {createIconComponent(skill.icon, { className: "w-5 h-5" })}
                                 </div>
-                                <span className="text-sm font-medium text-neutral-800 dark:text-neutral-300">
+                                <span className="text-xs md:text-sm font-medium text-neutral-800 dark:text-neutral-300 leading-tight">
                                     {skill.name}
                                 </span>
                             </motion.div>
