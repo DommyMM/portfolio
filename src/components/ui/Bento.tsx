@@ -1,11 +1,12 @@
 "use client";
 
-import { ComponentPropsWithoutRef, ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactNode, useRef, forwardRef } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { createIconComponent } from "@/lib/icons";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoesOutComesInUnderline from './Underline';
+import { AnimatedBeam } from './AnimatedBeams';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
     children: ReactNode;
@@ -23,6 +24,74 @@ interface BentoCardProps extends Omit<ComponentPropsWithoutRef<"div">, "onDrag" 
     githubUrl?: string;
     isReducedMotion?: boolean;
     index?: number;
+}
+
+// Helper component for tech nodes
+const TechNode = forwardRef<
+    HTMLDivElement,
+    { className?: string; children?: React.ReactNode }
+>(({ className, children }, ref) => {
+    return (
+        <div
+            ref={ref}
+            className={cn(
+                "z-10 flex items-center justify-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm p-2 shadow-lg",
+                className,
+            )}
+        >
+            {children}
+        </div>
+    );
+});
+
+TechNode.displayName = "TechNode";
+
+// Function to organize tech stack into architecture flow
+function organizeTechStack(techStack: string[], projectId: string) {
+    const techMap = {
+        // Input sources (left)
+        sources: [] as string[],
+        // Central hub (middle) 
+        hub: '' as string,
+        // Output destinations (right)
+        destinations: [] as string[]
+    };
+
+    switch (projectId) {
+        case 'wuwabuilds':
+            techMap.sources = ['react', 'typescript'];
+            techMap.hub = 'nextdotjs';
+            techMap.destinations = ['mongodb', 'vercel'];
+            break;
+        case 'rag-translation':
+            techMap.sources = ['python'];
+            techMap.hub = 'fastapi';
+            techMap.destinations = ['openai', 'rag'];
+            break;
+        case 'cv-api':
+            techMap.sources = ['opencv', 'python'];
+            techMap.hub = 'fastapi';
+            techMap.destinations = ['docker'];
+            break;
+        case 'expresso':
+            techMap.sources = ['nextdotjs'];
+            techMap.hub = 'go';
+            techMap.destinations = ['postgresql', 'tailwindcss'];
+            break;
+        case 'voice-chatbot':
+            techMap.sources = ['speechapi'];
+            techMap.hub = 'fastapi';
+            techMap.destinations = ['nextdotjs', 'openai'];
+            break;
+        default:
+            // Fallback: split evenly
+            const mid = Math.floor(techStack.length / 2);
+            techMap.sources = techStack.slice(0, mid);
+            techMap.hub = techStack[mid] || techStack[0];
+            techMap.destinations = techStack.slice(mid + 1);
+    }
+
+    return techMap;
 }
 
 export function BentoGrid({ children, className, ...props }: BentoGridProps) {
@@ -53,6 +122,24 @@ export function BentoCard({
     ...props
 }: BentoCardProps) {
     const MotionDiv = isReducedMotion ? "div" : motion.div;
+    
+    // Refs for AnimatedBeam
+    const containerRef = useRef<HTMLDivElement>(null);
+    const hubRef = useRef<HTMLDivElement>(null);
+    const sourceRefs = [
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null)
+    ];
+    const destinationRefs = [
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null)
+    ];
+
+    // Organize tech stack for project architecture
+    const projectId = name.toLowerCase().replace(/\s+/g, '-');
+    const { sources, hub, destinations } = organizeTechStack(techStack, projectId);
     
     return (
         <MotionDiv
@@ -114,10 +201,11 @@ export function BentoCard({
                 </div>
             </motion.div>
 
-            {/* Tech Stack Icons - Middle Center */}
+            {/* Architecture Diagram - Middle Center */}
             {techStack.length > 0 && (
                 <motion.div 
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex gap-3 z-10"
+                    ref={containerRef}
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-24 z-10"
                     initial={isReducedMotion ? {} : { opacity: 0, scale: 0.8 }}
                     animate={isReducedMotion ? {} : { opacity: 1, scale: 1 }}
                     transition={isReducedMotion ? {} : { 
@@ -125,18 +213,70 @@ export function BentoCard({
                         delay: index * 0.1 + 0.4
                     }}
                 >
-                    {techStack.slice(0, 5).map((tech) => (
-                        <div 
-                            key={tech}
-                            className="w-6 h-6 flex items-center justify-center"
-                        >
-                            {createIconComponent(tech, { className: "w-5 h-5 drop-shadow-lg" })}
+                    {/* Layout container */}
+                    <div className="flex size-full flex-row items-center justify-between">
+                        {/* Sources (Left Column) */}
+                        <div className="flex flex-col justify-center gap-2">
+                            {sources.slice(0, 3).map((tech, idx) => (
+                                <TechNode key={tech} ref={sourceRefs[idx]} className="size-8">
+                                    {createIconComponent(tech, { className: "w-4 h-4 drop-shadow-lg" })}
+                                </TechNode>
+                            ))}
                         </div>
-                    ))}
-                    {techStack.length > 5 && (
-                        <div className="w-6 h-6 flex items-center justify-center">
-                            <span className="text-white text-sm font-medium drop-shadow-lg">+{techStack.length - 5}</span>
+
+                        {/* Central Hub */}
+                        <div className="flex flex-col justify-center">
+                            <TechNode ref={hubRef} className="size-12">
+                                {createIconComponent(hub, { className: "w-6 h-6 drop-shadow-lg" })}
+                            </TechNode>
                         </div>
+
+                        {/* Destinations (Right Column) */}
+                        <div className="flex flex-col justify-center gap-2">
+                            {destinations.slice(0, 3).map((tech, idx) => (
+                                <TechNode key={tech} ref={destinationRefs[idx]} className="size-8">
+                                    {createIconComponent(tech, { className: "w-4 h-4 drop-shadow-lg" })}
+                                </TechNode>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Animated Beams */}
+                    {!isReducedMotion && (
+                        <>
+                            {/* Sources → Hub */}
+                            {sources.slice(0, 3).map((_, idx) => (
+                                sourceRefs[idx].current && (
+                                    <AnimatedBeam
+                                        key={`source-${idx}`}
+                                        containerRef={containerRef}
+                                        fromRef={sourceRefs[idx]}
+                                        toRef={hubRef}
+                                        duration={3}
+                                        delay={idx * 0.5}
+                                        gradientStartColor="#3b82f6"
+                                        gradientStopColor="#8b5cf6"
+                                    />
+                                )
+                            ))}
+                            
+                            {/* Hub → Destinations */}
+                            {destinations.slice(0, 3).map((_, idx) => (
+                                destinationRefs[idx].current && (
+                                    <AnimatedBeam
+                                        key={`dest-${idx}`}
+                                        containerRef={containerRef}
+                                        fromRef={hubRef}
+                                        toRef={destinationRefs[idx]}
+                                        duration={3}
+                                        delay={idx * 0.5 + 1.5}
+                                        gradientStartColor="#8b5cf6"
+                                        gradientStopColor="#06b6d4"
+                                        reverse
+                                    />
+                                )
+                            ))}
+                        </>
                     )}
                 </motion.div>
             )}
