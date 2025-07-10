@@ -4,8 +4,8 @@ import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { createIconComponent } from "@/lib/icons";
-import LaunchIcon from '@mui/icons-material/Launch';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import GoesOutComesInUnderline from './Underline';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
     children: ReactNode;
@@ -29,7 +29,7 @@ export function BentoGrid({ children, className, ...props }: BentoGridProps) {
     return (
         <div
             className={cn(
-                "grid w-full auto-rows-[22rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 md:gap-x-6 md:gap-y-3",
+                "grid w-full auto-rows-[21rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 md:gap-x-6 md:gap-y-0",
                 className,
             )}
             {...props}
@@ -58,9 +58,7 @@ export function BentoCard({
         <MotionDiv
             className={cn(
                 "group relative flex flex-col justify-between overflow-hidden rounded-2xl cursor-pointer h-60 md:h-80",
-                // Glassmorphic styling
                 "backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
-                // Enhanced shadow system
                 "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
                 className,
             )}
@@ -153,26 +151,22 @@ export function BentoCard({
                     delay: index * 0.1 + 0.2
                 }}
             >
-                <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
-                    {name}
-                </h3>
+                {liveUrl ? (
+                    <GoesOutComesInUnderline 
+                        className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
+                        direction="right"
+                        onClick={() => window.open(liveUrl, '_blank')}
+                    >
+                        {name}
+                    </GoesOutComesInUnderline>
+                ) : (
+                    <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
+                        {name}
+                    </h3>
+                )}
                 
                 {/* Action Buttons */}
                 <div className="flex gap-2">
-                    {liveUrl && (
-                        <motion.button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                window.open(liveUrl, '_blank');
-                            }}
-                            className="flex items-center gap-1 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-lg transition-all duration-200 text-blue-200"
-                            whileHover={isReducedMotion ? {} : { scale: 1.05 }}
-                            whileTap={isReducedMotion ? {} : { scale: 0.95 }}
-                        >
-                            <LaunchIcon className="w-3 h-3" />
-                            <span className="text-xs font-medium">Demo</span>
-                        </motion.button>
-                    )}
                     {githubUrl && (
                         <motion.button
                             onClick={(e) => {
