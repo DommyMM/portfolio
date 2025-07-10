@@ -1,7 +1,8 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, MotionValue, useTransform, useSpring } from "motion/react";
-import React, { useRef, useState, useEffect } from "react";
+import { useResponsive } from "@/hooks/useResponsive";
+import React, { useRef, useState } from "react";
 import { FlipText } from "./FlipText";
 
 interface NavbarProps {
@@ -77,32 +78,24 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 };
 
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
-    const [width, setWidth] = useState("100%");
-
-    useEffect(() => {
-        function updateWidth() {
-            const vw = window.innerWidth;
-            if (!visible) {
-                setWidth("100%");
-            } else if (vw <= 640) {
-                setWidth("90%");
-            } else if (vw <= 1400) {
-                setWidth("70%");
-            } else if (vw <= 1920) {
-                setWidth("55%");
-            } else {
-                setWidth("40%");
-            }
-        }
-        updateWidth();
-        window.addEventListener("resize", updateWidth);
-        return () => window.removeEventListener("resize", updateWidth);
-    }, [visible]);
+    const { isSmall, isUltraWide, is4K } = useResponsive();
+    
+    // Calculate navbar width based on screen size and visibility
+    const getNavbarWidth = () => {
+        if (!visible) return "100%";
+        
+        if (isSmall) return "90%";              // <= 640px
+        if (isUltraWide) return "70%";          // 641px - 1400px
+        if (is4K) return "55%";                 // 1401px - 1920px
+        return "40%";                           // > 1920px
+    };
+    
+    const navbarWidth = getNavbarWidth();
 
     return (
         <motion.div
             animate={{
-                width,
+                width: navbarWidth,
                 backdropFilter: visible ? "blur(10px)" : "none",
                 boxShadow: visible
                     ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
