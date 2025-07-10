@@ -57,7 +57,7 @@ const projectsData: Project[] = [
             secondary: "84% Accuracy",
             tertiary: "100x Faster"
         },
-        techStack: ["python", "openai", "huggingface", "fastapi", "docker"],
+        techStack: ["python", "openai", "rag", "fastapi"],
         githubUrl: "https://github.com/DommyMM"
     },
     {
@@ -160,45 +160,7 @@ const ProjectCard = ({
             {/* Background */}
             {project.background}
 
-            {/* Primary Metric Badge - Always Visible */}
-            <motion.div 
-                className="absolute top-4 right-4 px-3 py-1 bg-black/20 backdrop-blur-sm rounded-full border border-white/20"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                    duration: isReducedMotion ? 0 : 0.4,
-                    delay: isReducedMotion ? 0 : index * 0.1 + 0.2
-                }}
-            >
-                <span className="text-white text-xs font-medium">
-                    {project.keyMetrics.primary}
-                </span>
-            </motion.div>
-
-            {/* Tech Stack Icons - Always Visible */}
-            <motion.div 
-                className="absolute bottom-4 right-4 flex gap-2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ 
-                    duration: isReducedMotion ? 0 : 0.4,
-                    delay: isReducedMotion ? 0 : index * 0.1 + 0.3
-                }}
-            >
-                {project.techStack.slice(0, 4).map((tech, techIndex) => (
-                    <div 
-                        key={tech}
-                        className="w-6 h-6 bg-black/20 backdrop-blur-sm rounded-full border border-white/20 flex items-center justify-center"
-                        style={{ 
-                            animationDelay: isReducedMotion ? '0ms' : `${techIndex * 50}ms` 
-                        }}
-                    >
-                        {createIconComponent(tech, { className: "w-3 h-3" })}
-                    </div>
-                ))}
-            </motion.div>
-
-            {/* Project Name - Always Visible */}
+            {/* Project Name - Always Visible (Bottom Left) */}
             <motion.div 
                 className="absolute bottom-4 left-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -213,35 +175,24 @@ const ProjectCard = ({
                 </h3>
             </motion.div>
 
-            {/* Hover Content - Center Overlay */}
-            <motion.div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isHovered ? 1 : 0 }}
-                transition={{ duration: isReducedMotion ? 0 : 0.3 }}
+            {/* Tagline & Metrics - Always Visible (Center) */}
+            <motion.div 
+                className="absolute inset-0 flex items-center justify-center p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                    duration: isReducedMotion ? 0 : 0.5,
+                    delay: isReducedMotion ? 0 : index * 0.1 + 0.3
+                }}
             >
-                <motion.div 
-                    className="text-center max-w-md"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ 
-                        opacity: isHovered ? 1 : 0,
-                        y: isHovered ? 0 : 20
-                    }}
-                    transition={{ 
-                        duration: isReducedMotion ? 0 : 0.3,
-                        delay: isReducedMotion ? 0 : 0.1
-                    }}
-                >
-                    {/* Project Info */}
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                        {project.name}
-                    </h3>
-                    <p className="text-neutral-200 text-sm mb-6">
+                <div className="text-center max-w-md">
+                    {/* Tagline */}
+                    <p className="text-neutral-200 text-sm mb-6 drop-shadow-lg">
                         {project.tagline}
                     </p>
 
                     {/* Key Metrics Grid */}
-                    <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-3 gap-4">
                         <div className="text-center">
                             <div className="text-lg font-bold text-white">
                                 {project.keyMetrics.primary}
@@ -258,7 +209,28 @@ const ProjectCard = ({
                             </div>
                         </div>
                     </div>
+                </div>
+            </motion.div>
 
+            {/* Hover Content - Action Buttons Only */}
+            <motion.div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isHovered ? 1 : 0 }}
+                transition={{ duration: isReducedMotion ? 0 : 0.3 }}
+            >
+                <motion.div 
+                    className="text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ 
+                        opacity: isHovered ? 1 : 0,
+                        y: isHovered ? 0 : 20
+                    }}
+                    transition={{ 
+                        duration: isReducedMotion ? 0 : 0.3,
+                        delay: isReducedMotion ? 0 : 0.1
+                    }}
+                >
                     {/* Action Buttons */}
                     <div className="flex gap-3 justify-center">
                         {project.liveUrl && (
