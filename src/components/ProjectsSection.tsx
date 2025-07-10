@@ -1,156 +1,124 @@
 "use client";
 
 import { motion } from "motion/react";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useHasHover } from "@/hooks/useResponsive";
-import ExpandedCard from "@/components/ui/ExpandedCard";
+import { createIconComponent } from "@/lib/icons";
+import LaunchIcon from '@mui/icons-material/Launch';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 // Project type definition
 interface Project {
     id: string;
     name: string;
-    description: string;
+    tagline: string;
     className: string;
     background: React.ReactElement;
-    longDescription: string;
-    techStack: string[];
-    metrics: {
-        [key: string]: string;
+    keyMetrics: {
+        primary: string;
+        secondary: string;
+        tertiary: string;
     };
-    features: string[];
+    techStack: string[];
+    liveUrl?: string;
+    githubUrl?: string;
 }
 
-// Project data with enhanced info for expanded view
+// Project data - focused on impact
 const projectsData: Project[] = [
     {
         id: "wuwabuilds",
         name: "WuWaBuilds",
-        description: "Gaming platform serving 13k users with 147k page views and 313% organic growth (3 months)",
+        tagline: "Gaming platform with reverse-engineered calculations and leaderboards",
         className: "col-span-1 md:col-span-2 lg:col-span-3",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
         ),
-        // Enhanced data for expanded view
-        longDescription: "A comprehensive gaming platform for Wuthering Waves character builds, serving over 13,000 users with complex game calculations, real-time stat optimization, and mobile-responsive design.",
-        techStack: ["React", "TypeScript", "Next.js", "MongoDB", "Vercel"],
-        metrics: {
-            users: "13K+",
-            pageViews: "147K+",
-            growth: "313%",
-            uptime: "99.9%"
+        keyMetrics: {
+            primary: "13K Users",
+            secondary: "7K Monthly Active", 
+            tertiary: "313% Growth"
         },
-        features: [
-            "Real-time damage calculations",
-            "Drag-and-drop build management", 
-            "Element-themed image generation",
-            "Mobile-responsive design"
-        ]
+        techStack: ["react", "typescript", "nextdotjs", "mongodb", "vercel"],
+        liveUrl: "https://wuwabuilds.com",
+        githubUrl: "https://github.com/DommyMM"
     },
     {
         id: "rag-translation",
-        name: "RAG Translation", 
-        description: "Multi-phase AI translation system using RAG and VectorDB",
+        name: "RAG Translation",
+        tagline: "Cost-optimized AI translation pipeline",
         className: "col-span-1 md:col-span-1 lg:col-span-2",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10" />
         ),
-        longDescription: "Cost-optimized AI translation pipeline using RAG architecture with ChromaDB for context preservation and DeepSeek for processing, achieving 84% accuracy improvement.",
-        techStack: ["Python", "DeepSeek", "ChromaDB", "BGE-M3", "AsyncIO"],
-        metrics: {
-            cost: "$0.004/chapter",
-            accuracy: "84%", 
-            speedUp: "100x",
-            models: "4"
+        keyMetrics: {
+            primary: "$0.004/chapter",
+            secondary: "84% Accuracy",
+            tertiary: "100x Faster"
         },
-        features: [
-            "Multi-phase self-learning pipeline",
-            "Semantic chunking system",
-            "Incremental learning with vector upserts",
-            "Real-time progress tracking"
-        ]
+        techStack: ["python", "openai", "huggingface", "fastapi", "docker"],
+        githubUrl: "https://github.com/DommyMM"
     },
     {
         id: "cv-api",
-        name: "Computer Vision",
-        description: "Production OCR API with 95% extraction accuracy",
+        name: "OCR API",
+        tagline: "Custom Computer Vision API with 95% accuracy",
         className: "col-span-1 md:col-span-1 lg:col-span-1",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10" />
         ),
-        longDescription: "High-performance OCR API processing 60+ requests per minute with 95% extraction accuracy using computer vision and machine learning techniques.",
-        techStack: ["FastAPI", "PyTesseract", "OpenCV", "SIFT", "Python"],
-        metrics: {
-            accuracy: "95%",
-            throughput: "60+ req/min",
-            latency: "<200ms",
-            uptime: "99.8%"
+        keyMetrics: {
+            primary: "95% Accuracy",
+            secondary: "100+ req/min",
+            tertiary: "Custom Built"
         },
-        features: [
-            "Dual-engine OCR system",
-            "Fuzzy matching algorithms",
-            "Asynchronous processing",
-            "Automated error correction"
-        ]
+        techStack: ["fastapi", "opencv", "python", "docker"],
+        githubUrl: "https://github.com/DommyMM"
     },
     {
         id: "expresso",
         name: "Expresso",
-        description: "University mentorship platform built with collaborative CI/CD workflow",
+        tagline: "University mentorship platform",
         className: "col-span-1 md:col-span-1 lg:col-span-1",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
         ),
-        longDescription: "University mentorship platform connecting students with mentors, built using modern development practices and collaborative workflows.",
-        techStack: ["Go", "PostgreSQL", "Next.js", "Tailwind", "Supabase"],
-        metrics: {
-            students: "500+",
-            mentors: "50+",
-            matches: "200+",
-            satisfaction: "4.8/5"
+        keyMetrics: {
+            primary: "500+ Students",
+            secondary: "Fuzzy Search",
+            tertiary: "CI/CD Pipeline"
         },
-        features: [
-            "Fuzzy search algorithm",
-            "Real-time matching system",
-            "CI/CD with GitHub Actions",
-            "Domain-driven design"
-        ]
+        techStack: ["go", "postgresql", "nextdotjs", "tailwindcss"],
+        liveUrl: "https://expressodavis.org",
+        githubUrl: "https://github.com/DommyMM"
     },
     {
         id: "voice-chatbot",
         name: "Voice Chatbot",
-        description: "Multi-model AI platform with sub-second response times",
+        tagline: "Multi-model AI with sub-second response",
         className: "col-span-1 md:col-span-1 lg:col-span-2",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
         ),
-        longDescription: "Advanced voice-enabled chatbot platform integrating multiple AI models with streaming architecture for real-time conversations.",
-        techStack: ["Next.js", "FastAPI", "Cerebras", "Web Speech API", "Python"],
-        metrics: {
-            responseTime: "<1s",
-            models: "4",
-            languages: "10+",
-            accuracy: "96%"
+        keyMetrics: {
+            primary: "<1s Response",
+            secondary: "4 AI Models",
+            tertiary: "Real-time Voice"
         },
-        features: [
-            "Multi-model AI integration",
-            "Speech-to-text pipeline",
-            "Real-time streaming",
-            "Voice selection system"
-        ]
+        techStack: ["nextdotjs", "fastapi", "openai", "speechapi"],
+        githubUrl: "https://github.com/DommyMM"
     },
 ];
 
-// Project Card component with click handling
+// Project Card component
 const ProjectCard = ({ 
     project, 
     index, 
     hovered, 
     setHovered,
     hasHover,
-    isReducedMotion,
-    expandedCard,
-    setExpandedCard
+    isReducedMotion
 }: {
     project: Project;
     index: number;
@@ -158,82 +126,173 @@ const ProjectCard = ({
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
     hasHover: boolean;
     isReducedMotion: boolean;
-    expandedCard: string | null;
-    setExpandedCard: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
-    const isExpanded = expandedCard === project.id;
-    const isOtherExpanded = expandedCard !== null && expandedCard !== project.id;
+    const isHovered = hovered === index;
+    const isOtherHovered = hovered !== null && hovered !== index;
 
-    const handleClick = () => {
-        if (isExpanded) {
-            setExpandedCard(null); // Close if already expanded
-        } else {
-            setExpandedCard(project.id); // Expand this card
-        }
-    };
-
-    // Hide non-expanded cards when something is expanded
-    if (isOtherExpanded) {
-        return null;
-    }
-
-    // Render expanded card
-    if (isExpanded) {
-        return (
-            <ExpandedCard 
-                project={project}
-                onClose={() => setExpandedCard(null)}
-                isReducedMotion={isReducedMotion}
-            />
-        );
-    }
-
-    // Normal card
     return (
-        <div
+        <motion.div
             onMouseEnter={hasHover ? () => setHovered(index) : undefined}
             onMouseLeave={hasHover ? () => setHovered(null) : undefined}
-            onClick={handleClick}
             className={cn(
-                "relative overflow-hidden rounded-2xl h-60 md:h-80 w-full transition-all duration-300 ease-out cursor-pointer",
+                "relative overflow-hidden rounded-2xl h-60 md:h-80 w-full cursor-pointer",
                 "backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
                 "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-                hasHover && hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
                 project.className
             )}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+                opacity: 1, 
+                y: 0,
+                filter: isOtherHovered ? "blur(4px)" : "blur(0px)",
+                scale: isOtherHovered ? 0.98 : 1
+            }}
+            transition={{ 
+                duration: isReducedMotion ? 0 : 0.3,
+                ease: "easeOut",
+                delay: isReducedMotion ? 0 : index * 0.1
+            }}
+            whileHover={isReducedMotion ? {} : { 
+                y: -4,
+                transition: { duration: 0.2 }
+            }}
         >
             {/* Background */}
             {project.background}
 
-            {/* Title overlay - always visible */}
-            <div className="absolute bottom-0 left-0 right-0 p-6">
+            {/* Primary Metric Badge - Always Visible */}
+            <motion.div 
+                className="absolute top-4 right-4 px-3 py-1 bg-black/20 backdrop-blur-sm rounded-full border border-white/20"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ 
+                    duration: isReducedMotion ? 0 : 0.4,
+                    delay: isReducedMotion ? 0 : index * 0.1 + 0.2
+                }}
+            >
+                <span className="text-white text-xs font-medium">
+                    {project.keyMetrics.primary}
+                </span>
+            </motion.div>
+
+            {/* Tech Stack Icons - Always Visible */}
+            <motion.div 
+                className="absolute bottom-4 right-4 flex gap-2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ 
+                    duration: isReducedMotion ? 0 : 0.4,
+                    delay: isReducedMotion ? 0 : index * 0.1 + 0.3
+                }}
+            >
+                {project.techStack.slice(0, 4).map((tech, techIndex) => (
+                    <div 
+                        key={tech}
+                        className="w-6 h-6 bg-black/20 backdrop-blur-sm rounded-full border border-white/20 flex items-center justify-center"
+                        style={{ 
+                            animationDelay: isReducedMotion ? '0ms' : `${techIndex * 50}ms` 
+                        }}
+                    >
+                        {createIconComponent(tech, { className: "w-3 h-3" })}
+                    </div>
+                ))}
+            </motion.div>
+
+            {/* Project Name - Always Visible */}
+            <motion.div 
+                className="absolute bottom-4 left-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                    duration: isReducedMotion ? 0 : 0.5,
+                    delay: isReducedMotion ? 0 : index * 0.1 + 0.2
+                }}
+            >
                 <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
                     {project.name}
                 </h3>
-            </div>
+            </motion.div>
 
-            {/* Description overlay - show on hover if hasHover */}
-            <div
-                className={cn(
-                    "absolute inset-0 bg-black/50 flex items-center justify-center p-6 transition-opacity duration-300",
-                    hasHover 
-                        ? (hovered === index ? "opacity-100" : "opacity-0")
-                        : "opacity-0"
-                )}
+            {/* Hover Content - Center Overlay */}
+            <motion.div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isHovered ? 1 : 0 }}
+                transition={{ duration: isReducedMotion ? 0 : 0.3 }}
             >
-                <div className="text-center">
-                    <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
+                <motion.div 
+                    className="text-center max-w-md"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ 
+                        opacity: isHovered ? 1 : 0,
+                        y: isHovered ? 0 : 20
+                    }}
+                    transition={{ 
+                        duration: isReducedMotion ? 0 : 0.3,
+                        delay: isReducedMotion ? 0 : 0.1
+                    }}
+                >
+                    {/* Project Info */}
+                    <h3 className="text-2xl font-bold text-white mb-2">
                         {project.name}
                     </h3>
-                    <p className="text-sm md:text-base text-neutral-200 leading-relaxed mb-4">
-                        {project.description}
+                    <p className="text-neutral-200 text-sm mb-6">
+                        {project.tagline}
                     </p>
-                    <p className="text-xs text-neutral-300">
-                        Click to expand
-                    </p>
-                </div>
-            </div>
-        </div>
+
+                    {/* Key Metrics Grid */}
+                    <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="text-center">
+                            <div className="text-lg font-bold text-white">
+                                {project.keyMetrics.primary}
+                            </div>
+                        </div>
+                        <div className="text-center">
+                            <div className="text-lg font-bold text-white">
+                                {project.keyMetrics.secondary}
+                            </div>
+                        </div>
+                        <div className="text-center">
+                            <div className="text-lg font-bold text-white">
+                                {project.keyMetrics.tertiary}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 justify-center">
+                        {project.liveUrl && (
+                            <motion.button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(project.liveUrl, '_blank');
+                                }}
+                                className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-lg transition-all duration-200 text-blue-200"
+                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
+                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
+                            >
+                                <LaunchIcon className="w-4 h-4" />
+                                <span className="text-sm font-medium">Live Demo</span>
+                            </motion.button>
+                        )}
+                        {project.githubUrl && (
+                            <motion.button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(project.githubUrl, '_blank');
+                                }}
+                                className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg transition-all duration-200 text-white"
+                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
+                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
+                            >
+                                <GitHubIcon className="w-4 h-4" />
+                                <span className="text-sm font-medium">Code</span>
+                            </motion.button>
+                        )}
+                    </div>
+                </motion.div>
+            </motion.div>
+        </motion.div>
     );
 };
 
@@ -245,26 +304,6 @@ interface ProjectsSectionProps {
 export default function ProjectsSection({ isReducedMotion = false }: ProjectsSectionProps) {
     const hasHover = useHasHover();
     const [hovered, setHovered] = useState<number | null>(null);
-    const [expandedCard, setExpandedCard] = useState<string | null>(null);
-
-    // Close expanded card on ESC key
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && expandedCard) {
-                setExpandedCard(null);
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [expandedCard]);
-
-    // Click outside to close
-    const handleOverlayClick = (e: React.MouseEvent) => {
-        if (e.target === e.currentTarget && expandedCard) {
-            setExpandedCard(null);
-        }
-    };
 
     return (
         <section id="projects" className="py-24 relative">
@@ -285,7 +324,7 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                     transition={isReducedMotion ? {} : { duration: 0.6, delay: 0.1 }}
                     viewport={{ once: true }}
                 >
-                    A showcase of production systems, AI/ML pipelines, and full-stack applications
+                    Production systems serving real users with measurable impact
                 </motion.p>
             </div>
 
@@ -294,19 +333,10 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                 whileInView={isReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={isReducedMotion ? {} : { duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className={cn(
-                    "max-w-6xl mx-auto px-4",
-                    expandedCard && "max-h-[85vh] overflow-hidden" // Prevent page from getting too tall on mobile
-                )}
-                onClick={handleOverlayClick}
+                className="max-w-6xl mx-auto px-4"
             >
                 {/* Bento Grid */}
-                <div className={cn(
-                    "grid gap-4 md:gap-6",
-                    expandedCard 
-                        ? "grid-cols-1" // Full width when expanded
-                        : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" // Normal grid
-                )}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {projectsData.map((project, index) => (
                         <ProjectCard
                             key={project.id}
@@ -316,8 +346,6 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                             setHovered={setHovered}
                             hasHover={hasHover}
                             isReducedMotion={isReducedMotion}
-                            expandedCard={expandedCard}
-                            setExpandedCard={setExpandedCard}
                         />
                     ))}
                 </div>
