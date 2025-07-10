@@ -49,7 +49,7 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                     <Tooltip 
                         content={isReducedMotion ? "Enable animations" : "Reduce motion"}
                         placement="bottom"
-                        delay={500}
+                        delay={150}
                     >
                         <MotionToggle
                             isReducedMotion={isReducedMotion}
@@ -60,7 +60,7 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                     <Tooltip 
                         content={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                         placement="bottom"
-                        delay={500}
+                        delay={150}
                     >
                         <ToggleButton 
                             isDark={isDarkMode} 
