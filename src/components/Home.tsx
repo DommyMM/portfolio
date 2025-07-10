@@ -4,7 +4,6 @@ import AboutHero from "@/components/Hero";
 import ProjectsSection from "@/components/ProjectsSection";
 import WorkEducation from "@/components/WorkEducation";
 import SkillsSection from "@/components/SkillSection";
-import WaveGradient from "./ui/Gradient";
 import { PortfolioNavbar } from "@/components/Navbar";
 import { useActiveSection } from "@/hooks/useActive";
 import { usePreferences } from "@/hooks/usePreferences";
@@ -27,18 +26,13 @@ export default function Home() {
                 onMotionToggle={toggleMotion}
                 activeSection={activeSection}
             />
-
-            <WaveGradient />
             
             <AboutHero isReducedMotion={isReducedMotion} />
             
             <div className="max-w-4xl mx-auto px-4 space-y-32 pb-24">
                 <ProjectsSection isReducedMotion={isReducedMotion} />
-
                 <WorkEducation />
-
                 <SkillsSection isReducedMotion={isReducedMotion} />
-
                 <ContactSection />
             </div>
         </div>
