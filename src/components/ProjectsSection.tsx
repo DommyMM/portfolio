@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useHasHover } from "@/hooks/useResponsive";
 
 // Simple project data for now
 const projectsData = [
@@ -59,25 +60,28 @@ const ProjectCard = ({
     index, 
     hovered, 
     setHovered,
+    hasHover,
     isReducedMotion 
 }: {
     project: any;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+    hasHover: boolean;
     isReducedMotion: boolean;
 }) => {
     return (
         <div
-            onMouseEnter={() => setHovered(index)}
-            onMouseLeave={() => setHovered(null)}
+            // Only add hover handlers if device supports hover
+            onMouseEnter={hasHover ? () => setHovered(index) : undefined}
+            onMouseLeave={hasHover ? () => setHovered(null) : undefined}
             className={cn(
                 "relative overflow-hidden rounded-2xl h-60 md:h-80 w-full transition-all duration-300 ease-out cursor-pointer",
                 // Glassmorphic styling
                 "backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
                 "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-                // Focus Cards behavior
-                hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
+                // Only apply blur/focus if device supports hover
+                hasHover && hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
                 project.className
             )}
         >
@@ -91,11 +95,13 @@ const ProjectCard = ({
                 </h3>
             </div>
 
-            {/* Description overlay - shows on hover */}
+            {/* Description overlay - only show on hover if hasHover */}
             <div
                 className={cn(
                     "absolute inset-0 bg-black/50 flex items-center justify-center p-6 transition-opacity duration-300",
-                    hovered === index ? "opacity-100" : "opacity-0"
+                    hasHover 
+                        ? (hovered === index ? "opacity-100" : "opacity-0")
+                        : "opacity-0" // Always hidden on touch devices
                 )}
             >
                 <div className="text-center">
@@ -117,6 +123,7 @@ interface ProjectsSectionProps {
 }
 
 export default function SimpleFocusProjectsSection({ isReducedMotion = false }: ProjectsSectionProps) {
+    const hasHover = useHasHover();
     const [hovered, setHovered] = useState<number | null>(null);
 
     return (
@@ -158,6 +165,7 @@ export default function SimpleFocusProjectsSection({ isReducedMotion = false }: 
                             index={index}
                             hovered={hovered}
                             setHovered={setHovered}
+                            hasHover={hasHover}
                             isReducedMotion={isReducedMotion}
                         />
                     ))}
