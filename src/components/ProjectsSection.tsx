@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
-import { createIconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 // Simple project data for now
@@ -10,8 +9,8 @@ const projectsData = [
     {
         id: "wuwabuilds",
         name: "WuWaBuilds",
-        description: "Gaming platform serving 9.3k users with 91k page views and 313% organic growth. Features complex game calculations, stat multipliers, and real-time build optimization.",
-        className: "col-span-1 md:col-span-2 lg:col-span-2", // Hero project
+        description: "Gaming platform serving 13k users with 147k page views and 313% organic growth (3 months)",
+        className: "col-span-1 md:col-span-2 lg:col-span-3",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
         ),
@@ -19,37 +18,37 @@ const projectsData = [
     {
         id: "rag-translation",
         name: "RAG Translation", 
-        description: "Multi-phase AI system using DeepSeek, ChromaDB, and BGE-M3. Achieved $0.004/chapter processing cost with 84% term retrieval accuracy through semantic chunking.",
-        className: "md:col-span-1 lg:col-span-1",
+        description: "Multi-phase AI translation system using RAG and VectorDB",
+        className: "col-span-1 md:col-span-1 lg:col-span-2",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10" />
         ),
     },
     {
-        id: "voice-chatbot",
-        name: "Voice Chatbot",
-        description: "Multi-model AI platform with sub-second response times. Integrated 4 AI models (LLaMA, Qwen, Scout) with speech-to-text and real-time voice processing.",
-        className: "md:col-span-1 lg:col-span-1",
-        background: (
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
-        ),
-    },
-    {
         id: "cv-api",
-        name: "Computer Vision API",
-        description: "Production OCR API processing 60+ requests/minute with 95% extraction accuracy. Built with FastAPI, PyTesseract, and OpenCV using dual-engine architecture.",
-        className: "col-span-1 md:col-span-2 lg:col-span-2",
+        name: "Computer Vision",
+        description: "Production OCR API with 95% extraction accuracy",
+        className: "col-span-1 md:col-span-1 lg:col-span-1",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10" />
         ),
     },
     {
         id: "expresso",
-        name: "Expresso Platform",
-        description: "University mentorship platform built with collaborative CI/CD workflow. Features Go backend with fuzzy search, PostgreSQL optimization, and modern React frontend.",
-        className: "md:col-span-1 lg:col-span-1",
+        name: "Expresso",
+        description: "University mentorship platform built with collaborative CI/CD workflow",
+        className: "col-span-1 md:col-span-1 lg:col-span-1",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
+        ),
+    },
+    {
+        id: "voice-chatbot",
+        name: "Voice Chatbot",
+        description: "Multi-model AI platform with sub-second response times",
+        className: "col-span-1 md:col-span-1 lg:col-span-2",
+        background: (
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
         ),
     },
 ];
