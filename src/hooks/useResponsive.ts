@@ -3,46 +3,36 @@
 import { useState, useEffect } from "react";
 
 interface ResponsiveState {
-    // Screen size categories
-    isMobile: boolean;
-    isTablet: boolean;
-    isDesktop: boolean;
-    isLargeDesktop: boolean;
+    // Simple semantic categories  
+    isMobile: boolean;     // <= 768px (phones)
+    isLaptop: boolean;     // 769px - 1400px (laptops)
+    isDesktop: boolean;    // 1401px - 1920px (desktops)
+    is4K: boolean;         // > 1920px (ultra-wide)
     
-    // Specific breakpoints (matching Tailwind + custom)
-    isSmall: boolean;      // <= 640px (sm)
-    isMedium: boolean;     // <= 768px (md) 
-    isLarge: boolean;      // <= 1024px (lg)
-    isExtraLarge: boolean; // <= 1280px (xl)
-    isUltraWide: boolean;  // <= 1400px (custom)
-    is4K: boolean;         // <= 1920px (custom)
-    
-    // Touch/interaction capabilities
+    // Touch capabilities (the important stuff)
     isTouchDevice: boolean;
     hasHover: boolean;
     
-    // Current window dimensions
+    // Raw dimensions
     width: number;
     height: number;
+    
+    // Specific breakpoints for edge cases
+    isSmall: boolean;      // <= 640px (for navbar)
 }
 
 export function useResponsive(): ResponsiveState {
     const [state, setState] = useState<ResponsiveState>({
         // Default to mobile-first approach
         isMobile: true,
-        isTablet: false,
+        isLaptop: false,
         isDesktop: false,
-        isLargeDesktop: false,
-        isSmall: true,
-        isMedium: true,
-        isLarge: true,
-        isExtraLarge: true,
-        isUltraWide: true,
-        is4K: true,
+        is4K: false,
         isTouchDevice: true,
         hasHover: false,
         width: 0,
         height: 0,
+        isSmall: true,
     });
 
     useEffect(() => {
@@ -58,35 +48,25 @@ export function useResponsive(): ResponsiveState {
             // Hover capability detection  
             const hasHover = window.matchMedia("(hover: hover)").matches;
             
-            // Breakpoint detection (Tailwind CSS + custom breakpoints)
-            const isSmall = width <= 640;      // sm
-            const isMedium = width <= 768;     // md
-            const isLarge = width <= 1024;     // lg
-            const isExtraLarge = width <= 1280; // xl
-            const isUltraWide = width <= 1400;  // custom (navbar breakpoint)
-            const is4K = width <= 1920;         // custom (navbar breakpoint)
+            // Simple breakpoint detection
+            const isSmall = width <= 640;      // for navbar
             
-            // Semantic categories
+            // Clean semantic categories
             const isMobile = width <= 768;
-            const isTablet = width > 768 && width <= 1024;
-            const isDesktop = width > 1024 && width <= 1920;
-            const isLargeDesktop = width > 1920;
+            const isLaptop = width > 768 && width <= 1400;
+            const isDesktop = width > 1400 && width <= 1920;
+            const is4K = width > 1920;
 
             setState({
                 isMobile,
-                isTablet,
+                isLaptop,
                 isDesktop,
-                isLargeDesktop,
-                isSmall,
-                isMedium,
-                isLarge,
-                isExtraLarge,
-                isUltraWide,
                 is4K,
                 isTouchDevice,
                 hasHover,
                 width,
                 height,
+                isSmall,
             });
         }
 
@@ -109,7 +89,7 @@ export function useResponsive(): ResponsiveState {
     return state;
 }
 
-// Utility hook for specific use cases
+// Utility hooks for common use cases
 export function useIsMobile(): boolean {
     const { isMobile } = useResponsive();
     return isMobile;

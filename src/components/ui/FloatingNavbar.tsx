@@ -78,16 +78,16 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 };
 
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
-    const { isSmall, isUltraWide, is4K } = useResponsive();
+    const { isSmall, isLaptop, isDesktop } = useResponsive();
     
     // Calculate navbar width based on screen size and visibility
     const getNavbarWidth = () => {
         if (!visible) return "100%";
         
         if (isSmall) return "90%";              // <= 640px
-        if (isUltraWide) return "70%";          // 641px - 1400px
-        if (is4K) return "55%";                 // 1401px - 1920px
-        return "40%";                           // > 1920px
+        if (isLaptop) return "70%";             // 641px - 1400px
+        if (isDesktop) return "55%";            // 1401px - 1920px
+        return "40%";                           // > 1920px (4K)
     };
     
     const navbarWidth = getNavbarWidth();
