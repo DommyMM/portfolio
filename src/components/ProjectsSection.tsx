@@ -136,7 +136,7 @@ const ProjectCard = ({
             onMouseLeave={hasHover ? () => setHovered(null) : undefined}
             className={cn(
                 "relative overflow-hidden rounded-2xl h-60 md:h-80 w-full cursor-pointer",
-                "backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
+                "bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
                 "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
                 project.className
             )}
@@ -144,11 +144,9 @@ const ProjectCard = ({
             animate={{ 
                 opacity: 1, 
                 y: 0,
-                filter: isOtherHovered ? "blur(4px)" : "blur(0px)",
-                scale: isOtherHovered ? 0.98 : 1
+                filter: isOtherHovered ? "blur(4px)" : "blur(0px)"
             }}
-            transition={{ 
-                duration: isReducedMotion ? 0 : 0.3,
+            transition={{
                 ease: "easeOut",
                 delay: isReducedMotion ? 0 : index * 0.1
             }}
@@ -214,7 +212,7 @@ const ProjectCard = ({
 
             {/* Hover Content - Action Buttons Only */}
             <motion.div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
+                className="absolute inset-0 bg-black/60 flex items-center justify-center p-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isHovered ? 1 : 0 }}
                 transition={{ duration: isReducedMotion ? 0 : 0.3 }}
