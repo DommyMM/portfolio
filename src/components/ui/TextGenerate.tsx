@@ -8,11 +8,13 @@ export const TextGenerateEffect = ({
     className,
     filter = true,
     duration = 0.5,
+    useGradient = false,
 }: {
     words: string;
     className?: string;
     filter?: boolean;
     duration?: number;
+    useGradient?: boolean;
     }) => {
     const [scope, animate] = useAnimate();
     const charsArray = Array.from(words);
@@ -37,7 +39,7 @@ export const TextGenerateEffect = ({
             return (
                 <motion.span
                 key={char + idx}
-                className="gradient-dance font-semibold opacity-0"
+                className={useGradient ? "gradient-dance font-semibold opacity-0" : "dark:text-gray-500 text-black opacity-0"}
                 style={{
                     filter: filter ? "blur(10px)" : "none",
                 }}
@@ -53,7 +55,7 @@ export const TextGenerateEffect = ({
     return (
         <div className={cn("font-bold", className)}>
         <div className="mt-4">
-            <div className="text-xl md:text-2xl lg:text-3xl leading-snug tracking-wide">
+            <div className={useGradient ? "text-xl md:text-2xl lg:text-3xl leading-snug tracking-wide" : " dark:text-gray-500 text-black text-xl md:text-2xl lg:text-3xl leading-snug tracking-wide"}>
             {renderChars()}
             </div>
         </div>

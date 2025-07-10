@@ -40,6 +40,7 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                             <TextGenerateEffect 
                                 words="Dominic Aung" 
                                 className="text-6xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none [&>div>div]:!text-6xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
+                                useGradient={true}
                             />
                         ) : (
                             <TextDecoder text="Dominic Aung" />
