@@ -294,7 +294,10 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                 whileInView={isReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={isReducedMotion ? {} : { duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="max-w-6xl mx-auto px-4"
+                className={cn(
+                    "max-w-6xl mx-auto px-4",
+                    expandedCard && "max-h-[85vh] overflow-hidden" // Prevent page from getting too tall on mobile
+                )}
                 onClick={handleOverlayClick}
             >
                 {/* Bento Grid */}

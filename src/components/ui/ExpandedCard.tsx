@@ -30,7 +30,7 @@ export default function ExpandedCard({ project, onClose, isReducedMotion = false
                 "col-span-full relative overflow-hidden rounded-2xl w-full transition-all duration-300 ease-out",
                 "backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
                 "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-                "min-h-[600px] lg:min-h-[700px]" // Expanded height
+                "max-h-[80vh] lg:min-h-[700px] overflow-y-auto" // Mobile: max 80% viewport, Desktop: full height
             )}
         >
             {/* Background - reduced opacity for readability */}
@@ -47,15 +47,15 @@ export default function ExpandedCard({ project, onClose, isReducedMotion = false
             </button>
 
             {/* Content */}
-            <div className="relative z-10 p-6 lg:p-8 h-full">
+            <div className="relative z-10 p-4 md:p-6 lg:p-8 h-full">
                 {/* Header Section */}
-                <div className="mb-8">
+                <div className="mb-6 md:mb-8">
                     <div className="flex items-start justify-between mb-4">
                         <div>
-                            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 dark:text-white mb-2">
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-neutral-800 dark:text-white mb-2">
                                 {project.name}
                             </h2>
-                            <p className="text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-3xl">
+                            <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-3xl">
                                 {project.longDescription}
                             </p>
                         </div>
