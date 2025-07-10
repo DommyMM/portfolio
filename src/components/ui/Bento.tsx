@@ -29,7 +29,7 @@ export function BentoGrid({ children, className, ...props }: BentoGridProps) {
     return (
         <div
             className={cn(
-                "grid w-full auto-rows-[22rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6",
+                "grid w-full auto-rows-[22rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 md:gap-x-6 md:gap-y-3",
                 className,
             )}
             {...props}
@@ -85,7 +85,7 @@ export function BentoCard({
 
             {/* Description - Top Center */}
             <motion.div 
-                className="absolute top-4 left-4 right-4 text-center z-10"
+                className="absolute top-4 left-4 right-4 text-left z-10"
                 initial={isReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={isReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={isReducedMotion ? {} : { 
@@ -93,12 +93,12 @@ export function BentoCard({
                     delay: index * 0.1 + 0.2
                 }}
             >
-                <p className="text-neutral-200 text-sm drop-shadow-lg mb-3">
+                <p className="text-neutral-200 text-sm drop-shadow-lg mb-2">
                     {description}
                 </p>
                 
                 {/* Key Points - Always Visible */}
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                     {keyPoints.map((point, pointIndex) => (
                         <motion.p
                             key={pointIndex}
@@ -116,10 +116,10 @@ export function BentoCard({
                 </div>
             </motion.div>
 
-            {/* Tech Stack Icons - Bottom Right */}
+            {/* Tech Stack Icons - Bottom Right, above name row */}
             {techStack.length > 0 && (
                 <motion.div 
-                    className="absolute bottom-16 right-4 flex gap-2 z-10"
+                    className="absolute bottom-12 right-4 flex gap-2 z-10"
                     initial={isReducedMotion ? {} : { opacity: 0, x: 20 }}
                     animate={isReducedMotion ? {} : { opacity: 1, x: 0 }}
                     transition={isReducedMotion ? {} : { 
@@ -143,9 +143,9 @@ export function BentoCard({
                 </motion.div>
             )}
 
-            {/* Project Name - Bottom Left */}
+            {/* Project Name + Action Buttons - Bottom Row */}
             <motion.div 
-                className="absolute bottom-4 left-4 z-10"
+                className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10"
                 initial={isReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={isReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={isReducedMotion ? {} : { 
@@ -156,64 +156,43 @@ export function BentoCard({
                 <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
                     {name}
                 </h3>
-            </motion.div>
-
-            {/* Hover Overlay with Actions Only */}
-            <motion.div
-                className="absolute inset-0 bg-black/60 flex items-center justify-center p-6 z-20"
-                initial={{ opacity: 0 }}
-                whileHover={isReducedMotion ? {} : { opacity: 1 }}
-                transition={{ duration: isReducedMotion ? 0 : 0.3 }}
-            >
-                <motion.div 
-                    className="text-center w-full"
-                    initial={isReducedMotion ? {} : { opacity: 0, y: 20 }}
-                    whileHover={isReducedMotion ? {} : { 
-                        opacity: 1,
-                        y: 0,
-                        transition: { 
-                            duration: 0.3,
-                            delay: 0.1
-                        }
-                    }}
-                >
-                    {/* Action Buttons */}
-                    <div className="flex gap-3 justify-center">
-                        {liveUrl && (
-                            <motion.button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    window.open(liveUrl, '_blank');
-                                }}
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-lg transition-all duration-200 text-blue-200"
-                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
-                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
-                            >
-                                <LaunchIcon className="w-4 h-4" />
-                                <span className="text-sm font-medium">Live Demo</span>
-                            </motion.button>
-                        )}
-                        {githubUrl && (
-                            <motion.button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    window.open(githubUrl, '_blank');
-                                }}
-                                className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg transition-all duration-200 text-white"
-                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
-                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
-                            >
-                                <GitHubIcon className="w-4 h-4" />
-                                <span className="text-sm font-medium">Code</span>
-                            </motion.button>
-                        )}
-                    </div>
-                </motion.div>
+                
+                {/* Action Buttons */}
+                <div className="flex gap-2">
+                    {liveUrl && (
+                        <motion.button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(liveUrl, '_blank');
+                            }}
+                            className="flex items-center gap-1 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-lg transition-all duration-200 text-blue-200"
+                            whileHover={isReducedMotion ? {} : { scale: 1.05 }}
+                            whileTap={isReducedMotion ? {} : { scale: 0.95 }}
+                        >
+                            <LaunchIcon className="w-3 h-3" />
+                            <span className="text-xs font-medium">Demo</span>
+                        </motion.button>
+                    )}
+                    {githubUrl && (
+                        <motion.button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(githubUrl, '_blank');
+                            }}
+                            className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg transition-all duration-200 text-white"
+                            whileHover={isReducedMotion ? {} : { scale: 1.05 }}
+                            whileTap={isReducedMotion ? {} : { scale: 0.95 }}
+                        >
+                            <GitHubIcon className="w-3 h-3" />
+                            <span className="text-xs font-medium">Code</span>
+                        </motion.button>
+                    )}
+                </div>
             </motion.div>
 
             {/* Subtle Hover Background Effect */}
             {!isReducedMotion && (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-10" />
             )}
         </MotionDiv>
     );
