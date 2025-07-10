@@ -2,240 +2,107 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { BentoGrid, BentoCard } from "@/components/ui/Bento";
 import { useHasHover } from "@/hooks/useResponsive";
-import LaunchIcon from '@mui/icons-material/Launch';
-import GitHubIcon from '@mui/icons-material/GitHub';
 
 // Project type definition
 interface Project {
     id: string;
     name: string;
-    tagline: string;
+    description: string;
     className: string;
     background: React.ReactElement;
-    keyMetrics: {
-        primary: string;
-        secondary: string;
-    };
+    keyPoints: string[];
     techStack: string[];
     liveUrl?: string;
     githubUrl?: string;
 }
 
-// Project data - focused on impact
+// Project data with our refined content
 const projectsData: Project[] = [
     {
         id: "wuwabuilds",
         name: "WuWaBuilds",
-        tagline: "Gaming platform with reverse-engineered calculations and leaderboards",
+        description: "Gaming platform with reverse-engineered calculations and leaderboards",
         className: "col-span-1 md:col-span-2 lg:col-span-3",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
         ),
-        keyMetrics: {
-            primary: "13K Users",
-            secondary: "313% Growth"
-        },
+        keyPoints: [
+            "13K users, 313% organic growth (past 3 months)",
+            "Real-time game calculations & reverse-engineered formulas",
+            "Live leaderboards with multi-parameter queries and sorting"
+        ],
         techStack: ["react", "typescript", "nextdotjs", "mongodb", "vercel"],
         liveUrl: "https://wuwabuilds.com",
-        githubUrl: "https://github.com/DommyMM"
+        githubUrl: "https://github.com/DommyMM/wuwabuild"
     },
     {
         id: "rag-translation",
         name: "RAG Translation",
-        tagline: "Cost-optimized AI translation pipeline",
+        description: "Cost-optimized AI translation pipeline",
         className: "col-span-1 md:col-span-1 lg:col-span-2",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10" />
         ),
-        keyMetrics: {
-            primary: "$0.004/chapter",
-            secondary: "84% Accuracy"
-        },
+        keyPoints: [
+            "Multi-phase self-learning pipeline",
+            "$0.004/chapter cost optimization",
+            "84% preference over traditional LLMs",
+        ],
         techStack: ["python", "openai", "rag", "fastapi"],
-        githubUrl: "https://github.com/DommyMM"
+        githubUrl: "https://github.com/DommyMM/webnovel-translator"
     },
     {
         id: "cv-api",
         name: "OCR API",
-        tagline: "Custom Computer Vision API with 95% accuracy",
+        description: "Custom Computer Vision API",
         className: "col-span-1 md:col-span-1 lg:col-span-1",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10" />
         ),
-        keyMetrics: {
-            primary: "95% Accuracy",
-            secondary: "100+ req/min"
-        },
+        keyPoints: [
+            "95% accuracy, 100+ req/min",
+            "Fuzzy match for data integrity",
+            "Parallel processing for faster results"
+        ],
         techStack: ["fastapi", "opencv", "python", "docker"],
-        githubUrl: "https://github.com/DommyMM"
+        githubUrl: "https://github.com/DommyMM/wuwa-ocr-api"
     },
     {
         id: "expresso",
         name: "Expresso",
-        tagline: "University mentorship platform",
+        description: "University mentorship platform",
         className: "col-span-1 md:col-span-1 lg:col-span-1",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
         ),
-        keyMetrics: {
-            primary: "Full-Stack",
-            secondary: "CI/CD"
-        },
+        keyPoints: [
+            "CI/CD workflow with team",
+            "Full-Stack Development",
+            "Match (Spa → Space Exploration)"
+        ],
         techStack: ["go", "postgresql", "nextdotjs", "tailwindcss"],
         liveUrl: "https://expressodavis.org",
-        githubUrl: "https://github.com/DommyMM"
+        githubUrl: "https://github.com/DommyMM/ExpressoDavis"
     },
     {
         id: "voice-chatbot",
         name: "Voice Chatbot",
-        tagline: "Multi-model AI with sub-second response",
-        className: "col-span-1 md:col-span-1 lg:col-span-2",
+        description: "Multi-model AI with sub-second response",
+        className: "col-span-1 md:col-span-2 lg:col-span-2",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
         ),
-        keyMetrics: {
-            primary: "<1s Response",
-            secondary: "4 AI Models"
-        },
+        keyPoints: [
+            "Sub-second response times",
+            "4 AI models with side-by-side comparison",
+            "Speech-to-text/text-to-speech pipeline"
+        ],
         techStack: ["nextdotjs", "fastapi", "openai", "speechapi"],
-        githubUrl: "https://github.com/DommyMM"
-    },
+        githubUrl: "https://github.com/DommyMM/not-gpt-but-still-wrapper"
+    }
 ];
-
-// Project Card component
-const ProjectCard = ({ 
-    project, 
-    index, 
-    hovered, 
-    setHovered,
-    hasHover,
-    isReducedMotion
-}: {
-    project: Project;
-    index: number;
-    hovered: number | null;
-    setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-    hasHover: boolean;
-    isReducedMotion: boolean;
-}) => {
-    const isHovered = hovered === index;
-    const isOtherHovered = hovered !== null && hovered !== index;
-
-    return (
-        <motion.div
-            onMouseEnter={hasHover ? () => setHovered(index) : undefined}
-            onMouseLeave={hasHover ? () => setHovered(null) : undefined}
-            className={cn(
-                "relative overflow-hidden rounded-2xl h-60 md:h-80 w-full cursor-pointer",
-                "bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
-                "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-                project.className
-            )}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ 
-                opacity: 1, 
-                y: 0,
-                filter: isOtherHovered ? "blur(4px)" : "blur(0px)"
-            }}
-            transition={{
-                ease: "easeOut",
-                delay: isReducedMotion ? 0 : index * 0.1
-            }}
-            whileHover={isReducedMotion ? {} : { 
-                y: -4,
-                transition: { duration: 0.2 }
-            }}
-        >
-            {/* Background */}
-            {project.background}
-
-            {/* Description - Always Visible (Top Center, Full Width) */}
-            <motion.div 
-                className="absolute top-4 left-4 right-4 text-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                    duration: isReducedMotion ? 0 : 0.5,
-                    delay: isReducedMotion ? 0 : index * 0.1 + 0.2
-                }}
-            >
-                <p className="text-neutral-200 text-sm drop-shadow-lg">
-                    {project.tagline}
-                </p>
-            </motion.div>
-
-            {/* Project Name - Always Visible (Bottom Left) */}
-            <motion.div 
-                className="absolute bottom-4 left-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                    duration: isReducedMotion ? 0 : 0.5,
-                    delay: isReducedMotion ? 0 : index * 0.1 + 0.3
-                }}
-            >
-                <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
-                    {project.name}
-                </h3>
-            </motion.div>
-
-            {/* Hover Content - Action Buttons Only */}
-            <motion.div
-                className="absolute inset-0 bg-black/60 flex items-center justify-center p-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isHovered ? 1 : 0 }}
-                transition={{ duration: isReducedMotion ? 0 : 0.3 }}
-            >
-                <motion.div 
-                    className="text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ 
-                        opacity: isHovered ? 1 : 0,
-                        y: isHovered ? 0 : 20
-                    }}
-                    transition={{ 
-                        duration: isReducedMotion ? 0 : 0.3,
-                        delay: isReducedMotion ? 0 : 0.1
-                    }}
-                >
-                    {/* Action Buttons */}
-                    <div className="flex gap-3 justify-center">
-                        {project.liveUrl && (
-                            <motion.button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    window.open(project.liveUrl, '_blank');
-                                }}
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-lg transition-all duration-200 text-blue-200"
-                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
-                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
-                            >
-                                <LaunchIcon className="w-4 h-4" />
-                                <span className="text-sm font-medium">Live Demo</span>
-                            </motion.button>
-                        )}
-                        {project.githubUrl && (
-                            <motion.button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    window.open(project.githubUrl, '_blank');
-                                }}
-                                className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg transition-all duration-200 text-white"
-                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
-                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
-                            >
-                                <GitHubIcon className="w-4 h-4" />
-                                <span className="text-sm font-medium">Code</span>
-                            </motion.button>
-                        )}
-                    </div>
-                </motion.div>
-            </motion.div>
-        </motion.div>
-    );
-};
 
 // Main Component
 interface ProjectsSectionProps {
@@ -275,21 +142,35 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                 transition={isReducedMotion ? {} : { duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
                 className="max-w-6xl mx-auto px-4"
+                onMouseLeave={hasHover ? () => setHovered(null) : undefined}
             >
                 {/* Bento Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <BentoGrid>
                     {projectsData.map((project, index) => (
-                        <ProjectCard
+                        <div
                             key={project.id}
-                            project={project}
-                            index={index}
-                            hovered={hovered}
-                            setHovered={setHovered}
-                            hasHover={hasHover}
-                            isReducedMotion={isReducedMotion}
-                        />
+                            className={project.className}
+                            onMouseEnter={hasHover ? () => setHovered(index) : undefined}
+                            style={{
+                                filter: hovered !== null && hovered !== index ? "blur(4px)" : "none",
+                                transition: "filter 0.3s ease"
+                            }}
+                        >
+                            <BentoCard
+                                name={project.name}
+                                background={project.background}
+                                description={project.description}
+                                keyPoints={project.keyPoints}
+                                techStack={project.techStack}
+                                liveUrl={project.liveUrl}
+                                githubUrl={project.githubUrl}
+                                isReducedMotion={isReducedMotion}
+                                index={index}
+                                className="w-full h-full"
+                            />
+                        </div>
                     ))}
-                </div>
+                </BentoGrid>
             </motion.div>
         </section>
     );
