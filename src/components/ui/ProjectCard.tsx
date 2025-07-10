@@ -18,7 +18,6 @@ interface SimpleModalCardProps {
         keyMetrics: {
             primary: string;
             secondary: string;
-            tertiary: string;
         };
         techStack: string[];
         liveUrl?: string;
@@ -86,7 +85,7 @@ export default function SimpleModalCard({
                                 </div>
 
                                 {/* Key Metrics */}
-                                <div className="grid grid-cols-3 gap-6 mb-8">
+                                <div className="grid grid-cols-2 gap-6 mb-8">
                                     <div className="text-center p-4 bg-neutral-100/50 dark:bg-white/5 rounded-lg border border-neutral-200/50 dark:border-white/10">
                                         <div className="text-2xl font-bold text-neutral-800 dark:text-white mb-1">
                                             {project.keyMetrics.primary}
@@ -103,14 +102,6 @@ export default function SimpleModalCard({
                                             Secondary
                                         </div>
                                     </div>
-                                    <div className="text-center p-4 bg-neutral-100/50 dark:bg-white/5 rounded-lg border border-neutral-200/50 dark:border-white/10">
-                                        <div className="text-2xl font-bold text-neutral-800 dark:text-white mb-1">
-                                            {project.keyMetrics.tertiary}
-                                        </div>
-                                        <div className="text-sm text-neutral-600 dark:text-neutral-400">
-                                            Tertiary
-                                        </div>
-                                    </div>
                                 </div>
 
                                 {/* Tech Stack */}
@@ -119,7 +110,7 @@ export default function SimpleModalCard({
                                         Built With
                                     </h3>
                                     <div className="flex flex-wrap gap-3 justify-center">
-                                        {project.techStack.map((tech, index) => (
+                                        {project.techStack.map((tech) => (
                                             <div
                                                 key={tech}
                                                 className="flex items-center gap-2 px-3 py-2 bg-neutral-100/50 dark:bg-white/5 border border-neutral-200 dark:border-white/10 rounded-full"

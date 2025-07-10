@@ -119,7 +119,7 @@ export function BentoCard({
                         delay: index * 0.1 + 0.3
                     }}
                 >
-                    {techStack.slice(0, 4).map((tech, techIndex) => (
+                    {techStack.slice(0, 4).map((tech) => (
                         <div 
                             key={tech}
                             className="w-6 h-6 bg-black/20 backdrop-blur-sm rounded-full border border-white/20 flex items-center justify-center"

@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useHasHover } from "@/hooks/useResponsive";
-import { createIconComponent } from "@/lib/icons";
 import LaunchIcon from '@mui/icons-material/Launch';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
@@ -18,7 +17,6 @@ interface Project {
     keyMetrics: {
         primary: string;
         secondary: string;
-        tertiary: string;
     };
     techStack: string[];
     liveUrl?: string;
@@ -37,8 +35,7 @@ const projectsData: Project[] = [
         ),
         keyMetrics: {
             primary: "13K Users",
-            secondary: "7K Monthly Active", 
-            tertiary: "313% Growth"
+            secondary: "313% Growth"
         },
         techStack: ["react", "typescript", "nextdotjs", "mongodb", "vercel"],
         liveUrl: "https://wuwabuilds.com",
@@ -54,8 +51,7 @@ const projectsData: Project[] = [
         ),
         keyMetrics: {
             primary: "$0.004/chapter",
-            secondary: "84% Accuracy",
-            tertiary: "100x Faster"
+            secondary: "84% Accuracy"
         },
         techStack: ["python", "openai", "rag", "fastapi"],
         githubUrl: "https://github.com/DommyMM"
@@ -70,8 +66,7 @@ const projectsData: Project[] = [
         ),
         keyMetrics: {
             primary: "95% Accuracy",
-            secondary: "100+ req/min",
-            tertiary: "Custom Built"
+            secondary: "100+ req/min"
         },
         techStack: ["fastapi", "opencv", "python", "docker"],
         githubUrl: "https://github.com/DommyMM"
@@ -85,9 +80,8 @@ const projectsData: Project[] = [
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
         ),
         keyMetrics: {
-            primary: "500+ Students",
-            secondary: "Fuzzy Search",
-            tertiary: "CI/CD Pipeline"
+            primary: "Full-Stack",
+            secondary: "CI/CD"
         },
         techStack: ["go", "postgresql", "nextdotjs", "tailwindcss"],
         liveUrl: "https://expressodavis.org",
@@ -103,8 +97,7 @@ const projectsData: Project[] = [
         ),
         keyMetrics: {
             primary: "<1s Response",
-            secondary: "4 AI Models",
-            tertiary: "Real-time Voice"
+            secondary: "4 AI Models"
         },
         techStack: ["nextdotjs", "fastapi", "openai", "speechapi"],
         githubUrl: "https://github.com/DommyMM"
@@ -158,9 +151,9 @@ const ProjectCard = ({
             {/* Background */}
             {project.background}
 
-            {/* Project Name - Always Visible (Bottom Left) */}
+            {/* Description - Always Visible (Top Center, Full Width) */}
             <motion.div 
-                className="absolute bottom-4 left-4"
+                className="absolute top-4 left-4 right-4 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ 
@@ -168,14 +161,14 @@ const ProjectCard = ({
                     delay: isReducedMotion ? 0 : index * 0.1 + 0.2
                 }}
             >
-                <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
-                    {project.name}
-                </h3>
+                <p className="text-neutral-200 text-sm drop-shadow-lg">
+                    {project.tagline}
+                </p>
             </motion.div>
 
-            {/* Tagline & Metrics - Always Visible (Center) */}
+            {/* Project Name - Always Visible (Bottom Left) */}
             <motion.div 
-                className="absolute inset-0 flex items-center justify-center p-6"
+                className="absolute bottom-4 left-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ 
@@ -183,31 +176,9 @@ const ProjectCard = ({
                     delay: isReducedMotion ? 0 : index * 0.1 + 0.3
                 }}
             >
-                <div className="text-center max-w-md">
-                    {/* Tagline */}
-                    <p className="text-neutral-200 text-sm mb-6 drop-shadow-lg">
-                        {project.tagline}
-                    </p>
-
-                    {/* Key Metrics Grid */}
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="text-center">
-                            <div className="text-lg font-bold text-white">
-                                {project.keyMetrics.primary}
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-lg font-bold text-white">
-                                {project.keyMetrics.secondary}
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-lg font-bold text-white">
-                                {project.keyMetrics.tertiary}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
+                    {project.name}
+                </h3>
             </motion.div>
 
             {/* Hover Content - Action Buttons Only */}
