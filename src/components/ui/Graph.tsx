@@ -109,7 +109,7 @@ const defaultEdgeOptions = {
 };
 
 // WuWaBuilds flow - Frontend converges to Database, then to Deployment/Analytics
-function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<string>): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [
         // Left side - Frontend stack (properly positioned)
         {
@@ -118,7 +118,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'react',
                 title: 'React', 
-                subtitle: 'UI + Support' 
+                subtitle: 'UI + Support',
+                selected: spinningNodes.has('react-ui')
             },
             type: 'turbo',
         },
@@ -128,7 +129,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'typescript',
                 title: 'TypeScript', 
-                subtitle: 'Type Safety' 
+                subtitle: 'Type Safety',
+                selected: spinningNodes.has('typescript-safety')
             },
             type: 'turbo',
         },
@@ -138,7 +140,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'nextdotjs',
                 title: 'Next.js', 
-                subtitle: 'Routing + SSR' 
+                subtitle: 'Routing + SSR',
+                selected: spinningNodes.has('nextjs-framework')
             },
             type: 'turbo',
         },
@@ -149,7 +152,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'vercel',
                 title: 'Vercel', 
-                subtitle: 'Serverless' 
+                subtitle: 'Serverless',
+                selected: spinningNodes.has('vercel-deploy')
             },
             type: 'turbo',
         },
@@ -160,7 +164,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'mongodb',
                 title: 'MongoDB', 
-                subtitle: 'Database + API' 
+                subtitle: 'Database + API',
+                selected: spinningNodes.has('mongodb-storage')
             },
             type: 'turbo',
         },
@@ -170,7 +175,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'seo',
                 title: 'Google Analytics', 
-                subtitle: 'Metrics + SEO' 
+                subtitle: 'Metrics + SEO',
+                selected: spinningNodes.has('analytics-tracking')
             },
             type: 'turbo',
         },
@@ -180,7 +186,8 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
             data: { 
                 icon: 'cloudflare',
                 title: 'Cloudflare', 
-                subtitle: 'DNS + CDN' 
+                subtitle: 'DNS + CDN',
+                selected: spinningNodes.has('cloudflare-cdn')
             },
             type: 'turbo',
         },
@@ -229,7 +236,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null): { nodes: Node<Turbo
 }
 
 // Fallback linear flow for other projects (temporary)
-function createLinearFlow(techStack: string[], hoveredEdgeId: string | null): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createLinearFlow(techStack: string[], hoveredEdgeId: string | null, spinningNodes: Set<string>): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [];
     const edges: Edge[] = [];
     
@@ -237,13 +244,15 @@ function createLinearFlow(techStack: string[], hoveredEdgeId: string | null): { 
     const yPosition = 100;
     
     techStack.forEach((tech, index) => {
+        const nodeId = `${tech}-${index}`;
         nodes.push({
-            id: `${tech}-${index}`,
+            id: nodeId,
             position: { x: index * spacing, y: yPosition },
             data: { 
                 icon: tech,
                 title: tech,
-                subtitle: '', 
+                subtitle: '',
+                selected: spinningNodes.has(nodeId)
             },
             type: 'turbo',
         });
@@ -263,18 +272,20 @@ function createLinearFlow(techStack: string[], hoveredEdgeId: string | null): { 
 }
 
 // Project-specific flow creation
-function createProjectFlow(techStack: string[], projectId: string, hoveredEdgeId: string | null): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createProjectFlow(techStack: string[], projectId: string, hoveredEdgeId: string | null, spinningNodes: Set<string>): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     switch (projectId) {
         case 'wuwabuilds':
-            return createWuWaBuildsFlow(hoveredEdgeId);
+            return createWuWaBuildsFlow(hoveredEdgeId, spinningNodes);
         default:
-            return createLinearFlow(techStack, hoveredEdgeId);
+            return createLinearFlow(techStack, hoveredEdgeId, spinningNodes);
     }
 }
 
 export default function Graph({ techStack, projectId, isReducedMotion = false, className }: GraphProps) {
     const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
-    const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId);
+    const [spinningNodes, setSpinningNodes] = useState<Set<string>>(new Set());
+    
+    const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes);
     
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -286,19 +297,36 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
 
     // Update edges when hover state changes
     React.useEffect(() => {
-        const { edges: newEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId);
+        const { edges: newEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes);
         setEdges(newEdges);
-    }, [hoveredEdgeId, techStack, projectId, setEdges]);
+    }, [hoveredEdgeId, techStack, projectId, setEdges, spinningNodes]);
+
+    // Update nodes when spinning state changes
+    React.useEffect(() => {
+        const { nodes: newNodes } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes);
+        setNodes(newNodes);
+    }, [spinningNodes, techStack, projectId, hoveredEdgeId, setNodes]);
 
     if (techStack.length === 0) {
         return null;
     }
 
+    const handleMouseEnter = () => {
+        // Phase 1: Spin the three frontend nodes simultaneously
+        setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
+    };
+
+    const handleMouseLeave = () => {
+        // Reset all animations
+        setSpinningNodes(new Set());
+        setHoveredEdgeId(null);
+    };
+
     return (
         <div 
             className={`w-full h-full ${className}`}
-            onMouseEnter={() => setHoveredEdgeId('react-vercel')} // Test with first edge
-            onMouseLeave={() => setHoveredEdgeId(null)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
             <ReactFlow
                 nodes={nodes}

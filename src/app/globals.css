@@ -358,6 +358,27 @@ body {
   border-radius: 100%;
 }
 
+/* Selected node spinning animation */
+.turbo-node.selected .turbo-wrapper.gradient:before {
+  content: '';
+  background: conic-gradient(
+    from -160deg at 50% 50%,
+    #e92a67 0deg,
+    #a853ba 120deg,
+    #2a8af6 240deg,
+    rgba(42, 138, 246, 0) 360deg
+  );
+  animation: spinner 4s linear infinite;
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: -1;
+}
+
+@keyframes spinner {
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
 .turbo-inner {
   background: var(--turbo-bg-color);
   padding: 9px 12px;

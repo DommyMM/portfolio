@@ -9,12 +9,13 @@ export type TurboNodeData = {
     title: string;
     icon?: string; // icon slug instead of ReactNode
     subtitle?: string;
+    selected?: boolean;
 };
 
 // TurboNode Component
 export const TurboNode = memo(({ data }: NodeProps<Node<TurboNodeData>>) => {
     return (
-        <div className="turbo-node">
+        <div className={`turbo-node ${data.selected ? 'selected' : ''}`}>
             <div className="turbo-wrapper gradient">
                 <div className="turbo-inner">
                     <div className="turbo-body">
