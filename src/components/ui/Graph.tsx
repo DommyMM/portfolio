@@ -303,9 +303,16 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
 
     // Update nodes when spinning state changes
     React.useEffect(() => {
-        const { nodes: newNodes } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes);
-        setNodes(newNodes);
-    }, [spinningNodes, techStack, projectId, hoveredEdgeId, setNodes]);
+        setNodes((currentNodes) => 
+            currentNodes.map(node => ({
+                ...node,
+                data: {
+                    ...node.data,
+                    selected: spinningNodes.has(node.id)
+                }
+            }))
+        );
+    }, [spinningNodes, setNodes]);
 
     if (techStack.length === 0) {
         return null;
