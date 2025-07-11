@@ -41,6 +41,7 @@ export const iconMap: Record<string, IconData> = {
     // Backend & Infrastructure
     fastapi: { type: 'simple', data: SimpleIcons.siFastapi },
     nodedotjs: { type: 'simple', data: SimpleIcons.siNodedotjs },
+    cloudflare: { type: 'simple', data: SimpleIcons.siCloudflare },
     cicd: { type: 'simple', data: SimpleIcons.siGithubactions },
     seo: { type: 'simple', data: SimpleIcons.siGoogleanalytics },
     mongodb: { type: 'simple', data: SimpleIcons.siMongodb },

@@ -59,7 +59,7 @@ export function BentoCard({
     return (
         <MotionDiv
             className={cn(
-                "group relative flex flex-col justify-between overflow-hidden rounded-2xl cursor-pointer h-60 md:h-80",
+                "group relative flex flex-col overflow-hidden rounded-2xl cursor-pointer h-60 md:h-80",
                 "backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border border-neutral-300 dark:border-neutral-800",
                 "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
                 className,
@@ -85,9 +85,9 @@ export function BentoCard({
                 {background}
             </div>
 
-            {/* Description - Top Center */}
+            {/* Description - Natural flow at top */}
             <motion.div 
-                className="absolute top-4 left-4 right-4 text-left z-10"
+                className="relative px-4 pt-4 pb-1 text-left z-10"
                 initial={isReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={isReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={isReducedMotion ? {} : { 
@@ -118,10 +118,10 @@ export function BentoCard({
                 </div>
             </motion.div>
 
-            {/* React Flow Graph - Middle Center */}
+            {/* React Flow Graph - Takes remaining vertical space */}
             {techStack.length > 0 && (
                 <motion.div 
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-32 z-10"
+                    className="relative flex-1 mb-0 px-4 z-10"
                     initial={isReducedMotion ? {} : { opacity: 0, scale: 0.8 }}
                     animate={isReducedMotion ? {} : { opacity: 1, scale: 1 }}
                     transition={isReducedMotion ? {} : { 

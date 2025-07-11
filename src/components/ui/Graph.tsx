@@ -25,13 +25,101 @@ const defaultEdgeOptions = {
     markerEnd: 'edge-circle',
 };
 
-// Function to organize tech stack into flow based on project
-function createProjectFlow(techStack: string[], projectId: string): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+// WuWaBuilds flow - Frontend converges to Database, then to Deployment/Analytics
+function createWuWaBuildsFlow(): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+    const nodes: Node<TurboNodeData>[] = [
+        // Left side - Frontend stack (more spread out)
+        {
+            id: 'react-ui',
+            position: { x: 0, y: 0 },
+            data: { 
+                icon: 'react',
+                title: 'React', 
+                subtitle: 'Real-time Calcs' 
+            },
+            type: 'turbo',
+        },
+        {
+            id: 'typescript-safety',
+            position: { x: 0, y: 140 },
+            data: { 
+                icon: 'typescript',
+                title: 'TypeScript', 
+                subtitle: 'Type Safety' 
+            },
+            type: 'turbo',
+        },
+        {
+            id: 'nextjs-framework',
+            position: { x: 0, y: 280 },
+            data: { 
+                icon: 'nextdotjs',
+                title: 'Next.js', 
+                subtitle: 'SSR Pages' 
+            },
+            type: 'turbo',
+        },
+        // Middle - Data processing
+        {
+            id: 'mongodb-storage',
+            position: { x: 350, y: 140 },
+            data: { 
+                icon: 'mongodb',
+                title: 'MongoDB', 
+                subtitle: 'User Builds' 
+            },
+            type: 'turbo',
+        },
+        // Right - Deployment & Analytics (more spread out)
+        {
+            id: 'vercel-deploy',
+            position: { x: 700, y: 0 },
+            data: { 
+                icon: 'vercel',
+                title: 'Vercel', 
+                subtitle: 'Global CDN' 
+            },
+            type: 'turbo',
+        },
+        {
+            id: 'analytics-tracking',
+            position: { x: 700, y: 140 },
+            data: { 
+                icon: 'seo',
+                title: 'Analytics', 
+                subtitle: 'User Tracking' 
+            },
+            type: 'turbo',
+        },
+        {
+            id: 'cloudflare-cdn',
+            position: { x: 700, y: 280 },
+            data: { 
+                icon: 'cloudflare',
+                title: 'Cloudflare', 
+                subtitle: 'Edge Cache' 
+            },
+            type: 'turbo',
+        },
+    ];
+
+    const edges: Edge[] = [
+        { id: 'react-mongo', source: 'react-ui', target: 'mongodb-storage' },
+        { id: 'ts-mongo', source: 'typescript-safety', target: 'mongodb-storage' },
+        { id: 'next-mongo', source: 'nextjs-framework', target: 'mongodb-storage' },
+        { id: 'mongo-vercel', source: 'mongodb-storage', target: 'vercel-deploy' },
+        { id: 'mongo-analytics', source: 'mongodb-storage', target: 'analytics-tracking' },
+        { id: 'mongo-cloudflare', source: 'mongodb-storage', target: 'cloudflare-cdn' },
+    ];
+
+    return { nodes, edges };
+}
+
+// Fallback linear flow for other projects (temporary)
+function createLinearFlow(techStack: string[]): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [];
     const edges: Edge[] = [];
     
-    // For now, create a simple linear flow
-    // Later we can make this more sophisticated per project
     const spacing = 200;
     const yPosition = 100;
     
@@ -42,12 +130,11 @@ function createProjectFlow(techStack: string[], projectId: string): { nodes: Nod
             data: { 
                 icon: tech,
                 title: tech,
-                subtitle: '', // Empty for now as requested
+                subtitle: '', 
             },
             type: 'turbo',
         });
         
-        // Create edge to next node
         if (index < techStack.length - 1) {
             edges.push({
                 id: `e${index}-${index + 1}`,
@@ -58,6 +145,16 @@ function createProjectFlow(techStack: string[], projectId: string): { nodes: Nod
     });
     
     return { nodes, edges };
+}
+
+// Project-specific flow creation
+function createProjectFlow(techStack: string[], projectId: string): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+    switch (projectId) {
+        case 'wuwabuilds':
+            return createWuWaBuildsFlow();
+        default:
+            return createLinearFlow(techStack);
+    }
 }
 
 export default function Graph({ techStack, projectId, isReducedMotion = false, className }: GraphProps) {
