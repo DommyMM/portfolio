@@ -356,20 +356,47 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
         
         const newTimeouts: NodeJS.Timeout[] = [];
         
-        // Phase 1 (0s): Frontend nodes start spinning + ALL beams launch
+        // Phase 1 (0s): Frontend nodes start spinning (NO beams yet)
         setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
-        setHoveredEdges(new Set(['react-vercel', 'ts-vercel', 'next-vercel']));
         
-        // Phase 2 (4s): Vercel JOINS spinning + ALL distribution beams
+        // Phase 1 End (6s): Frontend nodes STOP spinning + beams launch + Vercel starts
         newTimeouts.push(setTimeout(() => {
+            // Frontend completes power-up, stops spinning
+            setSpinningNodes(prev => {
+                const newSet = new Set(prev);
+                newSet.delete('react-ui');
+                newSet.delete('typescript-safety');
+                newSet.delete('nextjs-framework');
+                return newSet;
+            });
+            // Frontend beams launch + Vercel starts spinning
+            setHoveredEdges(new Set(['react-vercel', 'ts-vercel', 'next-vercel']));
             setSpinningNodes(prev => new Set([...prev, 'vercel-deploy']));
-            setHoveredEdges(prev => new Set([...prev, 'vercel-mongo', 'vercel-analytics', 'vercel-cloudflare']));
-        }, 4000));
-        
-        // Phase 3 (6s): Services JOIN spinning (but keep everything spinning!)
-        newTimeouts.push(setTimeout(() => {
-            setSpinningNodes(prev => new Set([...prev, 'mongodb-storage', 'analytics-tracking', 'cloudflare-cdn']));
         }, 6000));
+        
+        // Phase 2 End (12s): Vercel STOPS spinning + distribution beams launch + Services start
+        newTimeouts.push(setTimeout(() => {
+            // Vercel completes power-up, stops spinning
+            setSpinningNodes(prev => {
+                const newSet = new Set(prev);
+                newSet.delete('vercel-deploy');
+                return newSet;
+            });
+            // Add distribution beams (keep frontend beams) + Services start spinning
+            setHoveredEdges(prev => new Set([...prev, 'vercel-mongo', 'vercel-analytics', 'vercel-cloudflare']));
+            setSpinningNodes(prev => new Set([...prev, 'mongodb-storage', 'analytics-tracking', 'cloudflare-cdn']));
+        }, 12000));
+        
+        // Phase 3 End (18s): Services STOP spinning (all energy transferred)
+        newTimeouts.push(setTimeout(() => {
+            setSpinningNodes(prev => {
+                const newSet = new Set(prev);
+                newSet.delete('mongodb-storage');
+                newSet.delete('analytics-tracking');
+                newSet.delete('cloudflare-cdn');
+                return newSet;
+            });
+        }, 18000));
         
         setTimeouts(newTimeouts);
     };

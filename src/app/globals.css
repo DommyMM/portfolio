@@ -346,7 +346,7 @@ body {
   padding-bottom: calc(100% * 1.41421356237);
   width: calc(100% * 1.41421356237);
   background: conic-gradient(
-    from 100deg at 50% 50%,
+    from -90deg at 50% 50%,
     #e92a67 0deg,
     #a853ba 120deg,
     #2a8af6 240deg,
@@ -362,7 +362,7 @@ body {
 .turbo-node.selected .turbo-wrapper.gradient:before {
   content: '';
   background: conic-gradient(
-    from 100deg at 50% 50%,
+    from -90deg at 50% 50%,
     #e92a67 0deg,
     #a853ba 120deg,
     #2a8af6 240deg,
