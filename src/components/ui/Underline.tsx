@@ -1,6 +1,6 @@
 "use client"
 
-import { ElementType, useEffect, useRef, useState, useMemo } from "react"
+import { ElementType, useEffect, useRef, useState, useMemo, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { motion, useAnimationControls, ValueAnimationTransition } from "motion/react"
 
@@ -91,7 +91,7 @@ export default function GoesOutComesInUnderline({
         return () => window.removeEventListener("resize", updateUnderlineStyles)
     }, [underlineHeightRatio, underlinePaddingRatio])
 
-    const animate = async () => {
+    const animate = useCallback(async () => {
         if (blocked) return
 
         setBlocked(true)
@@ -115,14 +115,14 @@ export default function GoesOutComesInUnderline({
         })
 
         setBlocked(false)
-    }
+    }, [blocked, controls, transition, direction])
 
     // Watch external hover state if provided
     useEffect(() => {
         if (isHovered !== undefined && isHovered) {
             animate()
         }
-    }, [isHovered])
+    }, [isHovered, animate])
 
     return (
         <MotionComponent
