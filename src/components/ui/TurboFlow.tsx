@@ -20,7 +20,7 @@ export const TurboNode = memo(({ data }: NodeProps<Node<TurboNodeData>>) => {
                     <div className="turbo-body">
                         {data.icon && (
                             <div className="turbo-icon">
-                                {createIconComponent(data.icon, { className: "w-4 h-4" })}
+                                {createIconComponent(data.icon, { className: "w-3 h-3" })}
                             </div>
                         )}
                         <div>

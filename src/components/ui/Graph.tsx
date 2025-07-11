@@ -28,20 +28,20 @@ const defaultEdgeOptions = {
 // WuWaBuilds flow - Frontend converges to Database, then to Deployment/Analytics
 function createWuWaBuildsFlow(): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [
-        // Left side - Frontend stack (more spread out)
+        // Left side - Frontend stack (properly positioned)
         {
             id: 'react-ui',
-            position: { x: 0, y: 0 },
+            position: { x: 160, y: 10 },
             data: { 
                 icon: 'react',
                 title: 'React', 
-                subtitle: 'Real-time Calcs' 
+                subtitle: 'UI + Support' 
             },
             type: 'turbo',
         },
         {
             id: 'typescript-safety',
-            position: { x: 0, y: 140 },
+            position: { x: 160, y: 90 },
             data: { 
                 icon: 'typescript',
                 title: 'TypeScript', 
@@ -51,65 +51,65 @@ function createWuWaBuildsFlow(): { nodes: Node<TurboNodeData>[], edges: Edge[] }
         },
         {
             id: 'nextjs-framework',
-            position: { x: 0, y: 280 },
+            position: { x: 160, y: 160 },
             data: { 
                 icon: 'nextdotjs',
                 title: 'Next.js', 
-                subtitle: 'SSR Pages' 
+                subtitle: 'Routing + SSR' 
             },
             type: 'turbo',
         },
-        // Middle - Data processing
-        {
-            id: 'mongodb-storage',
-            position: { x: 350, y: 140 },
-            data: { 
-                icon: 'mongodb',
-                title: 'MongoDB', 
-                subtitle: 'User Builds' 
-            },
-            type: 'turbo',
-        },
-        // Right - Deployment & Analytics (more spread out)
+        // Middle - Deployment hub
         {
             id: 'vercel-deploy',
-            position: { x: 700, y: 0 },
+            position: { x: 370, y: 90 },
             data: { 
                 icon: 'vercel',
                 title: 'Vercel', 
-                subtitle: 'Global CDN' 
+                subtitle: 'Serverless' 
+            },
+            type: 'turbo',
+        },
+        // Right - Data storage
+        {
+            id: 'mongodb-storage',
+            position: { x: 600, y: 10 },
+            data: { 
+                icon: 'mongodb',
+                title: 'MongoDB', 
+                subtitle: 'Database + API' 
             },
             type: 'turbo',
         },
         {
             id: 'analytics-tracking',
-            position: { x: 700, y: 140 },
+            position: { x: 600, y: 90 },
             data: { 
                 icon: 'seo',
-                title: 'Analytics', 
-                subtitle: 'User Tracking' 
+                title: 'Google Analytics', 
+                subtitle: 'Metrics + SEO' 
             },
             type: 'turbo',
         },
         {
             id: 'cloudflare-cdn',
-            position: { x: 700, y: 280 },
+            position: { x: 600, y: 160 },
             data: { 
                 icon: 'cloudflare',
                 title: 'Cloudflare', 
-                subtitle: 'Edge Cache' 
+                subtitle: 'DNS + CDN' 
             },
             type: 'turbo',
         },
     ];
 
     const edges: Edge[] = [
-        { id: 'react-mongo', source: 'react-ui', target: 'mongodb-storage' },
-        { id: 'ts-mongo', source: 'typescript-safety', target: 'mongodb-storage' },
-        { id: 'next-mongo', source: 'nextjs-framework', target: 'mongodb-storage' },
-        { id: 'mongo-vercel', source: 'mongodb-storage', target: 'vercel-deploy' },
-        { id: 'mongo-analytics', source: 'mongodb-storage', target: 'analytics-tracking' },
-        { id: 'mongo-cloudflare', source: 'mongodb-storage', target: 'cloudflare-cdn' },
+        { id: 'react-vercel', source: 'react-ui', target: 'vercel-deploy' },
+        { id: 'ts-vercel', source: 'typescript-safety', target: 'vercel-deploy' },
+        { id: 'next-vercel', source: 'nextjs-framework', target: 'vercel-deploy' },
+        { id: 'vercel-mongo', source: 'vercel-deploy', target: 'mongodb-storage' },
+        { id: 'vercel-analytics', source: 'vercel-deploy', target: 'analytics-tracking' },
+        { id: 'vercel-cloudflare', source: 'vercel-deploy', target: 'cloudflare-cdn' },
     ];
 
     return { nodes, edges };
@@ -180,7 +180,6 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-                fitView
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
                 defaultEdgeOptions={defaultEdgeOptions}
