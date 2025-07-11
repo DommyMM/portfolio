@@ -109,7 +109,7 @@ const defaultEdgeOptions = {
 };
 
 // WuWaBuilds flow - Frontend converges to Database, then to Deployment/Analytics
-function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [
         // Left side - Frontend stack (properly positioned)
         {
@@ -199,7 +199,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
             source: 'react-ui', 
             target: 'vercel-deploy',
             data: { 
-                isHighlighted: hoveredEdgeId === 'react-vercel',
+                isHighlighted: hoveredEdges.has('react-vercel'),
                 isReducedMotion
             }
         },
@@ -208,7 +208,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
             source: 'typescript-safety', 
             target: 'vercel-deploy',
             data: { 
-                isHighlighted: hoveredEdgeId === 'ts-vercel',
+                isHighlighted: hoveredEdges.has('ts-vercel'),
                 isReducedMotion
             }
         },
@@ -217,7 +217,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
             source: 'nextjs-framework', 
             target: 'vercel-deploy',
             data: { 
-                isHighlighted: hoveredEdgeId === 'next-vercel',
+                isHighlighted: hoveredEdges.has('next-vercel'),
                 isReducedMotion
             }
         },
@@ -226,7 +226,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
             source: 'vercel-deploy', 
             target: 'mongodb-storage',
             data: { 
-                isHighlighted: hoveredEdgeId === 'vercel-mongo',
+                isHighlighted: hoveredEdges.has('vercel-mongo'),
                 isReducedMotion
             }
         },
@@ -235,7 +235,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
             source: 'vercel-deploy', 
             target: 'analytics-tracking',
             data: { 
-                isHighlighted: hoveredEdgeId === 'vercel-analytics',
+                isHighlighted: hoveredEdges.has('vercel-analytics'),
                 isReducedMotion
             }
         },
@@ -244,7 +244,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
             source: 'vercel-deploy', 
             target: 'cloudflare-cdn',
             data: { 
-                isHighlighted: hoveredEdgeId === 'vercel-cloudflare',
+                isHighlighted: hoveredEdges.has('vercel-cloudflare'),
                 isReducedMotion
             }
         },
@@ -254,7 +254,7 @@ function createWuWaBuildsFlow(hoveredEdgeId: string | null, spinningNodes: Set<s
 }
 
 // Fallback linear flow for other projects (temporary)
-function createLinearFlow(techStack: string[], hoveredEdgeId: string | null, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [];
     const edges: Edge[] = [];
     
@@ -282,7 +282,7 @@ function createLinearFlow(techStack: string[], hoveredEdgeId: string | null, spi
                 source: `${tech}-${index}`,
                 target: `${techStack[index + 1]}-${index + 1}`,
                 data: { 
-                    isHighlighted: hoveredEdgeId === edgeId,
+                    isHighlighted: hoveredEdges.has(edgeId),
                     isReducedMotion
                 }
             });
@@ -293,21 +293,21 @@ function createLinearFlow(techStack: string[], hoveredEdgeId: string | null, spi
 }
 
 // Project-specific flow creation
-function createProjectFlow(techStack: string[], projectId: string, hoveredEdgeId: string | null, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createProjectFlow(techStack: string[], projectId: string, hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     switch (projectId) {
         case 'wuwabuilds':
-            return createWuWaBuildsFlow(hoveredEdgeId, spinningNodes, isReducedMotion);
+            return createWuWaBuildsFlow(hoveredEdges, spinningNodes, isReducedMotion);
         default:
-            return createLinearFlow(techStack, hoveredEdgeId, spinningNodes, isReducedMotion);
+            return createLinearFlow(techStack, hoveredEdges, spinningNodes, isReducedMotion);
     }
 }
 
 export default function Graph({ techStack, projectId, isReducedMotion = false, className }: GraphProps) {
-    const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
+    const [hoveredEdges, setHoveredEdges] = useState<Set<string>>(new Set());
     const [spinningNodes, setSpinningNodes] = useState<Set<string>>(new Set());
     const [timeouts, setTimeouts] = useState<NodeJS.Timeout[]>([]);
     
-    const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes, isReducedMotion);
+    const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdges, spinningNodes, isReducedMotion);
     
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -324,11 +324,11 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
                 ...edge,
                 data: {
                     ...edge.data,
-                    isHighlighted: hoveredEdgeId === edge.id
+                    isHighlighted: hoveredEdges.has(edge.id)
                 }
             }))
         );
-    }, [hoveredEdgeId, setEdges]);
+    }, [hoveredEdges, setEdges]);
 
     // Update nodes when spinning state changes
     React.useEffect(() => {
@@ -356,29 +356,19 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
         
         const newTimeouts: NodeJS.Timeout[] = [];
         
-        // Phase 1 (0s): Frontend nodes start spinning + beams launch
+        // Phase 1 (0s): Frontend nodes start spinning + ALL beams launch
         setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
+        setHoveredEdges(new Set(['react-vercel', 'ts-vercel', 'next-vercel']));
         
-        // Staggered beams to Vercel (0s, 0.2s, 0.4s)
-        setHoveredEdgeId('react-vercel');
-        newTimeouts.push(setTimeout(() => setHoveredEdgeId('ts-vercel'), 200));
-        newTimeouts.push(setTimeout(() => setHoveredEdgeId('next-vercel'), 400));
-        
-        // Phase 2 (4s): Vercel JOINS spinning + distribution beams
+        // Phase 2 (4s): Vercel JOINS spinning + ALL distribution beams
         newTimeouts.push(setTimeout(() => {
             setSpinningNodes(prev => new Set([...prev, 'vercel-deploy']));
-            // Clear frontend beams and start distribution beams
-            setHoveredEdgeId('vercel-mongo');
+            setHoveredEdges(prev => new Set([...prev, 'vercel-mongo', 'vercel-analytics', 'vercel-cloudflare']));
         }, 4000));
         
-        newTimeouts.push(setTimeout(() => setHoveredEdgeId('vercel-analytics'), 4200));
-        newTimeouts.push(setTimeout(() => setHoveredEdgeId('vercel-cloudflare'), 4400));
-        
-        // Phase 3 (6s): Services JOIN spinning
+        // Phase 3 (6s): Services JOIN spinning (but keep everything spinning!)
         newTimeouts.push(setTimeout(() => {
             setSpinningNodes(prev => new Set([...prev, 'mongodb-storage', 'analytics-tracking', 'cloudflare-cdn']));
-            // Clear distribution beams - all energy absorbed
-            setHoveredEdgeId(null);
         }, 6000));
         
         setTimeouts(newTimeouts);
@@ -391,7 +381,7 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
         
         // Reset all animations
         setSpinningNodes(new Set());
-        setHoveredEdgeId(null);
+        setHoveredEdges(new Set());
     };
 
     return (
