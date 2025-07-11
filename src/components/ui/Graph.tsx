@@ -297,9 +297,16 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
 
     // Update edges when hover state changes
     React.useEffect(() => {
-        const { edges: newEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes);
-        setEdges(newEdges);
-    }, [hoveredEdgeId, techStack, projectId, setEdges, spinningNodes]);
+        setEdges((currentEdges) => 
+            currentEdges.map(edge => ({
+                ...edge,
+                data: {
+                    ...edge.data,
+                    isHighlighted: hoveredEdgeId === edge.id
+                }
+            }))
+        );
+    }, [hoveredEdgeId, setEdges]);
 
     // Update nodes when spinning state changes
     React.useEffect(() => {
