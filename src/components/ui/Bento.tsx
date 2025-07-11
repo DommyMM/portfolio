@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoesOutComesInUnderline from './Underline';
+import Graph from './Graph';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
     children: ReactNode;
@@ -53,6 +54,7 @@ export function BentoCard({
 }: BentoCardProps) {
     const MotionDiv = isReducedMotion ? "div" : motion.div;
     const [isHovered, setIsHovered] = useState(false);
+    const projectId = name.toLowerCase().replace(/\s+/g, '-');
     
     return (
         <MotionDiv
@@ -115,6 +117,26 @@ export function BentoCard({
                     ))}
                 </div>
             </motion.div>
+
+            {/* React Flow Graph - Middle Center */}
+            {techStack.length > 0 && (
+                <motion.div 
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-32 z-10"
+                    initial={isReducedMotion ? {} : { opacity: 0, scale: 0.8 }}
+                    animate={isReducedMotion ? {} : { opacity: 1, scale: 1 }}
+                    transition={isReducedMotion ? {} : { 
+                        duration: 0.4,
+                        delay: index * 0.1 + 0.4
+                    }}
+                >
+                    <Graph 
+                        techStack={techStack}
+                        projectId={projectId}
+                        isReducedMotion={isReducedMotion}
+                        className="h-full"
+                    />
+                </motion.div>
+            )}
 
             {/* Project Name + Action Buttons - Bottom Row */}
             <motion.div 
