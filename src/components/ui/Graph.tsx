@@ -359,7 +359,7 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
         // Phase 1 (0s): Frontend nodes start spinning (NO beams yet)
         setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
         
-        // Phase 1 End (6s): Frontend nodes STOP spinning + beams launch + Vercel starts
+        // Phase 1 End (4s): Frontend nodes STOP spinning + beams launch + Vercel starts
         newTimeouts.push(setTimeout(() => {
             // Frontend completes power-up, stops spinning
             setSpinningNodes(prev => {
@@ -372,9 +372,9 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
             // Frontend beams launch + Vercel starts spinning
             setHoveredEdges(new Set(['react-vercel', 'ts-vercel', 'next-vercel']));
             setSpinningNodes(prev => new Set([...prev, 'vercel-deploy']));
-        }, 6000));
+        }, 4000));
         
-        // Phase 2 End (12s): Vercel STOPS spinning + distribution beams launch + Services start
+        // Phase 2 End (8s): Vercel STOPS spinning + distribution beams launch + Services start
         newTimeouts.push(setTimeout(() => {
             // Vercel completes power-up, stops spinning
             setSpinningNodes(prev => {
@@ -385,9 +385,9 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
             // Add distribution beams (keep frontend beams) + Services start spinning
             setHoveredEdges(prev => new Set([...prev, 'vercel-mongo', 'vercel-analytics', 'vercel-cloudflare']));
             setSpinningNodes(prev => new Set([...prev, 'mongodb-storage', 'analytics-tracking', 'cloudflare-cdn']));
-        }, 12000));
+        }, 8000));
         
-        // Phase 3 End (18s): Services STOP spinning (all energy transferred)
+        // Phase 3 End (12s): Services STOP spinning (all energy transferred)
         newTimeouts.push(setTimeout(() => {
             setSpinningNodes(prev => {
                 const newSet = new Set(prev);
@@ -396,7 +396,7 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
                 newSet.delete('cloudflare-cdn');
                 return newSet;
             });
-        }, 18000));
+        }, 12000));
         
         setTimeouts(newTimeouts);
     };
