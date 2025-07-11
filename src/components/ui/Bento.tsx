@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentPropsWithoutRef, ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactNode, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -52,6 +52,7 @@ export function BentoCard({
     ...props
 }: BentoCardProps) {
     const MotionDiv = isReducedMotion ? "div" : motion.div;
+    const [isHovered, setIsHovered] = useState(false);
     
     return (
         <MotionDiv
@@ -73,6 +74,8 @@ export function BentoCard({
                 y: -4,
                 transition: { duration: 0.2 }
             }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             {...props}
         >
             {/* Background */}
@@ -128,6 +131,7 @@ export function BentoCard({
                         className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
                         direction="right"
                         onClick={() => window.open(liveUrl, '_blank')}
+                        isHovered={isHovered}
                     >
                         {name}
                     </GoesOutComesInUnderline>

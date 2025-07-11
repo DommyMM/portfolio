@@ -42,6 +42,10 @@ interface GoesOutComesInUnderlineProps {
      * Click handler
      */
     onClick?: () => void
+    /**
+     * External hover state - if provided, animation will be controlled by this instead of internal hover
+     */
+    isHovered?: boolean
 }
 
 export default function GoesOutComesInUnderline({
@@ -56,6 +60,7 @@ export default function GoesOutComesInUnderline({
         ease: "easeInOut",
     },
     onClick,
+    isHovered,
     ...props
 }: GoesOutComesInUnderlineProps) {
     const controls = useAnimationControls()
@@ -112,10 +117,17 @@ export default function GoesOutComesInUnderline({
         setBlocked(false)
     }
 
+    // Watch external hover state if provided
+    useEffect(() => {
+        if (isHovered !== undefined && isHovered) {
+            animate()
+        }
+    }, [isHovered])
+
     return (
         <MotionComponent
         className={cn("relative inline-block cursor-pointer", className)}
-        onHoverStart={animate}
+        onHoverStart={isHovered === undefined ? animate : undefined}
         onClick={onClick}
         ref={textRef}
         {...props}
