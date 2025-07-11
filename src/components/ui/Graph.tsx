@@ -314,6 +314,11 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
     const handleMouseEnter = () => {
         // Phase 1: Spin the three frontend nodes simultaneously
         setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
+        
+        // Only show beams if motion is not reduced
+        if (!isReducedMotion) {
+            // Future: Phase 2 beam animations will go here
+        }
     };
 
     const handleMouseLeave = () => {
