@@ -65,6 +65,7 @@ export default function GoesOutComesInUnderline({
 }: GoesOutComesInUnderlineProps) {
     const controls = useAnimationControls()
     const [blocked, setBlocked] = useState(false)
+    const [hasAnimated, setHasAnimated] = useState(false)
     const textRef = useRef<HTMLSpanElement>(null)
     const MotionComponent = useMemo(() => motion.create(as ?? "span"), [as])
 
@@ -92,7 +93,7 @@ export default function GoesOutComesInUnderline({
     }, [underlineHeightRatio, underlinePaddingRatio])
 
     const animate = useCallback(async () => {
-        if (blocked) return
+        if (blocked || hasAnimated) return
 
         setBlocked(true)
 
@@ -115,7 +116,8 @@ export default function GoesOutComesInUnderline({
         })
 
         setBlocked(false)
-    }, [blocked, controls, transition, direction])
+        setHasAnimated(true)
+    }, [blocked, hasAnimated, controls, transition, direction])
 
     // Watch external hover state if provided
     useEffect(() => {
