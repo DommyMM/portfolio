@@ -45,29 +45,51 @@ function AnimatedTurboEdge({
             <path
                 id={id}
                 style={style}
-                className="react-flow__edge-path"
+                className={`react-flow__edge-path ${data?.isHighlighted ? 'edge-highlighted' : 'edge-default'}`}
                 d={edgePath}
                 markerEnd={markerEnd}
             />
             {/* Particles when highlighted */}
             {data?.isHighlighted &&
                 [...Array(PARTICLE_COUNT)].map((_, i) => (
-                    <ellipse
-                        key={`particle-${id}-${i}`}
-                        rx="3"
-                        ry="1"
-                        fill="url(#edge-gradient)"
-                    >
-                        <animateMotion
-                            begin={`${i * (ANIMATE_DURATION / PARTICLE_COUNT)}s`}
-                            dur={`${ANIMATE_DURATION}s`}
-                            repeatCount="indefinite"
-                            rotate="auto"
-                            path={edgePath}
-                            calcMode="spline"
-                            keySplines="0.42, 0, 0.58, 1.0"
-                        />
-                    </ellipse>
+                    <g key={`particle-group-${id}-${i}`}>
+                        {/* Outer glow effect */}
+                        <ellipse
+                            rx="3.5"
+                            ry="1.5"
+                            fill="url(#particle-glow)"
+                            opacity="0.5"
+                            filter="url(#particle-blur)"
+                        >
+                            <animateMotion
+                                begin={`${i * (ANIMATE_DURATION / PARTICLE_COUNT)}s`}
+                                dur={`${ANIMATE_DURATION}s`}
+                                repeatCount="indefinite"
+                                rotate="auto"
+                                path={edgePath}
+                                calcMode="spline"
+                                keySplines="0.42, 0, 0.58, 1.0"
+                            />
+                        </ellipse>
+                        {/* Main particle */}
+                        <ellipse
+                            rx="2.5"
+                            ry="1"
+                            fill="url(#particle-gradient)"
+                            stroke="url(#edge-gradient)"
+                            strokeWidth="0.3"
+                        >
+                            <animateMotion
+                                begin={`${i * (ANIMATE_DURATION / PARTICLE_COUNT)}s`}
+                                dur={`${ANIMATE_DURATION}s`}
+                                repeatCount="indefinite"
+                                rotate="auto"
+                                path={edgePath}
+                                calcMode="spline"
+                                keySplines="0.42, 0, 0.58, 1.0"
+                            />
+                        </ellipse>
+                    </g>
                 ))}
         </>
     );
@@ -302,6 +324,24 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
                             <stop offset="0%" stopColor="#ae53ba" />
                             <stop offset="100%" stopColor="#2a8af6" />
                         </linearGradient>
+
+                        {/* Enhanced particle gradients */}
+                        <linearGradient id="particle-gradient">
+                            <stop offset="0%" stopColor="#d946ef" />
+                            <stop offset="50%" stopColor="#8b5cf6" />
+                            <stop offset="100%" stopColor="#3b82f6" />
+                        </linearGradient>
+
+                        <radialGradient id="particle-glow">
+                            <stop offset="0%" stopColor="#d946ef" stopOpacity="0.8" />
+                            <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.4" />
+                            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1" />
+                        </radialGradient>
+
+                        {/* Blur filter for glow effect */}
+                        <filter id="particle-blur" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+                        </filter>
 
                         <marker
                             id="edge-circle"

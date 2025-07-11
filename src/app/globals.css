@@ -415,6 +415,19 @@ body {
   stroke-opacity: 0.75;
 }
 
+/* Higher specificity selectors for conditional edge styling - no !important needed */
+.react-flow .react-flow__edge .react-flow__edge-path.edge-default {
+  stroke: #6b7280;
+  stroke-width: 1;
+  stroke-opacity: 0.4;
+}
+
+.react-flow .react-flow__edge .react-flow__edge-path.edge-highlighted {
+  stroke: url(#edge-gradient);
+  stroke-width: 2;
+  stroke-opacity: 0.8;
+}
+
 /* Light mode adjustments */
 .light .react-flow {
   --turbo-bg-color: rgb(248, 250, 252);
