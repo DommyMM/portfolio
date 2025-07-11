@@ -305,6 +305,7 @@ function createProjectFlow(techStack: string[], projectId: string, hoveredEdgeId
 export default function Graph({ techStack, projectId, isReducedMotion = false, className }: GraphProps) {
     const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
     const [spinningNodes, setSpinningNodes] = useState<Set<string>>(new Set());
+    const [timeouts, setTimeouts] = useState<NodeJS.Timeout[]>([]);
     
     const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdgeId, spinningNodes, isReducedMotion);
     
@@ -347,23 +348,50 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
     }
 
     const handleMouseEnter = () => {
-        // Path lighting happens in both modes
-        // setHoveredEdgeId('react-vercel');
+        // Skip all animations in reduced motion mode
+        if (isReducedMotion) return;
         
-        // Node spinning only in normal motion mode
-        if (!isReducedMotion) {
-            setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
-        }
+        // Clear any existing timeouts
+        timeouts.forEach(timeout => clearTimeout(timeout));
+        
+        const newTimeouts: NodeJS.Timeout[] = [];
+        
+        // Phase 1 (0s): Frontend nodes start spinning + beams launch
+        setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
+        
+        // Staggered beams to Vercel (0s, 0.2s, 0.4s)
+        setHoveredEdgeId('react-vercel');
+        newTimeouts.push(setTimeout(() => setHoveredEdgeId('ts-vercel'), 200));
+        newTimeouts.push(setTimeout(() => setHoveredEdgeId('next-vercel'), 400));
+        
+        // Phase 2 (4s): Vercel JOINS spinning + distribution beams
+        newTimeouts.push(setTimeout(() => {
+            setSpinningNodes(prev => new Set([...prev, 'vercel-deploy']));
+            // Clear frontend beams and start distribution beams
+            setHoveredEdgeId('vercel-mongo');
+        }, 4000));
+        
+        newTimeouts.push(setTimeout(() => setHoveredEdgeId('vercel-analytics'), 4200));
+        newTimeouts.push(setTimeout(() => setHoveredEdgeId('vercel-cloudflare'), 4400));
+        
+        // Phase 3 (6s): Services JOIN spinning
+        newTimeouts.push(setTimeout(() => {
+            setSpinningNodes(prev => new Set([...prev, 'mongodb-storage', 'analytics-tracking', 'cloudflare-cdn']));
+            // Clear distribution beams - all energy absorbed
+            setHoveredEdgeId(null);
+        }, 6000));
+        
+        setTimeouts(newTimeouts);
     };
 
     const handleMouseLeave = () => {
-        // Reset path lighting in both modes
-        setHoveredEdgeId(null);
+        // Clear all timeouts
+        timeouts.forEach(timeout => clearTimeout(timeout));
+        setTimeouts([]);
         
-        // Reset node spinning only if it was active
-        if (!isReducedMotion) {
-            setSpinningNodes(new Set());
-        }
+        // Reset all animations
+        setSpinningNodes(new Set());
+        setHoveredEdgeId(null);
     };
 
     return (
