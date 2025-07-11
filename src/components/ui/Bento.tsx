@@ -95,7 +95,7 @@ export function BentoCard({
                     delay: index * 0.1 + 0.2
                 }}
             >
-                <p className="text-neutral-200 text-sm drop-shadow-lg mb-2">
+                <p className="text-neutral-800 dark:text-neutral-200 text-sm drop-shadow-lg mb-2">
                     {description}
                 </p>
                 
@@ -104,7 +104,7 @@ export function BentoCard({
                     {keyPoints.map((point, pointIndex) => (
                         <motion.p
                             key={pointIndex}
-                            className="text-neutral-300 text-xs drop-shadow-lg"
+                            className="text-neutral-700 dark:text-neutral-300 text-xs drop-shadow-lg"
                             initial={isReducedMotion ? {} : { opacity: 0, y: 10 }}
                             animate={isReducedMotion ? {} : { opacity: 1, y: 0 }}
                             transition={isReducedMotion ? {} : {
@@ -158,7 +158,7 @@ export function BentoCard({
                         {name}
                     </GoesOutComesInUnderline>
                 ) : (
-                    <h3 className="text-xl md:text-2xl font-semibold text-white drop-shadow-lg">
+                    <h3 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white drop-shadow-lg">
                         {name}
                     </h3>
                 )}
@@ -171,7 +171,7 @@ export function BentoCard({
                                 e.stopPropagation();
                                 window.open(githubUrl, '_blank');
                             }}
-                            className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg transition-all duration-200 text-white"
+                            className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-neutral-300 dark:border-white/30 rounded-lg transition-all duration-200 text-neutral-900 dark:text-white"
                             whileHover={isReducedMotion ? {} : { scale: 1.05 }}
                             whileTap={isReducedMotion ? {} : { scale: 0.95 }}
                         >
