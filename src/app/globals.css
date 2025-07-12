@@ -366,9 +366,9 @@ body {
     #e92a67 0deg,
     #a853ba 120deg,
     #2a8af6 240deg,
-    rgba(42, 138, 246, 0) 360deg
+    #e92a67 360deg
   );
-  animation: spinner 2.67s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+  animation: spinner 4s linear infinite;
   transform: translate(-50%, -50%) rotate(0deg);
   z-index: -1;
 }
@@ -378,10 +378,10 @@ body {
     transform: translate(-50%, -50%) rotate(0deg);
   }
   50% {
-    transform: translate(-50%, -50%) rotate(-180deg);
+    transform: translate(-50%, -50%) rotate(-360deg);
   }
   100% {
-    transform: translate(-50%, -50%) rotate(-360deg);
+    transform: translate(-50%, -50%) rotate(-720deg);
   }
 }
 
