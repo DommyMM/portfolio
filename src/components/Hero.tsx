@@ -5,6 +5,7 @@ import { TextSlider } from "@/components/ui/TextSlider";
 import { MagicButton } from "@/components/ui/Button";
 import { TextGenerateEffect } from "@/components/ui/TextGenerate";
 import { motion } from "motion/react";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 const specialties = [
     "AI/ML Pipelines",
@@ -20,14 +21,12 @@ interface AboutHeroProps {
 }
 
 export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
-    const handleViewWork = () => {
-        const projectsSection = document.getElementById('projects');
-        if (projectsSection) {
-            projectsSection.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+    const handleDownloadResume = () => {
+        // Create a temporary link element to trigger download
+        const link = document.createElement('a');
+        link.href = '/resume.pdf';
+        link.download = 'resume.pdf';
+        link.click();
     };
 
     return (
@@ -88,11 +87,11 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                     }}
                 >
                     <MagicButton
-                        title="View My Work"
-                        icon={<span className="text-sm">→</span>}
+                        title="Download Resume"
+                        icon={<FileDownloadIcon className="w-4 h-4" />}
                         position="right"
                         otherClasses="w-auto"
-                        handleClick={handleViewWork}
+                        handleClick={handleDownloadResume}
                     />
                 </motion.div>
             </div>

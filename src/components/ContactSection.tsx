@@ -1,15 +1,13 @@
 "use client";
 
 import { motion } from "motion/react";
-import { MagicButton } from "@/components/ui/Button";
-import { useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LaunchIcon from '@mui/icons-material/Launch';
-import SendIcon from '@mui/icons-material/Send';
+import CodeIcon from '@mui/icons-material/Code';
 
 const contactInfo = [
     {
@@ -44,32 +42,16 @@ const socialLinks = [
         value: "linkedin.com/in/dominic-aung",
         href: "https://linkedin.com/in/dominic-aung/",
         icon: <LinkedInIcon className="w-5 h-5" />
+    },
+    {
+        label: "Source code",
+        value: "github.com/DommyMM/portfolio",
+        href: "https://github.com/DommyMM/portfolio",
+        icon: <CodeIcon className="w-5 h-5" />
     }
 ];
 
 export default function ContactSection() {
-    const [showToast, setShowToast] = useState(false);
-    const [toastText, setToastText] = useState("");
-
-    const handleEmailClick = () => {
-        // Try mailto first
-        window.location.href = "mailto:dominichhaung@gmail.com?subject=Let's work together!&body=Hi Dominic,%0A%0AI'd love to discuss...";
-        
-        // Fallback: copy to clipboard after delay
-        setTimeout(() => {
-            navigator.clipboard.writeText("dominichhaung@gmail.com")
-                .then(() => {
-                    setToastText("Email copied to clipboard!");
-                    setShowToast(true);
-                    setTimeout(() => setShowToast(false), 3000);
-                })
-                .catch(() => {
-                    setToastText("Please copy: dominichhaung@gmail.com");
-                    setShowToast(true);
-                    setTimeout(() => setShowToast(false), 3000);
-                });
-        }, 1000);
-    };
 
     return (
         <section id="contact" className="py-24 relative">
@@ -92,7 +74,7 @@ export default function ContactSection() {
                         transition={{ duration: 0.6, delay: 0.1 }}
                         viewport={{ once: true }}
                     >
-                        Open to exciting projects and collaboration opportunities.
+                        Open to exciting projects, internships, and collaboration opportunities.
                     </motion.p>
                 </div>
 
@@ -104,16 +86,6 @@ export default function ContactSection() {
                     viewport={{ once: true }}
                     className="relative backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 rounded-2xl border border-neutral-300 dark:border-neutral-800 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] p-8"
                 >
-                    {/* Headers */}
-                    <div className="grid md:grid-cols-2 gap-8 mb-4">
-                        <h3 className="text-xl font-semibold text-neutral-800 dark:text-white text-center">
-                            Get In Touch
-                        </h3>
-                        <h3 className="text-xl font-semibold text-neutral-800 dark:text-white text-center">
-                            Connect With Me
-                        </h3>
-                    </div>
-
                     {/* Contact Items - 2 Column Layout */}
                     <div className="grid md:grid-cols-2 gap-8">
                         {/* Left Column - Contact Info (Blue) */}
@@ -169,36 +141,6 @@ export default function ContactSection() {
                             ))}
                         </div>
                     </div>
-                </motion.div>
-
-                {/* CTA Button */}
-                <motion.div 
-                    className="mt-8 flex justify-center relative"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                    viewport={{ once: true }}
-                >
-                    {/* Toast Notification - Absolutely Positioned Above Button */}
-                    {showToast && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium z-10"
-                        >
-                            {toastText}
-                        </motion.div>
-                    )}
-                    
-                    <MagicButton
-                        title="Send Me an Email"
-                        icon={<SendIcon className="w-4 h-4" />}
-                        position="right"
-                        handleClick={handleEmailClick}
-                        otherClasses="justify-center"
-                    />
                 </motion.div>
             </div>
         </section>
