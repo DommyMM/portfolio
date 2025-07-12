@@ -404,7 +404,7 @@ function createLinearFlow(
 export default function Graph({ techStack, projectId, isReducedMotion = false, isMobile = false, className, isHovered = false }: GraphProps) {
     const [hoveredEdges, setHoveredEdges] = useState<Set<string>>(new Set());
     const [spinningNodes, setSpinningNodes] = useState<Set<string>>(new Set());
-    const [timeouts, setTimeouts] = useState<NodeJS.Timeout[]>([]);
+    const timeoutsRef = React.useRef<NodeJS.Timeout[]>([]);
 
     const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
     
@@ -423,7 +423,7 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, i
             if (isReducedMotion) return;
             
             // Clear any existing timeouts
-            timeouts.forEach(timeout => clearTimeout(timeout));
+            timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
             
             // Use standard animation sequence if project has animation phases
             const flowConfig = PROJECT_FLOWS[projectId];
@@ -433,12 +433,12 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, i
                     setSpinningNodes,
                     setHoveredEdges
                 );
-                setTimeouts(newTimeouts);
+                timeoutsRef.current = newTimeouts;
             }
         } else {
             // Clear all timeouts
-            timeouts.forEach(timeout => clearTimeout(timeout));
-            setTimeouts([]);
+            timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+            timeoutsRef.current = [];
             
             // Reset all animations
             setSpinningNodes(new Set());
