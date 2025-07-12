@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentPropsWithoutRef, ReactNode, useState } from "react";
+import { ComponentPropsWithoutRef, ReactNode, useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -53,9 +53,21 @@ export function BentoCard({
     index = 0,
     ...props
 }: BentoCardProps) {
-    const { isMobile } = useResponsive();
+    const { isMobile, width } = useResponsive();
     const [isHovered, setIsHovered] = useState(false);
     const projectId = name.toLowerCase().replace(/\s+/g, '-');
+    
+    // Wait for useResponsive to stabilize before rendering React Flow
+    // Add brief delay to prevent flash of loading state on fast devices
+    const [isResponsiveReady, setIsResponsiveReady] = useState(false);
+    
+    useEffect(() => {
+        if (width > 0) {
+            // Small delay to ensure stable measurements
+            const timer = setTimeout(() => setIsResponsiveReady(true), 50);
+            return () => clearTimeout(timer);
+        }
+    }, [width]);
     
     const commonClassName = cn(
         "group relative flex flex-col overflow-hidden rounded-2xl cursor-pointer h-60 md:h-80",
@@ -121,13 +133,20 @@ export function BentoCard({
                         delay: index * 0.1 + 0.4
                     }}
                 >
-                    <Graph 
-                        techStack={techStack}
-                        projectId={projectId}
-                        isReducedMotion={isReducedMotion}
-                        isMobile={isMobile}
-                        className="h-full"
-                    />
+                    {isResponsiveReady ? (
+                        <Graph 
+                            key={`${projectId}-${isMobile}`}
+                            techStack={techStack}
+                            projectId={projectId}
+                            isReducedMotion={isReducedMotion}
+                            isMobile={isMobile}
+                            className="h-full"
+                        />
+                    ) : (
+                        <div className="h-full flex items-center justify-center">
+                            <div className="w-6 h-6 border-2 border-neutral-400 border-t-transparent rounded-full animate-spin" />
+                        </div>
+                    )}
                 </motion.div>
             )}
 
