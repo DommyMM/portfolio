@@ -1,8 +1,8 @@
 "use client";
 
-import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "@/components/ui/FloatingNavbar";
-import { ToggleButton, MotionToggle } from "@/components/ui/Button";
-import { Tooltip } from "@/components/ui/ToolTip";
+import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "@/components/ui/floating-navbar";
+import { ToggleButton, MotionToggle } from "@/components/ui/button";
+import { Tooltip } from "@/components/ui/tooltip";
 import { useState } from "react";
 
 interface PortfolioNavbarProps {

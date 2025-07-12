@@ -1,9 +1,9 @@
 "use client";
 
-import { TextDecoder } from "@/components/ui/TextDecoder";
-import { TextSlider } from "@/components/ui/TextSlider";
-import { MagicButton } from "@/components/ui/Button";
-import { TextGenerateEffect } from "@/components/ui/TextGenerate";
+import { TextDecoder } from "@/components/ui/text-decoder";
+import { TextSlider } from "@/components/ui/text-slider";
+import { MagicButton } from "@/components/ui/button";
+import { TextGenerateEffect } from "@/components/ui/text-generate";
 import { LinkPreview } from "@/components/ui/link-preview";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { motion } from "motion/react";

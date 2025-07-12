@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import SkillsMarquee, { SkillCategory } from "@/components/ui/Marquee";
+import SkillsMarquee, { SkillCategory } from "@/components/ui/marquee";
 import { createIconComponent } from "@/lib/icons";
 
 // Skills data

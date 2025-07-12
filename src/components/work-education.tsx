@@ -1,5 +1,5 @@
 "use client"
-import { Timeline } from "@/components/ui/Timeline"
+import { Timeline } from "@/components/ui/timeline"
 import { LinkPreview } from "@/components/ui/link-preview"
 
 const workEducationData = [

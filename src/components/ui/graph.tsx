@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { ReactFlow, useNodesState, useEdgesState, addEdge, getBezierPath, type Node, type Edge, type OnConnect, type EdgeProps } from '@xyflow/react';
-import { TurboNode, type TurboNodeData } from '@/components/ui/TurboFlow';
+import { TurboNode, type TurboNodeData } from '@/components/ui/turbo-flow';
 import '@xyflow/react/dist/base.css';
 
 interface GraphProps {

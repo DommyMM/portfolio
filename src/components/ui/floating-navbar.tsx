@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, MotionValue, useTransform, useSpring } from "motion/react";
 import { useResponsive } from "@/hooks/useResponsive";
 import React, { useRef, useState } from "react";
-import { FlipText } from "./FlipText";
+import { FlipText } from "./flip-text";
 
 interface NavbarProps {
     children: React.ReactNode;

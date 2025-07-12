@@ -1,13 +1,13 @@
 "use client";
 
-import HeroSection from "@/components/Hero";
-import ProjectsSection from "@/components/ProjectsSection";
-import WorkEducation from "@/components/WorkEducation";
-import SkillsSection from "@/components/SkillSection";
-import { PortfolioNavbar } from "@/components/Navbar";
+import HeroSection from "@/components/hero";
+import ProjectsSection from "@/components/projects-section";
+import WorkEducation from "@/components/work-education";
+import SkillsSection from "@/components/skill-section";
+import { PortfolioNavbar } from "@/components/navbar";
 import { useActiveSection } from "@/hooks/useActive";
 import { usePreferences } from "@/hooks/usePreferences";
-import ContactSection from "./ContactSection";
+import ContactSection from "./contact-section";
 
 export default function Home() {
     // Use unified preferences hook for both theme and motion

@@ -4,9 +4,9 @@ import { ComponentPropsWithoutRef, ReactNode, useState, useEffect } from "react"
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import GitHubIcon from '@mui/icons-material/GitHub';
-import GoesOutComesInUnderline from './Underline';
-import Graph from './Graph';
-import { Tooltip } from './ToolTip';
+import GoesOutComesInUnderline from './underline';
+import Graph from './graph';
+import { Tooltip } from './tooltip';
 import { useResponsive } from '@/hooks/useResponsive';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {

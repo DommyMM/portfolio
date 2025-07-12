@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
-import { BentoGrid, BentoCard } from "@/components/ui/Bento";
+import { BentoGrid, BentoCard } from "@/components/ui/bento";
 import { useHasHover } from "@/hooks/useResponsive";
 
 // Project type definition
