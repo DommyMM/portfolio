@@ -114,56 +114,60 @@ export default function ContactSection() {
                         </h3>
                     </div>
 
-                    {/* Contact Items - 2x3 Grid */}
-                    <div className="grid md:grid-cols-2 gap-6">
-                        {/* Contact Info */}
-                        {contactInfo.map((info, index) => (
-                            <motion.div
-                                key={info.label}
-                                className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group ${info.href ? 'cursor-pointer' : ''}`}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                                viewport={{ once: true }}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={() => info.href && window.open(info.href, info.href.startsWith('mailto:') ? '_self' : '_blank')}
-                            >
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                                    {info.icon}
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="text-sm text-neutral-500 dark:text-neutral-400">{info.label}</p>
-                                    <p className="text-neutral-800 dark:text-neutral-200 font-medium">{info.value}</p>
-                                </div>
-                            </motion.div>
-                        ))}
+                    {/* Contact Items - 2 Column Layout */}
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Left Column - Contact Info (Blue) */}
+                        <div className="space-y-4">
+                            {contactInfo.map((info, index) => (
+                                <motion.div
+                                    key={info.label}
+                                    className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group ${info.href ? 'cursor-pointer' : ''}`}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => info.href && window.open(info.href, info.href.startsWith('mailto:') ? '_self' : '_blank')}
+                                >
+                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
+                                        {info.icon}
+                                    </div>
+                                    <div className="flex-grow">
+                                        <p className="text-sm text-neutral-500 dark:text-neutral-400">{info.label}</p>
+                                        <p className="text-neutral-800 dark:text-neutral-200 font-medium">{info.value}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
 
-                        {/* Social Links */}
-                        {socialLinks.map((link, index) => (
-                            <motion.a
-                                key={link.label}
-                                href={link.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
-                                initial={{ opacity: 0, x: 20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                                viewport={{ once: true }}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
-                                    {link.icon}
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="text-sm text-neutral-500 dark:text-neutral-400">{link.label}</p>
-                                    <p className="text-neutral-800 dark:text-neutral-200 font-medium">{link.value}</p>
-                                </div>
-                                <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
-                            </motion.a>
-                        ))}
+                        {/* Right Column - Social Links (Purple) */}
+                        <div className="space-y-4">
+                            {socialLinks.map((link, index) => (
+                                <motion.a
+                                    key={link.label}
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                                        {link.icon}
+                                    </div>
+                                    <div className="flex-grow">
+                                        <p className="text-sm text-neutral-500 dark:text-neutral-400">{link.label}</p>
+                                        <p className="text-neutral-800 dark:text-neutral-200 font-medium">{link.value}</p>
+                                    </div>
+                                    <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
+                                </motion.a>
+                            ))}
+                        </div>
                     </div>
                 </motion.div>
 
