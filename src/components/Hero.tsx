@@ -4,8 +4,8 @@ import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { MagicButton } from "@/components/ui/Button";
 import { TextGenerateEffect } from "@/components/ui/TextGenerate";
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { motion } from "motion/react";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 const specialties = [
     "AI/ML Pipelines",
@@ -16,17 +16,14 @@ const specialties = [
     "Gacha Games"
 ];
 
-interface AboutHeroProps {
+interface HeroSectionProps {
     isReducedMotion?: boolean;
 }
 
-export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
-    const handleDownloadResume = () => {
-        // Create a temporary link element to trigger download
-        const link = document.createElement('a');
-        link.href = '/resume.pdf';
-        link.download = 'resume.pdf';
-        link.click();
+export default function HeroSection({ isReducedMotion = false }: HeroSectionProps) {
+    const handleViewResume = () => {
+        // Open resume in new tab
+        window.open('/CSResume.pdf', '_blank');
     };
 
     return (
@@ -87,11 +84,11 @@ export default function AboutHero({ isReducedMotion = false }: AboutHeroProps) {
                     }}
                 >
                     <MagicButton
-                        title="Download Resume"
-                        icon={<FileDownloadIcon className="w-4 h-4" />}
+                        title="My Resume"
+                        icon={<ContactPageIcon className="w-4 h-4" />}
                         position="right"
                         otherClasses="w-auto"
-                        handleClick={handleDownloadResume}
+                        handleClick={handleViewResume}
                     />
                 </motion.div>
             </div>

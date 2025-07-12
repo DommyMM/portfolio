@@ -1,6 +1,6 @@
 "use client";
 
-import AboutHero from "@/components/Hero";
+import HeroSection from "@/components/Hero";
 import ProjectsSection from "@/components/ProjectsSection";
 import WorkEducation from "@/components/WorkEducation";
 import SkillsSection from "@/components/SkillSection";
@@ -27,7 +27,7 @@ export default function Home() {
                 activeSection={activeSection}
             />
             
-            <AboutHero isReducedMotion={isReducedMotion} />
+            <HeroSection isReducedMotion={isReducedMotion} />
             
             <div className="max-w-4xl mx-auto px-4 space-y-32 pb-24">
                 <ProjectsSection isReducedMotion={isReducedMotion} />
