@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoesOutComesInUnderline from './Underline';
 import Graph from './Graph';
+import { Tooltip } from './ToolTip';
 import { useResponsive } from '@/hooks/useResponsive';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
@@ -161,14 +162,16 @@ export function BentoCard({
                 }}
             >
                 {liveUrl ? (
-                    <GoesOutComesInUnderline 
-                        className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
-                        direction="right"
-                        onClick={() => window.open(liveUrl, '_blank')}
-                        isHovered={isHovered}
-                    >
-                        {name}
-                    </GoesOutComesInUnderline>
+                    <Tooltip content="View live demo" placement="top">
+                        <GoesOutComesInUnderline 
+                            className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
+                            direction="right"
+                            onClick={() => window.open(liveUrl, '_blank')}
+                            isHovered={isHovered}
+                        >
+                            {name}
+                        </GoesOutComesInUnderline>
+                    </Tooltip>
                 ) : (
                     <h3 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white drop-shadow-lg">
                         {name}
@@ -178,18 +181,20 @@ export function BentoCard({
                 {/* Action Buttons */}
                 <div className="flex gap-2">
                     {githubUrl && (
-                        <motion.button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                window.open(githubUrl, '_blank');
-                            }}
-                            className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-neutral-300 dark:border-white/30 rounded-lg transition-all duration-200 text-neutral-900 dark:text-white"
-                            whileHover={isReducedMotion ? {} : { scale: 1.05 }}
-                            whileTap={isReducedMotion ? {} : { scale: 0.95 }}
-                        >
-                            <GitHubIcon className="w-3 h-3" />
-                            <span className="text-xs font-medium">Code</span>
-                        </motion.button>
+                        <Tooltip content="View source code" placement="top">
+                            <motion.button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(githubUrl, '_blank');
+                                }}
+                                className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-neutral-300 dark:border-white/30 rounded-lg transition-all duration-200 text-neutral-900 dark:text-white"
+                                whileHover={isReducedMotion ? {} : { scale: 1.05 }}
+                                whileTap={isReducedMotion ? {} : { scale: 0.95 }}
+                            >
+                                <GitHubIcon className="w-3 h-3" />
+                                <span className="text-xs font-medium">Code</span>
+                            </motion.button>
+                        </Tooltip>
                     )}
                 </div>
             </motion.div>
