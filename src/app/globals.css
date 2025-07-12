@@ -464,3 +464,20 @@ body {
 .light .turbo-subtitle {
   color: #666;
 }
+
+.mobile-graph .turbo-inner {
+  padding: 4px 6px;
+}
+
+.mobile-graph .turbo-node {
+  height: 30px;
+  min-width: 72px;
+}
+
+.mobile-graph .turbo-title {
+  font-size: 10px;
+}
+
+.mobile-graph .turbo-subtitle {
+  font-size: 7px;
+}

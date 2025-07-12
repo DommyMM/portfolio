@@ -24,15 +24,15 @@ interface ResponsiveState {
 export function useResponsive(): ResponsiveState {
     const [state, setState] = useState<ResponsiveState>({
         // Default to mobile-first approach
-        isMobile: true,
-        isLaptop: false,
+        isMobile: false,
+        isLaptop: true,
         isDesktop: false,
         is4K: false,
-        isTouchDevice: true,
+        isTouchDevice: false,
         hasHover: false,
         width: 0,
         height: 0,
-        isSmall: true,
+        isSmall: false,
     });
 
     useEffect(() => {

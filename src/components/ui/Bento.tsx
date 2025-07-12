@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoesOutComesInUnderline from './Underline';
 import Graph from './Graph';
+import { useResponsive } from '@/hooks/useResponsive';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
     children: ReactNode;
@@ -52,6 +53,7 @@ export function BentoCard({
     index = 0,
     ...props
 }: BentoCardProps) {
+    const { isMobile } = useResponsive();
     const [isHovered, setIsHovered] = useState(false);
     const projectId = name.toLowerCase().replace(/\s+/g, '-');
     
@@ -111,7 +113,7 @@ export function BentoCard({
             {/* React Flow Graph - Takes remaining vertical space */}
             {techStack.length > 0 && (
                 <motion.div 
-                    className="relative flex-1 mb-0 px-4 z-10"
+                    className={`relative flex-1 mb-0 ${isMobile ? 'px-0' : 'px-4'} z-10`}
                     initial={isReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                     animate={isReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
                     transition={isReducedMotion ? {} : { 
@@ -123,6 +125,7 @@ export function BentoCard({
                         techStack={techStack}
                         projectId={projectId}
                         isReducedMotion={isReducedMotion}
+                        isMobile={isMobile}
                         className="h-full"
                     />
                 </motion.div>

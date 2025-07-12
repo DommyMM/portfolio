@@ -2,13 +2,14 @@
 
 import React, { useCallback, useState } from 'react';
 import { ReactFlow, useNodesState, useEdgesState, addEdge, getBezierPath, type Node, type Edge, type OnConnect, type EdgeProps } from '@xyflow/react';
-import '@xyflow/react/dist/base.css';
 import { TurboNode, type TurboNodeData } from '@/components/ui/TurboFlow';
+import '@xyflow/react/dist/base.css';
 
 interface GraphProps {
     techStack: string[];
     projectId: string;
     isReducedMotion?: boolean;
+    isMobile?: boolean;
     className?: string;
 }
 
@@ -109,12 +110,12 @@ const defaultEdgeOptions = {
 };
 
 // WuWaBuilds flow - Frontend converges to Database, then to Deployment/Analytics
-function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false, isMobile: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [
         // Left side - Frontend stack (properly positioned)
         {
             id: 'react-ui',
-            position: { x: 160, y: 10 },
+            position: isMobile ? { x: 20, y: 20 } : { x: 160, y: 10 },
             data: { 
                 icon: 'react',
                 title: 'React', 
@@ -125,7 +126,7 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
         },
         {
             id: 'typescript-safety',
-            position: { x: 160, y: 90 },
+            position: isMobile ? { x: 20, y: 70 } : { x: 160, y: 90 },
             data: { 
                 icon: 'typescript',
                 title: 'TypeScript', 
@@ -136,7 +137,7 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
         },
         {
             id: 'nextjs-framework',
-            position: { x: 160, y: 160 },
+            position: isMobile ? { x: 20, y: 120 } : { x: 160, y: 160 },
             data: { 
                 icon: 'nextdotjs',
                 title: 'Next.js', 
@@ -148,7 +149,7 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
         // Middle - Deployment hub
         {
             id: 'vercel-deploy',
-            position: { x: 370, y: 90 },
+            position: isMobile ? { x: 140, y: 70 } : { x: 370, y: 90 },
             data: { 
                 icon: 'vercel',
                 title: 'Vercel', 
@@ -160,7 +161,7 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
         // Right - Data storage
         {
             id: 'mongodb-storage',
-            position: { x: 600, y: 10 },
+            position: isMobile ? { x: 240, y: 20 } : { x: 600, y: 10 },
             data: { 
                 icon: 'mongodb',
                 title: 'MongoDB', 
@@ -171,7 +172,7 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
         },
         {
             id: 'analytics-tracking',
-            position: { x: 600, y: 90 },
+            position: isMobile ? { x: 240, y: 70 } : { x: 600, y: 90 },
             data: { 
                 icon: 'seo',
                 title: 'Google Analytics', 
@@ -182,7 +183,7 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
         },
         {
             id: 'cloudflare-cdn',
-            position: { x: 600, y: 160 },
+            position: isMobile ? { x: 240, y: 120 } : { x: 600, y: 160 },
             data: { 
                 icon: 'cloudflare',
                 title: 'Cloudflare', 
@@ -254,12 +255,12 @@ function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<stri
 }
 
 // Fallback linear flow for other projects (temporary)
-function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false, isMobile: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [];
     const edges: Edge[] = [];
     
-    const spacing = 200;
-    const yPosition = 100;
+    const spacing = isMobile ? 120 : 200;
+    const yPosition = isMobile ? 60 : 100;
     
     techStack.forEach((tech, index) => {
         const nodeId = `${tech}-${index}`;
@@ -293,21 +294,21 @@ function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinni
 }
 
 // Project-specific flow creation
-function createProjectFlow(techStack: string[], projectId: string, hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+function createProjectFlow(techStack: string[], projectId: string, hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false, isMobile: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     switch (projectId) {
         case 'wuwabuilds':
-            return createWuWaBuildsFlow(hoveredEdges, spinningNodes, isReducedMotion);
+            return createWuWaBuildsFlow(hoveredEdges, spinningNodes, isReducedMotion, isMobile);
         default:
-            return createLinearFlow(techStack, hoveredEdges, spinningNodes, isReducedMotion);
+            return createLinearFlow(techStack, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
     }
 }
 
-export default function Graph({ techStack, projectId, isReducedMotion = false, className }: GraphProps) {
+export default function Graph({ techStack, projectId, isReducedMotion = false, isMobile = false, className }: GraphProps) {
     const [hoveredEdges, setHoveredEdges] = useState<Set<string>>(new Set());
     const [spinningNodes, setSpinningNodes] = useState<Set<string>>(new Set());
     const [timeouts, setTimeouts] = useState<NodeJS.Timeout[]>([]);
     
-    const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdges, spinningNodes, isReducedMotion);
+    const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
     
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -413,7 +414,7 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, c
 
     return (
         <div 
-            className={`w-full h-full ${className}`}
+            className={`w-full h-full ${isMobile ? 'mobile-graph' : ''} ${className}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >

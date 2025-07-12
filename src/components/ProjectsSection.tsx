@@ -30,8 +30,8 @@ const projectsData: Project[] = [
         ),
         keyPoints: [
             "13K users, 313% organic growth (past 3 months)",
-            "Real-time game calculations & reverse-engineered formulas",
-            "Live leaderboards with multi-parameter queries and sorting"
+            "Real-time calculations & reverse-engineered formulas",
+            "Leaderboards with multi-parameter queries and sorting"
         ],
         techStack: ["react", "typescript", "nextdotjs", "mongodb", "vercel"],
         liveUrl: "https://wuwabuilds.com",
