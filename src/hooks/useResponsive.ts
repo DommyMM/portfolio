@@ -23,7 +23,6 @@ interface ResponsiveState {
 
 export function useResponsive(): ResponsiveState {
     const [state, setState] = useState<ResponsiveState>({
-        // Default to mobile-first approach
         isMobile: false,
         isLaptop: true,
         isDesktop: false,

@@ -227,36 +227,46 @@ function createStandardAnimation(
     // Phase 1 (0s): Initial nodes start spinning
     setSpinningNodes(new Set(animationPhases.initialNodes));
     
-    // Phase 1 End (4s): Initial stops + beams launch + Hub starts
+    // Parallel Events:
+    
+    // 2.5s: Launch first beams (while initial nodes keep spinning)
+    timeouts.push(setTimeout(() => {
+        setHoveredEdges(new Set(animationPhases.initialEdges));
+    }, 2500));
+    
+    // 4s: Stop initial nodes + start hub
     timeouts.push(setTimeout(() => {
         setSpinningNodes(prev => {
             const newSet = new Set(prev);
             animationPhases.initialNodes.forEach(node => newSet.delete(node));
             return newSet;
         });
-        setHoveredEdges(new Set(animationPhases.initialEdges));
         setSpinningNodes(prev => new Set([...prev, animationPhases.hubNode]));
     }, 4000));
     
-    // Phase 2 End (8s): Hub stops + distribution beams + Final nodes start
+    // 6.5s: Launch second beams (while hub keeps spinning)
+    timeouts.push(setTimeout(() => {
+        setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
+    }, 6500));
+    
+    // 8s: Stop hub + start final nodes
     timeouts.push(setTimeout(() => {
         setSpinningNodes(prev => {
             const newSet = new Set(prev);
             newSet.delete(animationPhases.hubNode);
             return newSet;
         });
-        setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
         setSpinningNodes(prev => new Set([...prev, ...animationPhases.finalNodes]));
     }, 8000));
     
-    // Phase 3 End (12s): Final nodes stop
+    // 10s: Stop final nodes
     timeouts.push(setTimeout(() => {
         setSpinningNodes(prev => {
             const newSet = new Set(prev);
             animationPhases.finalNodes.forEach(node => newSet.delete(node));
             return newSet;
         });
-    }, 12000));
+    }, 10000));
     
     return timeouts;
 }
