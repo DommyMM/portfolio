@@ -23,10 +23,14 @@ export const iconMap: Record<string, IconData> = {
     openai: { type: 'simple', data: SimpleIcons.siOpenai },
     huggingface: { type: 'simple', data: SimpleIcons.siHuggingface },
     rag: { type: 'simple', data: SimpleIcons.siElasticsearch },
+    langchain: { type: 'simple', data: SimpleIcons.siLangchain },
     computervision: { type: 'simple', data: SimpleIcons.siOpencv },
     opencv: { type: 'local', path: '/opencv.svg' },
     tensorflow: { type: 'simple', data: SimpleIcons.siTensorflow },
     numpy: { type: 'simple', data: SimpleIcons.siNumpy },
+    deepseek: { type: 'local', path: '/deepseek.svg' },
+    cerebras: { type: 'local', path: '/cerebras.svg' },
+    chromadb: { type: 'local', path: '/chromadb.svg' },
 
     // Frontend Development
     react: { type: 'simple', data: SimpleIcons.siReact },
@@ -48,6 +52,7 @@ export const iconMap: Record<string, IconData> = {
     docker: { type: 'simple', data: SimpleIcons.siDocker },
     amazonaws: { type: 'local', path: '/amazon.svg' },
     git: { type: 'simple', data: SimpleIcons.siGit },
+    json: { type: 'simple', data: SimpleIcons.siJson },
 
     // Gaming Platforms
     steam: { type: 'simple', data: SimpleIcons.siSteam },

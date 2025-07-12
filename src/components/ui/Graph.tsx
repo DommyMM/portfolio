@@ -143,6 +143,11 @@ function getTechTitle(techName: string): string {
         'openai': 'OpenAI',
         'speechapi': 'Web Speech API',
         'rag': 'RAG System',
+        'json': 'JSON',
+        'deepseek': 'DeepSeek',
+        'cerebras': 'Cerebras',
+        'chromadb': 'ChromaDB',
+        'langchain': 'LangChain',
         // Add more as needed
     };
     
@@ -184,6 +189,40 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
             finalNodes: ['mongodb', 'seo', 'cloudflare'],
             initialEdges: ['react-vercel', 'ts-vercel', 'next-vercel'],
             finalEdges: ['vercel-mongo', 'vercel-analytics', 'vercel-cloudflare'],
+        }
+    },
+
+    'rag-translation': {
+        nodePositions: {
+            'deepseek': { mobile: { x: 20, y: 20 }, desktop: { x: 20, y: 10 } },
+            'json': { mobile: { x: 20, y: 70 }, desktop: { x: 20, y: 65 } },
+            'cerebras': { mobile: { x: 20, y: 120 }, desktop: { x: 20, y: 120 } },
+            'chromadb': { mobile: { x: 140, y: 45 }, desktop: { x: 200, y: 35 } },
+            'rag': { mobile: { x: 140, y: 95 }, desktop: { x: 200, y: 95 } },
+            'langchain': { mobile: { x: 240, y: 70 }, desktop: { x: 380, y: 65 } },
+        },
+        edges: [
+            { id: 'json-chromadb', source: 'json', target: 'chromadb' },
+            { id: 'json-rag', source: 'json', target: 'rag' },
+            { id: 'deepseek-chromadb', source: 'deepseek', target: 'chromadb' },
+            { id: 'cerebras-rag', source: 'cerebras', target: 'rag' },
+            { id: 'chromadb-eval', source: 'chromadb', target: 'langchain' },
+            { id: 'rag-eval', source: 'rag', target: 'langchain' },
+        ],
+        subtitles: {
+            'deepseek': 'Baseline Translation',
+            'json': 'Input Data',
+            'cerebras': 'Parallel Extraction',
+            'chromadb': 'Vector Storage',
+            'rag': 'Enhanced Translation',
+            'langchain': 'Evaluation',
+        },
+        animationPhases: {
+            initialNodes: ['deepseek', 'json', 'cerebras'],
+            hubNode: 'langchain',
+            finalNodes: ['chromadb', 'rag'],
+            initialEdges: ['json-chromadb', 'json-rag', 'deepseek-chromadb', 'cerebras-rag'],
+            finalEdges: ['chromadb-eval', 'rag-eval'],
         }
     },
     
@@ -270,6 +309,7 @@ function createStandardAnimation(
     
     return timeouts;
 }
+
 function createProjectFlow(
     techStack: string[], 
     projectId: string, 
