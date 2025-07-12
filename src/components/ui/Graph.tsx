@@ -109,153 +109,210 @@ const defaultEdgeOptions = {
     markerEnd: 'edge-circle',
 };
 
-// WuWaBuilds flow - Frontend converges to Database, then to Deployment/Analytics
-function createWuWaBuildsFlow(hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false, isMobile: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
-    const nodes: Node<TurboNodeData>[] = [
-        // Left side - Frontend stack (properly positioned)
-        {
-            id: 'react-ui',
-            position: isMobile ? { x: 20, y: 20 } : { x: 160, y: 10 },
-            data: { 
-                icon: 'react',
-                title: 'React', 
-                subtitle: 'UI + Support',
-                selected: spinningNodes.has('react-ui')
-            },
-            type: 'turbo',
-        },
-        {
-            id: 'typescript-safety',
-            position: isMobile ? { x: 20, y: 70 } : { x: 160, y: 90 },
-            data: { 
-                icon: 'typescript',
-                title: 'TypeScript', 
-                subtitle: 'Type Safety',
-                selected: spinningNodes.has('typescript-safety')
-            },
-            type: 'turbo',
-        },
-        {
-            id: 'nextjs-framework',
-            position: isMobile ? { x: 20, y: 120 } : { x: 160, y: 160 },
-            data: { 
-                icon: 'nextdotjs',
-                title: 'Next.js', 
-                subtitle: 'Routing + SSR',
-                selected: spinningNodes.has('nextjs-framework')
-            },
-            type: 'turbo',
-        },
-        // Middle - Deployment hub
-        {
-            id: 'vercel-deploy',
-            position: isMobile ? { x: 140, y: 70 } : { x: 370, y: 90 },
-            data: { 
-                icon: 'vercel',
-                title: 'Vercel', 
-                subtitle: 'Serverless',
-                selected: spinningNodes.has('vercel-deploy')
-            },
-            type: 'turbo',
-        },
-        // Right - Data storage
-        {
-            id: 'mongodb-storage',
-            position: isMobile ? { x: 240, y: 20 } : { x: 600, y: 10 },
-            data: { 
-                icon: 'mongodb',
-                title: 'MongoDB', 
-                subtitle: 'Database + API',
-                selected: spinningNodes.has('mongodb-storage')
-            },
-            type: 'turbo',
-        },
-        {
-            id: 'analytics-tracking',
-            position: isMobile ? { x: 240, y: 70 } : { x: 600, y: 90 },
-            data: { 
-                icon: 'seo',
-                title: 'Google Analytics', 
-                subtitle: 'Metrics + SEO',
-                selected: spinningNodes.has('analytics-tracking')
-            },
-            type: 'turbo',
-        },
-        {
-            id: 'cloudflare-cdn',
-            position: isMobile ? { x: 240, y: 120 } : { x: 600, y: 160 },
-            data: { 
-                icon: 'cloudflare',
-                title: 'Cloudflare', 
-                subtitle: 'DNS + CDN',
-                selected: spinningNodes.has('cloudflare-cdn')
-            },
-            type: 'turbo',
-        },
-    ];
+// Project-specific configuration type
+type ProjectFlowConfig = {
+    nodePositions: Record<string, { mobile: { x: number; y: number }; desktop: { x: number; y: number } }>;
+    edges: Array<{ id: string; source: string; target: string }>;
+    subtitles?: Record<string, string>; // Optional custom subtitles
+    animationPhases?: {
+        initialNodes: string[]; // Nodes that spin first (usually input/frontend)
+        hubNode: string; // Central node that processes (usually deployment/processing)
+        finalNodes: string[]; // Nodes that spin last (usually output/services)
+        initialEdges: string[]; // Edges from initial → hub
+        finalEdges: string[]; // Edges from hub → final
+    };
+}
 
-    const edges: Edge[] = [
-        { 
-            id: 'react-vercel', 
-            source: 'react-ui', 
-            target: 'vercel-deploy',
-            data: { 
-                isHighlighted: hoveredEdges.has('react-vercel'),
-                isReducedMotion
-            }
-        },
-        { 
-            id: 'ts-vercel', 
-            source: 'typescript-safety', 
-            target: 'vercel-deploy',
-            data: { 
-                isHighlighted: hoveredEdges.has('ts-vercel'),
-                isReducedMotion
-            }
-        },
-        { 
-            id: 'next-vercel', 
-            source: 'nextjs-framework', 
-            target: 'vercel-deploy',
-            data: { 
-                isHighlighted: hoveredEdges.has('next-vercel'),
-                isReducedMotion
-            }
-        },
-        { 
-            id: 'vercel-mongo', 
-            source: 'vercel-deploy', 
-            target: 'mongodb-storage',
-            data: { 
-                isHighlighted: hoveredEdges.has('vercel-mongo'),
-                isReducedMotion
-            }
-        },
-        { 
-            id: 'vercel-analytics', 
-            source: 'vercel-deploy', 
-            target: 'analytics-tracking',
-            data: { 
-                isHighlighted: hoveredEdges.has('vercel-analytics'),
-                isReducedMotion
-            }
-        },
-        { 
-            id: 'vercel-cloudflare', 
-            source: 'vercel-deploy', 
-            target: 'cloudflare-cdn',
-            data: { 
-                isHighlighted: hoveredEdges.has('vercel-cloudflare'),
-                isReducedMotion
-            }
-        },
-    ];
+// Tech name to title mapping (most are just capitalized versions)
+function getTechTitle(techName: string): string {
+    const titleMap: Record<string, string> = {
+        'react': 'React',
+        'typescript': 'TypeScript', 
+        'nextdotjs': 'Next.js',
+        'vercel': 'Vercel',
+        'mongodb': 'MongoDB',
+        'seo': 'Google Analytics',
+        'cloudflare': 'Cloudflare',
+        'python': 'Python',
+        'fastapi': 'FastAPI',
+        'opencv': 'OpenCV',
+        'docker': 'Docker',
+        'go': 'Go',
+        'postgresql': 'PostgreSQL',
+        'tailwindcss': 'Tailwind CSS',
+        'openai': 'OpenAI',
+        'speechapi': 'Web Speech API',
+        'rag': 'RAG System',
+        // Add more as needed
+    };
+    
+    return titleMap[techName] || techName.charAt(0).toUpperCase() + techName.slice(1);
+}
 
+// Project-specific flow configurations
+const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
+    'wuwabuilds': {
+        nodePositions: {
+            'react': { mobile: { x: 20, y: 20 }, desktop: { x: 160, y: 10 } },
+            'typescript': { mobile: { x: 20, y: 70 }, desktop: { x: 160, y: 90 } },
+            'nextdotjs': { mobile: { x: 20, y: 120 }, desktop: { x: 160, y: 160 } },
+            'vercel': { mobile: { x: 140, y: 70 }, desktop: { x: 370, y: 90 } },
+            'mongodb': { mobile: { x: 240, y: 20 }, desktop: { x: 600, y: 10 } },
+            'seo': { mobile: { x: 240, y: 70 }, desktop: { x: 600, y: 90 } },
+            'cloudflare': { mobile: { x: 240, y: 120 }, desktop: { x: 600, y: 160 } },
+        },
+        edges: [
+            { id: 'react-vercel', source: 'react', target: 'vercel' },
+            { id: 'ts-vercel', source: 'typescript', target: 'vercel' },
+            { id: 'next-vercel', source: 'nextdotjs', target: 'vercel' },
+            { id: 'vercel-mongo', source: 'vercel', target: 'mongodb' },
+            { id: 'vercel-analytics', source: 'vercel', target: 'seo' },
+            { id: 'vercel-cloudflare', source: 'vercel', target: 'cloudflare' },
+        ],
+        subtitles: {
+            'react': 'UI + Support',
+            'typescript': 'Type Safety', 
+            'nextdotjs': 'Routing + SSR',
+            'vercel': 'Serverless',
+            'mongodb': 'Database + API',
+            'seo': 'Metrics + SEO',
+            'cloudflare': 'DNS + CDN',
+        },
+        animationPhases: {
+            initialNodes: ['react', 'typescript', 'nextdotjs'],
+            hubNode: 'vercel',
+            finalNodes: ['mongodb', 'seo', 'cloudflare'],
+            initialEdges: ['react-vercel', 'ts-vercel', 'next-vercel'],
+            finalEdges: ['vercel-mongo', 'vercel-analytics', 'vercel-cloudflare'],
+        }
+    },
+    
+    // Example for other projects
+    'cv-api': {
+        nodePositions: {
+            'fastapi': { mobile: { x: 20, y: 40 }, desktop: { x: 160, y: 90 } },
+            'opencv': { mobile: { x: 20, y: 90 }, desktop: { x: 160, y: 140 } },
+            'python': { mobile: { x: 140, y: 70 }, desktop: { x: 370, y: 115 } },
+            'docker': { mobile: { x: 240, y: 70 }, desktop: { x: 580, y: 115 } },
+        },
+        edges: [
+            { id: 'fastapi-python', source: 'fastapi', target: 'python' },
+            { id: 'opencv-python', source: 'opencv', target: 'python' },
+            { id: 'python-docker', source: 'python', target: 'docker' },
+        ],
+        subtitles: {
+            'fastapi': 'API Server',
+            'opencv': 'Computer Vision',
+            'python': 'Processing',
+            'docker': 'Containerization',
+        },
+        animationPhases: {
+            initialNodes: ['fastapi', 'opencv'],
+            hubNode: 'python',
+            finalNodes: ['docker'],
+            initialEdges: ['fastapi-python', 'opencv-python'],
+            finalEdges: ['python-docker'],
+        }
+    }
+};
+
+// Standard animation sequence - same timing for all projects
+function createStandardAnimation(
+    animationPhases: NonNullable<ProjectFlowConfig['animationPhases']>,
+    setSpinningNodes: React.Dispatch<React.SetStateAction<Set<string>>>,
+    setHoveredEdges: React.Dispatch<React.SetStateAction<Set<string>>>
+): NodeJS.Timeout[] {
+    const timeouts: NodeJS.Timeout[] = [];
+    
+    // Phase 1 (0s): Initial nodes start spinning
+    setSpinningNodes(new Set(animationPhases.initialNodes));
+    
+    // Phase 1 End (4s): Initial stops + beams launch + Hub starts
+    timeouts.push(setTimeout(() => {
+        setSpinningNodes(prev => {
+            const newSet = new Set(prev);
+            animationPhases.initialNodes.forEach(node => newSet.delete(node));
+            return newSet;
+        });
+        setHoveredEdges(new Set(animationPhases.initialEdges));
+        setSpinningNodes(prev => new Set([...prev, animationPhases.hubNode]));
+    }, 4000));
+    
+    // Phase 2 End (8s): Hub stops + distribution beams + Final nodes start
+    timeouts.push(setTimeout(() => {
+        setSpinningNodes(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(animationPhases.hubNode);
+            return newSet;
+        });
+        setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
+        setSpinningNodes(prev => new Set([...prev, ...animationPhases.finalNodes]));
+    }, 8000));
+    
+    // Phase 3 End (12s): Final nodes stop
+    timeouts.push(setTimeout(() => {
+        setSpinningNodes(prev => {
+            const newSet = new Set(prev);
+            animationPhases.finalNodes.forEach(node => newSet.delete(node));
+            return newSet;
+        });
+    }, 12000));
+    
+    return timeouts;
+}
+function createProjectFlow(
+    techStack: string[], 
+    projectId: string, 
+    hoveredEdges: Set<string>, 
+    spinningNodes: Set<string>, 
+    isReducedMotion: boolean = false, 
+    isMobile: boolean = false
+): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+    
+    const flowConfig = PROJECT_FLOWS[projectId];
+    
+    if (!flowConfig) {
+        // Fallback to linear flow for undefined projects
+        return createLinearFlow(techStack, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
+    }
+    
+    // Create nodes from tech names + project positions
+    const nodes: Node<TurboNodeData>[] = Object.entries(flowConfig.nodePositions).map(([techName, positions]) => {
+        return {
+            id: techName,
+            position: isMobile ? positions.mobile : positions.desktop,
+            data: {
+                icon: techName,
+                title: getTechTitle(techName),
+                subtitle: flowConfig.subtitles?.[techName] || '',
+                selected: spinningNodes.has(techName)
+            },
+            type: 'turbo',
+        };
+    });
+    
+    // Create edges from config
+    const edges: Edge[] = flowConfig.edges.map(edgeConfig => ({
+        id: edgeConfig.id,
+        source: edgeConfig.source,
+        target: edgeConfig.target,
+        data: {
+            isHighlighted: hoveredEdges.has(edgeConfig.id),
+            isReducedMotion
+        }
+    }));
+    
     return { nodes, edges };
 }
 
-// Fallback linear flow for other projects (temporary)
-function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false, isMobile: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
+// Fallback linear flow for undefined projects
+function createLinearFlow(
+    techStack: string[], 
+    hoveredEdges: Set<string>, 
+    spinningNodes: Set<string>, 
+    isReducedMotion: boolean = false, 
+    isMobile: boolean = false
+): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
     const nodes: Node<TurboNodeData>[] = [];
     const edges: Edge[] = [];
     
@@ -269,7 +326,7 @@ function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinni
             position: { x: index * spacing, y: yPosition },
             data: { 
                 icon: tech,
-                title: tech,
+                title: getTechTitle(tech),
                 subtitle: '',
                 selected: spinningNodes.has(nodeId)
             },
@@ -291,16 +348,6 @@ function createLinearFlow(techStack: string[], hoveredEdges: Set<string>, spinni
     });
     
     return { nodes, edges };
-}
-
-// Project-specific flow creation
-function createProjectFlow(techStack: string[], projectId: string, hoveredEdges: Set<string>, spinningNodes: Set<string>, isReducedMotion: boolean = false, isMobile: boolean = false): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
-    switch (projectId) {
-        case 'wuwabuilds':
-            return createWuWaBuildsFlow(hoveredEdges, spinningNodes, isReducedMotion, isMobile);
-        default:
-            return createLinearFlow(techStack, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
-    }
 }
 
 export default function Graph({ techStack, projectId, isReducedMotion = false, isMobile = false, className }: GraphProps) {
@@ -355,51 +402,16 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, i
         // Clear any existing timeouts
         timeouts.forEach(timeout => clearTimeout(timeout));
         
-        const newTimeouts: NodeJS.Timeout[] = [];
-        
-        // Phase 1 (0s): Frontend nodes start spinning (NO beams yet)
-        setSpinningNodes(new Set(['react-ui', 'typescript-safety', 'nextjs-framework']));
-        
-        // Phase 1 End (4s): Frontend nodes STOP spinning + beams launch + Vercel starts
-        newTimeouts.push(setTimeout(() => {
-            // Frontend completes power-up, stops spinning
-            setSpinningNodes(prev => {
-                const newSet = new Set(prev);
-                newSet.delete('react-ui');
-                newSet.delete('typescript-safety');
-                newSet.delete('nextjs-framework');
-                return newSet;
-            });
-            // Frontend beams launch + Vercel starts spinning
-            setHoveredEdges(new Set(['react-vercel', 'ts-vercel', 'next-vercel']));
-            setSpinningNodes(prev => new Set([...prev, 'vercel-deploy']));
-        }, 4000));
-        
-        // Phase 2 End (8s): Vercel STOPS spinning + distribution beams launch + Services start
-        newTimeouts.push(setTimeout(() => {
-            // Vercel completes power-up, stops spinning
-            setSpinningNodes(prev => {
-                const newSet = new Set(prev);
-                newSet.delete('vercel-deploy');
-                return newSet;
-            });
-            // Add distribution beams (keep frontend beams) + Services start spinning
-            setHoveredEdges(prev => new Set([...prev, 'vercel-mongo', 'vercel-analytics', 'vercel-cloudflare']));
-            setSpinningNodes(prev => new Set([...prev, 'mongodb-storage', 'analytics-tracking', 'cloudflare-cdn']));
-        }, 8000));
-        
-        // Phase 3 End (12s): Services STOP spinning (all energy transferred)
-        newTimeouts.push(setTimeout(() => {
-            setSpinningNodes(prev => {
-                const newSet = new Set(prev);
-                newSet.delete('mongodb-storage');
-                newSet.delete('analytics-tracking');
-                newSet.delete('cloudflare-cdn');
-                return newSet;
-            });
-        }, 12000));
-        
-        setTimeouts(newTimeouts);
+        // Use standard animation sequence if project has animation phases
+        const flowConfig = PROJECT_FLOWS[projectId];
+        if (flowConfig?.animationPhases) {
+            const newTimeouts = createStandardAnimation(
+                flowConfig.animationPhases,
+                setSpinningNodes,
+                setHoveredEdges
+            );
+            setTimeouts(newTimeouts);
+        }
     };
 
     const handleMouseLeave = () => {
