@@ -116,7 +116,7 @@ type ProjectFlowConfig = {
     subtitles?: Record<string, string>; // Optional custom subtitles
     animationPhases?: {
         initialNodes: string[]; // Nodes that spin first (usually input/frontend)
-        hubNode: string; // Central node that processes (usually deployment/processing)
+        hubNodes: string[]; // Central nodes that process (usually deployment/processing)
         finalNodes: string[]; // Nodes that spin last (usually output/services)
         initialEdges: string[]; // Edges from initial → hub
         finalEdges: string[]; // Edges from hub → final
@@ -185,7 +185,7 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
         },
         animationPhases: {
             initialNodes: ['react', 'typescript', 'nextdotjs'],
-            hubNode: 'vercel',
+            hubNodes: ['vercel'],
             finalNodes: ['mongodb', 'seo', 'cloudflare'],
             initialEdges: ['react-vercel', 'ts-vercel', 'next-vercel'],
             finalEdges: ['vercel-mongo', 'vercel-analytics', 'vercel-cloudflare'],
@@ -219,8 +219,8 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
         },
         animationPhases: {
             initialNodes: ['deepseek', 'json', 'cerebras'],
-            hubNode: 'langchain',
-            finalNodes: ['chromadb', 'rag'],
+            hubNodes: ['chromadb', 'rag'],
+            finalNodes: ['langchain'],
             initialEdges: ['json-chromadb', 'json-rag', 'deepseek-chromadb', 'cerebras-rag'],
             finalEdges: ['chromadb-eval', 'rag-eval'],
         }
@@ -247,7 +247,7 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
         },
         animationPhases: {
             initialNodes: ['fastapi', 'opencv'],
-            hubNode: 'python',
+            hubNodes: ['python'],
             finalNodes: ['docker'],
             initialEdges: ['fastapi-python', 'opencv-python'],
             finalEdges: ['python-docker'],
@@ -273,26 +273,26 @@ function createStandardAnimation(
         setHoveredEdges(new Set(animationPhases.initialEdges));
     }, 2500));
     
-    // 4s: Stop initial nodes + start hub
+    // 4s: Stop initial nodes + start hub nodes
     timeouts.push(setTimeout(() => {
         setSpinningNodes(prev => {
             const newSet = new Set(prev);
             animationPhases.initialNodes.forEach(node => newSet.delete(node));
             return newSet;
         });
-        setSpinningNodes(prev => new Set([...prev, animationPhases.hubNode]));
+        setSpinningNodes(prev => new Set([...prev, ...animationPhases.hubNodes]));
     }, 4000));
     
-    // 6.5s: Launch second beams (while hub keeps spinning)
+    // 6.5s: Launch second beams (while hub nodes keep spinning)
     timeouts.push(setTimeout(() => {
         setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
     }, 6500));
     
-    // 8s: Stop hub + start final nodes
+    // 8s: Stop hub nodes + start final nodes
     timeouts.push(setTimeout(() => {
         setSpinningNodes(prev => {
             const newSet = new Set(prev);
-            newSet.delete(animationPhases.hubNode);
+            animationPhases.hubNodes.forEach(node => newSet.delete(node));
             return newSet;
         });
         setSpinningNodes(prev => new Set([...prev, ...animationPhases.finalNodes]));
