@@ -9,10 +9,10 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { motion } from "motion/react";
 
 const specialties = [
-    "AI/ML Pipelines",
-    "Computer Vision",  
-    "Databases",
-    "Web Development",
+    "Full-Stack Development",
+    "AI/ML Pipelines",   
+    "Computer Vision",
+    "System Architecture",
     "API Engineering",
     "Gacha Games"
 ];
@@ -36,7 +36,7 @@ export default function HeroSection({ isReducedMotion = false }: HeroSectionProp
                         {isReducedMotion ? (
                             <TextGenerateEffect 
                                 words="Dominic Aung" 
-                                className="text-5xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none [&>div>div]:!text-5xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
+                                className="[&>div>div]:!text-5xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
                                 useGradient={true}
                             />
                         ) : (
@@ -46,20 +46,18 @@ export default function HeroSection({ isReducedMotion = false }: HeroSectionProp
                     {/* Triangular Layout */}
                     <div className="flex flex-col items-center mt-12 space-y-6">
                         {/* Level 2 */}
-                        <div className="text-2xl md:text-6xl lg:text-7xl select-none">
-                            <TextSlider 
-                                roles={["Full-Stack Developer"]} 
-                                isReducedMotion={isReducedMotion}
-                                className="text-2xl md:text-6xl lg:text-7xl"
-                            />
-                        </div>
+                        <TextSlider 
+                            roles={["Personal Problems, Niche Solutions"]} 
+                            isReducedMotion={isReducedMotion}
+                            className="text-base md:text-4xl lg:text-5xl tracking-tight select-none"
+                        />
                         
                         {/* Level 3: Cycling Specialties */}
-                        <div className="flex items-center justify-center text-xl md:text-5xl lg:text-6xl mb-2 select-none">
+                        <div className="flex items-center justify-center mb-0 select-none">
                             <TextSlider 
                                 roles={specialties} 
                                 isReducedMotion={isReducedMotion}
-                                className="text-xl md:text-5xl lg:text-6xl"
+                                className="text-base md:text-4xl lg:text-5xl"
                             />
                         </div>
                         
