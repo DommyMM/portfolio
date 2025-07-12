@@ -200,7 +200,7 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
             'cerebras': { mobile: { x: 20, y: 120 }, desktop: { x: 20, y: 120 } },
             'chromadb': { mobile: { x: 140, y: 45 }, desktop: { x: 200, y: 35 } },
             'rag': { mobile: { x: 140, y: 95 }, desktop: { x: 200, y: 95 } },
-            'langchain': { mobile: { x: 260, y: 70 }, desktop: { x: 380, y: 65 } },
+            'langchain': { mobile: { x: 270, y: 70 }, desktop: { x: 380, y: 65 } },
         },
         edges: [
             { id: 'json-chromadb', source: 'json', target: 'chromadb' },

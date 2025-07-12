@@ -97,6 +97,7 @@ export default function GoesOutComesInUnderline({
 
         setBlocked(true)
 
+        // First cycle: expand to 100%
         await controls.start({
         width: "100%",
         transition,
@@ -106,12 +107,23 @@ export default function GoesOutComesInUnderline({
         },
         })
 
+        // First cycle: contract back to 0
         await controls.start({
         width: 0,
         transition,
         transitionEnd: {
             left: direction === "left" ? 0 : "",
             right: direction === "left" ? "" : 0,
+        },
+        })
+
+        // Second cycle: expand to 100% and stay
+        await controls.start({
+        width: "100%",
+        transition,
+        transitionEnd: {
+            left: direction === "left" ? "auto" : 0,
+            right: direction === "left" ? 0 : "auto",
         },
         })
 
