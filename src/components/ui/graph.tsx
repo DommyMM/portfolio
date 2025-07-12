@@ -11,6 +11,7 @@ interface GraphProps {
     isReducedMotion?: boolean;
     isMobile?: boolean;
     className?: string;
+    isHovered?: boolean;
 }
 
 // Custom Animated Edge Component with particles
@@ -400,11 +401,11 @@ function createLinearFlow(
     return { nodes, edges };
 }
 
-export default function Graph({ techStack, projectId, isReducedMotion = false, isMobile = false, className }: GraphProps) {
+export default function Graph({ techStack, projectId, isReducedMotion = false, isMobile = false, className, isHovered = false }: GraphProps) {
     const [hoveredEdges, setHoveredEdges] = useState<Set<string>>(new Set());
     const [spinningNodes, setSpinningNodes] = useState<Set<string>>(new Set());
     const [timeouts, setTimeouts] = useState<NodeJS.Timeout[]>([]);
-    
+
     const { nodes: initialNodes, edges: initialEdges } = createProjectFlow(techStack, projectId, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
     
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -414,6 +415,36 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, i
         (params) => setEdges((els) => addEdge(params, els)),
         [setEdges],
     );
+
+    // Handle hover state changes from parent component
+    React.useEffect(() => {
+        if (isHovered) {
+            // Skip all animations in reduced motion mode
+            if (isReducedMotion) return;
+            
+            // Clear any existing timeouts
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            
+            // Use standard animation sequence if project has animation phases
+            const flowConfig = PROJECT_FLOWS[projectId];
+            if (flowConfig?.animationPhases) {
+                const newTimeouts = createStandardAnimation(
+                    flowConfig.animationPhases,
+                    setSpinningNodes,
+                    setHoveredEdges
+                );
+                setTimeouts(newTimeouts);
+            }
+        } else {
+            // Clear all timeouts
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            setTimeouts([]);
+            
+            // Reset all animations
+            setSpinningNodes(new Set());
+            setHoveredEdges(new Set());
+        }
+    }, [isHovered, isReducedMotion, projectId]);
 
     // Update edges when hover state changes
     React.useEffect(() => {
@@ -445,40 +476,9 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, i
         return null;
     }
 
-    const handleMouseEnter = () => {
-        // Skip all animations in reduced motion mode
-        if (isReducedMotion) return;
-        
-        // Clear any existing timeouts
-        timeouts.forEach(timeout => clearTimeout(timeout));
-        
-        // Use standard animation sequence if project has animation phases
-        const flowConfig = PROJECT_FLOWS[projectId];
-        if (flowConfig?.animationPhases) {
-            const newTimeouts = createStandardAnimation(
-                flowConfig.animationPhases,
-                setSpinningNodes,
-                setHoveredEdges
-            );
-            setTimeouts(newTimeouts);
-        }
-    };
-
-    const handleMouseLeave = () => {
-        // Clear all timeouts
-        timeouts.forEach(timeout => clearTimeout(timeout));
-        setTimeouts([]);
-        
-        // Reset all animations
-        setSpinningNodes(new Set());
-        setHoveredEdges(new Set());
-    };
-
     return (
         <div 
             className={`w-full h-full ${isMobile ? 'mobile-graph' : ''} ${className}`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
         >
             <ReactFlow
                 nodes={nodes}

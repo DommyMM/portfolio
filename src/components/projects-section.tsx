@@ -132,7 +132,7 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                     transition={isReducedMotion ? {} : { duration: 0.6, delay: 0.1 }}
                     viewport={{ once: true }}
                 >
-                    Production systems serving real users with measurable impact
+                    Production systems serving real users with measurable impact <br /> Try hovering on a block
                 </motion.p>
             </div>
 
@@ -167,6 +167,7 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                                 isReducedMotion={isReducedMotion}
                                 index={index}
                                 className="w-full h-full"
+                                isHovered={hovered === index}
                             />
                         </div>
                     ))}

@@ -25,6 +25,7 @@ interface BentoCardProps extends Omit<ComponentPropsWithoutRef<"div">, "onDrag" 
     githubUrl?: string;
     isReducedMotion?: boolean;
     index?: number;
+    isHovered?: boolean;
 }
 
 export function BentoGrid({ children, className, ...props }: BentoGridProps) {
@@ -52,10 +53,10 @@ export function BentoCard({
     githubUrl,
     isReducedMotion = false,
     index = 0,
+    isHovered = false,
     ...props
 }: BentoCardProps) {
     const { isMobile, width } = useResponsive();
-    const [isHovered, setIsHovered] = useState(false);
     const projectId = name.toLowerCase().replace(/\s+/g, '-');
     
     // Wait for useResponsive to stabilize before rendering React Flow
@@ -78,8 +79,6 @@ export function BentoCard({
     );
 
     const commonProps = {
-        onMouseEnter: () => setIsHovered(true),
-        onMouseLeave: () => setIsHovered(false),
         ...props
     };
     
@@ -142,6 +141,7 @@ export function BentoCard({
                             isReducedMotion={isReducedMotion}
                             isMobile={isMobile}
                             className="h-full"
+                            isHovered={isHovered}
                         />
                     ) : (
                         <div className="h-full flex items-center justify-center">
