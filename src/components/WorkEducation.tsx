@@ -1,5 +1,6 @@
 "use client"
 import { Timeline } from "@/components/ui/Timeline"
+import { LinkPreview } from "@/components/ui/link-preview"
 
 const workEducationData = [
     {
@@ -16,14 +17,9 @@ const workEducationData = [
             <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
                 <h3 className="text-xl font-semibold text-white">
-                <a
-                    href="https://www.lumenoai.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors underline"
-                >
+                <LinkPreview url="https://www.lumenoai.com/" className="text-blue-400 hover:text-blue-300 transition-colors underline">
                     Lumeno AI
-                </a>
+                </LinkPreview>
                 </h3>
                 <p className="text-gray-400 text-sm">July 2025 – Sep. 2025</p>
             </div>
@@ -91,14 +87,9 @@ const workEducationData = [
             <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 Working on{" "}
-                <a
-                href="https://www.expressodavis.org/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-400 font-medium hover:text-blue-300 underline"
-                >
-                Expresso
-                </a>
+                <LinkPreview url="https://www.expressodavis.org/" className="text-blue-400 font-medium hover:text-blue-300 underline">
+                    Expresso
+                </LinkPreview>
                 , a university mentorship platform connecting students with mentors and seniors
             </p>
             </div>

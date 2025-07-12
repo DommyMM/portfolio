@@ -34,7 +34,7 @@ const projectsData: Project[] = [
             "Leaderboards with multi-parameter queries and sorting"
         ],
         techStack: ["react", "typescript", "nextdotjs", "mongodb", "vercel"],
-        liveUrl: "https://wuwabuilds.com",
+        liveUrl: "https://wuwabuilds.moe",
         githubUrl: "https://github.com/DommyMM/wuwabuild"
     },
     {

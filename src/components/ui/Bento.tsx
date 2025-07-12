@@ -8,6 +8,7 @@ import GoesOutComesInUnderline from './Underline';
 import Graph from './Graph';
 import { Tooltip } from './ToolTip';
 import { useResponsive } from '@/hooks/useResponsive';
+import { LinkPreview } from './link-preview';
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
     children: ReactNode;
@@ -163,14 +164,27 @@ export function BentoCard({
             >
                 {liveUrl ? (
                     <Tooltip content="View live demo" placement="top">
-                        <GoesOutComesInUnderline 
-                            className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
-                            direction="right"
-                            onClick={() => window.open(liveUrl, '_blank')}
-                            isHovered={isHovered}
-                        >
-                            {name}
-                        </GoesOutComesInUnderline>
+                        {name === "WuWaBuilds" ? (
+                            <LinkPreview url={liveUrl} className="inline-block">
+                                <GoesOutComesInUnderline 
+                                    className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
+                                    direction="right"
+                                    onClick={() => window.open(liveUrl, '_blank')}
+                                    isHovered={isHovered}
+                                >
+                                    {name}
+                                </GoesOutComesInUnderline>
+                            </LinkPreview>
+                        ) : (
+                            <GoesOutComesInUnderline 
+                                className="text-xl md:text-2xl font-semibold text-blue-300 hover:text-blue-200 drop-shadow-lg transition-colors"
+                                direction="right"
+                                onClick={() => window.open(liveUrl, '_blank')}
+                                isHovered={isHovered}
+                            >
+                                {name}
+                            </GoesOutComesInUnderline>
+                        )}
                     </Tooltip>
                 ) : (
                     <h3 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-white drop-shadow-lg">

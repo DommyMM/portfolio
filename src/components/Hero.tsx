@@ -4,6 +4,7 @@ import { TextDecoder } from "@/components/ui/TextDecoder";
 import { TextSlider } from "@/components/ui/TextSlider";
 import { MagicButton } from "@/components/ui/Button";
 import { TextGenerateEffect } from "@/components/ui/TextGenerate";
+import { LinkPreview } from "@/components/ui/link-preview";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { motion } from "motion/react";
 
@@ -83,13 +84,22 @@ export default function HeroSection({ isReducedMotion = false }: HeroSectionProp
                         ease: [0.21, 1.11, 0.81, 0.99]
                     }}
                 >
-                    <MagicButton
-                        title="My Resume"
-                        icon={<ContactPageIcon className="w-4 h-4" />}
-                        position="right"
-                        otherClasses="w-auto"
-                        handleClick={handleViewResume}
-                    />
+                    <LinkPreview 
+                        url="/CSResume.pdf" 
+                        isStatic={true} 
+                        imageSrc="/resume-preview.png"
+                        width={300}
+                        height={400}
+                        className="inline-block"
+                    >
+                        <MagicButton
+                            title="My Resume"
+                            icon={<ContactPageIcon className="w-4 h-4" />}
+                            position="right"
+                            otherClasses="w-auto"
+                            handleClick={handleViewResume}
+                        />
+                    </LinkPreview>
                 </motion.div>
             </div>
         </section>

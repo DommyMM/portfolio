@@ -8,6 +8,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LaunchIcon from '@mui/icons-material/Launch';
 import CodeIcon from '@mui/icons-material/Code';
+import { LinkPreview } from "@/components/ui/link-preview";
 
 const contactInfo = [
     {
@@ -116,28 +117,51 @@ export default function ContactSection() {
                         {/* Right Column - Social Links (Purple) */}
                         <div className="space-y-4">
                             {socialLinks.map((link, index) => (
-                                <motion.a
-                                    key={link.label}
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
-                                        {link.icon}
-                                    </div>
-                                    <div className="flex-grow">
-                                        <p className="text-sm text-neutral-500 dark:text-neutral-400">{link.label}</p>
-                                        <p className="text-neutral-800 dark:text-neutral-200 font-medium">{link.value}</p>
-                                    </div>
-                                    <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
-                                </motion.a>
+                                link.label === "GitHub" ? (
+                                    <LinkPreview key={link.label} url={link.href!} className="inline-block w-full">
+                                        <motion.div
+                                            className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group cursor-pointer"
+                                            initial={{ opacity: 0, x: 20 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                                            viewport={{ once: true }}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                        >
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                                                {link.icon}
+                                            </div>
+                                            <div className="flex-grow">
+                                                <p className="text-sm text-neutral-500 dark:text-neutral-400">{link.label}</p>
+                                                <p className="text-neutral-800 dark:text-neutral-200 font-medium">{link.value}</p>
+                                            </div>
+                                            <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
+                                        </motion.div>
+                                    </LinkPreview>
+                                ) : (
+                                    <motion.a
+                                        key={link.label}
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:bg-neutral-100/50 dark:hover:bg-white/5 group"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                                        viewport={{ once: true }}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                                            {link.icon}
+                                        </div>
+                                        <div className="flex-grow">
+                                            <p className="text-sm text-neutral-500 dark:text-neutral-400">{link.label}</p>
+                                            <p className="text-neutral-800 dark:text-neutral-200 font-medium">{link.value}</p>
+                                        </div>
+                                        <LaunchIcon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300" />
+                                    </motion.a>
+                                )
                             ))}
                         </div>
                     </div>
