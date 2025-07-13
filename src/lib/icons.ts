@@ -55,6 +55,8 @@ export const iconMap: Record<string, IconData> = {
     git: { type: 'simple', data: SimpleIcons.siGit },
     json: { type: 'simple', data: SimpleIcons.siJson },
     jwt: { type: 'simple', data: SimpleIcons.siJsonwebtokens },
+    gin: { type: 'simple', data: SimpleIcons.siGin },
+    supabase: { type: 'simple', data: SimpleIcons.siSupabase },
 
     // Gaming Platforms
     steam: { type: 'simple', data: SimpleIcons.siSteam },

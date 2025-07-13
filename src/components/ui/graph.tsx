@@ -151,6 +151,9 @@ function getTechTitle(techName: string): string {
         'chromadb': 'ChromaDB',
         'langchain': 'LangChain',
         'jwt': 'JWT',
+        'gin': 'Gin',
+        'sqlc': 'sqlc',
+        'supabase': 'Supabase',
         // Add more as needed
     };
     
@@ -297,33 +300,40 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
 
     'expresso': {
         nodePositions: {
-            'go': { mobile: { x: 20, y: 20 }, desktop: { x: 40, y: 30 } },
-            'nextdotjs': { mobile: { x: 20, y: 70 }, desktop: { x: 40, y: 90 } },
-            'postgresql': { mobile: { x: 140, y: 20 }, desktop: { x: 180, y: 30 } },
-            'typescript': { mobile: { x: 140, y: 70 }, desktop: { x: 180, y: 90 } },
-            'tailwindcss': { mobile: { x: 240, y: 20 }, desktop: { x: 300, y: 30 } },
-            'jwt': { mobile: { x: 240, y: 70 }, desktop: { x: 300, y: 90 } },
+            'go': { mobile: { x: 20, y: 30 }, desktop: { x: 20, y: 30 } },
+            'typescript': { mobile: { x: 20, y: 120 }, desktop: { x: 20, y: 100 } },
+            'gin': { mobile: { x: 140, y: 10 }, desktop: { x: 170, y: 10 } },
+            'sqlc': { mobile: { x: 140, y: 60 }, desktop: { x: 170, y: 60 } },
+            'nextdotjs': { mobile: { x: 140, y: 120 }, desktop: { x: 170, y: 110 } },
+            'postgresql': { mobile: { x: 240, y: 30 }, desktop: { x: 320, y: 10 } },
+            'tailwindcss': { mobile: { x: 240, y: 100 }, desktop: { x: 320, y: 60 } },
+            'supabase': { mobile: { x: 240, y: 140 }, desktop: { x: 320, y: 110 } },
         },
         edges: [
-            { id: 'go-postgresql', source: 'go', target: 'postgresql' },
-            { id: 'go-jwt', source: 'go', target: 'jwt' },
-            { id: 'nextdotjs-typescript', source: 'nextdotjs', target: 'typescript' },
+            { id: 'go-gin', source: 'go', target: 'gin' },
+            { id: 'go-sqlc', source: 'go', target: 'sqlc' },
+            { id: 'gin-postgresql', source: 'gin', target: 'postgresql' },
+            { id: 'sqlc-postgresql', source: 'sqlc', target: 'postgresql' },
+            { id: 'typescript-nextdotjs', source: 'typescript', target: 'nextdotjs' },
             { id: 'nextdotjs-tailwindcss', source: 'nextdotjs', target: 'tailwindcss' },
+            { id: 'nextdotjs-supabase', source: 'nextdotjs', target: 'supabase' },
         ],
         subtitles: {
-            'go': 'Backend API',
-            'nextdotjs': 'Frontend Framework',
+            'go': 'Backend',
+            'typescript': 'TypeSafety',
+            'gin': 'API',
+            'sqlc': 'Queries',
+            'nextdotjs': 'Frontend',
             'postgresql': 'Database',
-            'typescript': 'Type Safety',
-            'tailwindcss': 'Styling',
-            'jwt': 'Authentication',
+            'tailwindcss': 'UI Styling',
+            'supabase': 'Auth Provider',
         },
         animationPhases: {
-            initialNodes: ['go', 'nextdotjs'],
-            hubNodes: ['go', 'nextdotjs'],
-            finalNodes: ['postgresql', 'typescript', 'tailwindcss', 'jwt'],
-            initialEdges: [],
-            finalEdges: ['go-postgresql', 'go-jwt', 'nextdotjs-typescript', 'nextdotjs-tailwindcss'],
+            initialNodes: ['go', 'typescript'],
+            hubNodes: ['gin', 'sqlc', 'nextdotjs'],
+            finalNodes: ['postgresql', 'tailwindcss', 'supabase'],
+            initialEdges: ['go-gin', 'go-sqlc', 'typescript-nextdotjs'],
+            finalEdges: ['gin-postgresql', 'sqlc-postgresql', 'nextdotjs-tailwindcss', 'nextdotjs-supabase'],
         }
     }
 };

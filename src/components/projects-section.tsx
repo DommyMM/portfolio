@@ -98,7 +98,7 @@ const projectsData: Project[] = [
             "Fuzzy matching and filtering algorithms",
             "CI/CD workflow with team"
         ],
-        techStack: ["go", "nextdotjs", "postgresql", "typescript", "tailwindcss", "jwt"],
+        techStack: ["go", "nextdotjs", "gin", "typescript", "sqlc", "tailwindcss", "postgresql", "supabase"],
         liveUrl: "https://expressodavis.org",
         githubUrl: "https://github.com/DommyMM/ExpressoDavis"
     }
