@@ -24,14 +24,14 @@ const projectsData: Project[] = [
         id: "wuwabuilds",
         name: "WuWaBuilds",
         description: "Gaming platform with reverse-engineered calculations and leaderboards",
-        className: "col-span-1 md:col-span-2 lg:col-span-3",
+        className: "col-span-1 md:col-span-2 lg:col-span-10",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
         ),
         keyPoints: [
-            "13K users, 313% organic growth (past 3 months)",
-            "Real-time calculations & reverse-engineered formulas",
-            "Leaderboards with multi-parameter queries and sorting"
+            "Fullstack platform with dynamic page generation",
+            "Live updating calculations & formulas",
+            "Leaderboards with multi-parameter queries"
         ],
         techStack: ["react", "typescript", "nextdotjs", "mongodb", "vercel"],
         liveUrl: "https://wuwabuilds.moe",
@@ -41,7 +41,7 @@ const projectsData: Project[] = [
         id: "rag-translation",
         name: "RAG Translation",
         description: "Cost-optimized AI translation pipeline",
-        className: "col-span-1 md:col-span-1 lg:col-span-2",
+        className: "col-span-1 md:col-span-1 lg:col-span-7",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10" />
         ),
@@ -57,7 +57,7 @@ const projectsData: Project[] = [
         id: "cv-api",
         name: "OCR API",
         description: "Custom Computer Vision API",
-        className: "col-span-1 md:col-span-1 lg:col-span-1",
+        className: "col-span-1 md:col-span-1 lg:col-span-3",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10" />
         ),
@@ -70,10 +70,26 @@ const projectsData: Project[] = [
         githubUrl: "https://github.com/DommyMM/wuwa-ocr-api"
     },
     {
+        id: "voice-chatbot",
+        name: "Chatbot",
+        description: "Multi-model AI with sub-second response",
+        className: "col-span-1 md:col-span-1 lg:col-span-4",
+        background: (
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
+        ),
+        keyPoints: [
+            "Sub-second response times",
+            "4 AI models with side-by-side comparison",
+            "Speech-to-text/text-to-speech pipeline"
+        ],
+        techStack: ["nextdotjs", "fastapi", "openai", "speechapi"],
+        githubUrl: "https://github.com/DommyMM/not-gpt-but-still-wrapper"
+    },
+    {
         id: "expresso",
-        name: "Expresso",
+        name: "Expresso Platform",
         description: "University mentorship platform",
-        className: "col-span-1 md:col-span-1 lg:col-span-1",
+        className: "col-span-1 md:col-span-2 lg:col-span-6",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
         ),
@@ -85,22 +101,6 @@ const projectsData: Project[] = [
         techStack: ["go", "postgresql", "nextdotjs", "tailwindcss"],
         liveUrl: "https://expressodavis.org",
         githubUrl: "https://github.com/DommyMM/ExpressoDavis"
-    },
-    {
-        id: "voice-chatbot",
-        name: "Voice Chatbot",
-        description: "Multi-model AI with sub-second response",
-        className: "col-span-1 md:col-span-2 lg:col-span-2",
-        background: (
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
-        ),
-        keyPoints: [
-            "Sub-second response times",
-            "4 AI models with side-by-side comparison",
-            "Speech-to-text/text-to-speech pipeline"
-        ],
-        techStack: ["nextdotjs", "fastapi", "openai", "speechapi"],
-        githubUrl: "https://github.com/DommyMM/not-gpt-but-still-wrapper"
     }
 ];
 
@@ -132,7 +132,6 @@ export default function ProjectsSection({ isReducedMotion = false }: ProjectsSec
                     transition={isReducedMotion ? {} : { duration: 0.6, delay: 0.1 }}
                     viewport={{ once: true }}
                 >
-                    Production systems serving real users with measurable impact <br /> Try hovering on a block
                 </motion.p>
             </div>
 
