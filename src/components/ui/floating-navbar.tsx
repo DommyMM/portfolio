@@ -87,7 +87,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         if (isSmall) return "90%";              // <= 640px
         if (isLaptop) return "60%";             // 641px - 1400px
         if (isDesktop) return "55%";            // 1401px - 1920px
-        return "33%";                           // > 1920px (4K)
+        return "35%";                           // > 1920px (4K)
     };
     
     const navbarWidth = getNavbarWidth();
@@ -187,7 +187,7 @@ const NavItem = ({
         damping: 12,
     });
 
-    const sectionId = item.link.substring(1);
+    const sectionId = item.link.substring(1) || 'home'; // Handle '#' as home
     const isActive = activeSection === sectionId;
 
     return (
@@ -197,7 +197,7 @@ const NavItem = ({
             onMouseEnter={() => setIsItemHovered(true)}
             onMouseLeave={() => setIsItemHovered(false)}
             className={cn(
-                "relative px-5 py-3 transition-colors duration-300 cursor-pointer",
+                "relative px-4 py-3 transition-colors duration-300 cursor-pointer",
                 isActive 
                     ? "text-blue-600 dark:text-blue-400 font-semibold" 
                     : "text-neutral-600 dark:text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-100"
@@ -351,7 +351,7 @@ export const MobileNavMenu = ({
                         damping: 30
                     }}
                     className={cn(
-                        "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] mt-6 border-t border-neutral-300 dark:border-neutral-800",
+                        "absolute right-0 top-16 z-50 flex w-7/10 flex-col items-start justify-start gap-4 rounded-lg bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] mt-6 border-t border-neutral-300 dark:border-neutral-800",
                         className,
                     )}
                 >

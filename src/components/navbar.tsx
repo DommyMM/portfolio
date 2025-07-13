@@ -16,6 +16,10 @@ interface PortfolioNavbarProps {
 export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, onMotionToggle, activeSection }: PortfolioNavbarProps) {
     const navItems = [
         {
+            name: "Home",
+            link: "#",
+        },
+        {
             name: "About",
             link: "#about",
         },
@@ -94,7 +98,7 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="relative text-neutral-600 dark:text-neutral-300 py-2"
                         >
-                            <span className="block text-lg">{item.name}</span>
+                            <span className="block text-xl">{item.name}</span>
                         </a>
                     ))}
                     <div className="flex w-full flex-col gap-4 mt-4 pt-4 border-t border-gray-300 dark:border-gray-700">

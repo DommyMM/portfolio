@@ -28,7 +28,7 @@ export default function HeroSection({ isReducedMotion = false }: HeroSectionProp
     };
 
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden transition-colors duration-300">
+        <section id="home" className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden transition-colors duration-300">
             <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
