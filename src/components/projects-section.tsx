@@ -24,7 +24,7 @@ const projectsData: Project[] = [
         id: "wuwabuilds",
         name: "WuWaBuilds",
         description: "Gaming platform with reverse-engineered calculations and leaderboards",
-        className: "col-span-1 md:col-span-2 lg:col-span-10",
+        className: "col-span-1 md:col-span-2 lg:col-span-20",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
         ),
@@ -41,7 +41,7 @@ const projectsData: Project[] = [
         id: "rag-translation",
         name: "RAG Translation",
         description: "Cost-optimized AI translation pipeline",
-        className: "col-span-1 md:col-span-1 lg:col-span-7",
+        className: "col-span-1 md:col-span-1 lg:col-span-13",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10" />
         ),
@@ -56,24 +56,24 @@ const projectsData: Project[] = [
     {
         id: "cv-api",
         name: "OCR API",
-        description: "Custom Computer Vision API",
-        className: "col-span-1 md:col-span-1 lg:col-span-3",
+        description: "OCR API built from scratch",
+        className: "col-span-1 md:col-span-1 lg:col-span-7",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10" />
         ),
         keyPoints: [
-            "95% accuracy, 100+ req/min",
-            "Fuzzy match for data integrity",
-            "Parallel processing for faster results"
+            "Computer Vision with 95% accuracy",
+            "Recognizes text and images",
+            "Concurrent processing for 100+ req/min"
         ],
-        techStack: ["fastapi", "opencv", "python", "docker"],
+        techStack: ["python", "docker", "fastapi", "opencv", "tesseract", "numpy"],
         githubUrl: "https://github.com/DommyMM/wuwa-ocr-api"
     },
     {
         id: "voice-chatbot",
         name: "Chatbot",
         description: "Multi-model AI with sub-second response",
-        className: "col-span-1 md:col-span-1 lg:col-span-4",
+        className: "col-span-1 md:col-span-1 lg:col-span-8",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
         ),
@@ -89,7 +89,7 @@ const projectsData: Project[] = [
         id: "expresso",
         name: "Expresso Platform",
         description: "University mentorship platform",
-        className: "col-span-1 md:col-span-2 lg:col-span-6",
+        className: "col-span-1 md:col-span-2 lg:col-span-12",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
         ),

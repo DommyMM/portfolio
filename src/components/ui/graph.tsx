@@ -149,6 +149,8 @@ function getTechTitle(techName: string): string {
         'cerebras': 'Cerebras',
         'chromadb': 'ChromaDB',
         'langchain': 'LangChain',
+        'tesseract': 'Tesseract',
+        'numpy': 'NumPy',
         // Add more as needed
     };
     
@@ -227,31 +229,35 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
         }
     },
     
-    // Example for other projects
     'cv-api': {
         nodePositions: {
-            'fastapi': { mobile: { x: 20, y: 40 }, desktop: { x: 160, y: 90 } },
-            'opencv': { mobile: { x: 20, y: 90 }, desktop: { x: 160, y: 140 } },
-            'python': { mobile: { x: 140, y: 70 }, desktop: { x: 370, y: 115 } },
-            'docker': { mobile: { x: 240, y: 70 }, desktop: { x: 580, y: 115 } },
+            'python': { mobile: { x: 20, y: 20 }, desktop: { x: 40, y: 30 } },
+            'docker': { mobile: { x: 20, y: 70 }, desktop: { x: 40, y: 90 } },
+            'fastapi': { mobile: { x: 140, y: 20 }, desktop: { x: 160, y: 70 } },
+            'opencv': { mobile: { x: 140, y: 70 }, desktop: { x: 160, y: 120 } },
+            'tesseract': { mobile: { x: 240, y: 20 }, desktop: { x: 280, y: 70 } },
+            'numpy': { mobile: { x: 240, y: 70 }, desktop: { x: 280, y: 120 } },
         },
         edges: [
-            { id: 'fastapi-python', source: 'fastapi', target: 'python' },
-            { id: 'opencv-python', source: 'opencv', target: 'python' },
-            { id: 'python-docker', source: 'python', target: 'docker' },
+            { id: 'python-fastapi', source: 'python', target: 'fastapi' },
+            { id: 'python-opencv', source: 'python', target: 'opencv' },
+            { id: 'python-tesseract', source: 'python', target: 'tesseract' },
+            { id: 'python-numpy', source: 'python', target: 'numpy' },
         ],
         subtitles: {
+            'python': 'Foundation',
+            'docker': 'WSL',
             'fastapi': 'API Server',
-            'opencv': 'Computer Vision',
-            'python': 'Processing',
-            'docker': 'Containerization',
+            'opencv': 'Image Processing',
+            'tesseract': 'OCR Engine',
+            'numpy': 'Array Operations',
         },
         animationPhases: {
-            initialNodes: ['fastapi', 'opencv'],
+            initialNodes: ['python', 'docker'],
             hubNodes: ['python'],
-            finalNodes: ['docker'],
-            initialEdges: ['fastapi-python', 'opencv-python'],
-            finalEdges: ['python-docker'],
+            finalNodes: ['fastapi', 'opencv', 'tesseract', 'numpy'],
+            initialEdges: [],
+            finalEdges: ['python-fastapi', 'python-opencv', 'python-tesseract', 'python-numpy'],
         }
     }
 };

@@ -31,6 +31,7 @@ export const iconMap: Record<string, IconData> = {
     deepseek: { type: 'local', path: '/deepseek.svg' },
     cerebras: { type: 'local', path: '/cerebras.svg' },
     chromadb: { type: 'local', path: '/chromadb.svg' },
+    tesseract: { type: 'local', path: '/tesseract.svg' },
 
     // Frontend Development
     react: { type: 'simple', data: SimpleIcons.siReact },
