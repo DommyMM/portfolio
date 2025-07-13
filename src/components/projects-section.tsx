@@ -23,7 +23,7 @@ const projectsData: Project[] = [
     {
         id: "wuwabuilds",
         name: "WuWaBuilds",
-        description: "Gaming platform with reverse-engineered calculations and leaderboards",
+        description: "Gaming platform with calculations and leaderboards",
         className: "col-span-1 md:col-span-2 lg:col-span-20",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
@@ -71,34 +71,34 @@ const projectsData: Project[] = [
     },
     {
         id: "voice-chatbot",
-        name: "Chatbot",
-        description: "Multi-model AI with sub-second response",
+        name: "Voice Chatbot",
+        description: "Multi-model voice chatbot with streaming",
         className: "col-span-1 md:col-span-1 lg:col-span-8",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10" />
         ),
         keyPoints: [
-            "Sub-second response times",
-            "4 AI models with side-by-side comparison",
-            "Speech-to-text/text-to-speech pipeline"
+            "Streaming 200+ tokens/s with 4 AI models",
+            "Voice interface with 14 language support",
+            "Live performance metrics and model switching"
         ],
-        techStack: ["nextdotjs", "fastapi", "openai", "speechapi"],
+        techStack: ["nextdotjs", "fastapi", "cerebras", "speechapi", "react", "typescript"],
         githubUrl: "https://github.com/DommyMM/not-gpt-but-still-wrapper"
     },
     {
         id: "expresso",
-        name: "Expresso Platform",
-        description: "University mentorship platform",
+        name: "Expresso",
+        description: "Domain Driven University Mentorship Platform",
         className: "col-span-1 md:col-span-2 lg:col-span-12",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-indigo-500/10" />
         ),
         keyPoints: [
-            "CI/CD workflow with team",
-            "Full-Stack Development",
-            "Match (Spa → Space Exploration)"
+            "Go/Gin API with PostgreSQL queries and JWT auth",
+            "Fuzzy matching and filtering algorithms",
+            "CI/CD workflow with team"
         ],
-        techStack: ["go", "postgresql", "nextdotjs", "tailwindcss"],
+        techStack: ["go", "nextdotjs", "postgresql", "typescript", "tailwindcss", "jwt"],
         liveUrl: "https://expressodavis.org",
         githubUrl: "https://github.com/DommyMM/ExpressoDavis"
     }

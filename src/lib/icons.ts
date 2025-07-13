@@ -54,6 +54,7 @@ export const iconMap: Record<string, IconData> = {
     amazonaws: { type: 'local', path: '/amazon.svg' },
     git: { type: 'simple', data: SimpleIcons.siGit },
     json: { type: 'simple', data: SimpleIcons.siJson },
+    jwt: { type: 'simple', data: SimpleIcons.siJsonwebtokens },
 
     // Gaming Platforms
     steam: { type: 'simple', data: SimpleIcons.siSteam },

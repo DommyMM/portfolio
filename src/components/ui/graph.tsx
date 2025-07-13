@@ -115,6 +115,7 @@ type ProjectFlowConfig = {
     nodePositions: Record<string, { mobile: { x: number; y: number }; desktop: { x: number; y: number } }>;
     edges: Array<{ id: string; source: string; target: string }>;
     subtitles?: Record<string, string>; // Optional custom subtitles
+    levels?: 2 | 3; // Animation levels (defaults to 3)
     animationPhases?: {
         initialNodes: string[]; // Nodes that spin first (usually input/frontend)
         hubNodes: string[]; // Central nodes that process (usually deployment/processing)
@@ -149,8 +150,7 @@ function getTechTitle(techName: string): string {
         'cerebras': 'Cerebras',
         'chromadb': 'ChromaDB',
         'langchain': 'LangChain',
-        'tesseract': 'Tesseract',
-        'numpy': 'NumPy',
+        'jwt': 'JWT',
         // Add more as needed
     };
     
@@ -240,31 +240,98 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
         },
         edges: [
             { id: 'python-fastapi', source: 'python', target: 'fastapi' },
-            { id: 'python-opencv', source: 'python', target: 'opencv' },
-            { id: 'python-tesseract', source: 'python', target: 'tesseract' },
             { id: 'python-numpy', source: 'python', target: 'numpy' },
+            { id: 'docker-opencv', source: 'docker', target: 'opencv' },
+            { id: 'docker-tesseract', source: 'docker', target: 'tesseract' },
         ],
         subtitles: {
             'python': 'Foundation',
-            'docker': 'WSL',
+            'docker': 'Infrastructure',
             'fastapi': 'API Server',
             'opencv': 'Image Processing',
             'tesseract': 'OCR Engine',
             'numpy': 'Array Operations',
         },
+        levels: 2,
         animationPhases: {
             initialNodes: ['python', 'docker'],
-            hubNodes: ['python'],
-            finalNodes: ['fastapi', 'opencv', 'tesseract', 'numpy'],
+            hubNodes: ['python', 'docker'],
+            finalNodes: ['fastapi', 'numpy', 'opencv', 'tesseract'],
             initialEdges: [],
-            finalEdges: ['python-fastapi', 'python-opencv', 'python-tesseract', 'python-numpy'],
+            finalEdges: ['python-fastapi', 'python-numpy', 'docker-opencv', 'docker-tesseract'],
+        }
+    },
+
+    'voice-chatbot': {
+        nodePositions: {
+            'nextdotjs': { mobile: { x: 20, y: 20 }, desktop: { x: 40, y: 40 } },
+            'fastapi': { mobile: { x: 20, y: 70 }, desktop: { x: 40, y: 100 } },
+            'cerebras': { mobile: { x: 140, y: 20 }, desktop: { x: 180, y: 30 } },
+            'speechapi': { mobile: { x: 140, y: 70 }, desktop: { x: 180, y: 80 } },
+            'react': { mobile: { x: 240, y: 20 }, desktop: { x: 300, y: 30 } },
+            'typescript': { mobile: { x: 240, y: 70 }, desktop: { x: 300, y: 80 } },
+        },
+        edges: [
+            { id: 'nextdotjs-cerebras', source: 'nextdotjs', target: 'cerebras' },
+            { id: 'nextdotjs-react', source: 'nextdotjs', target: 'react' },
+            { id: 'fastapi-speechapi', source: 'fastapi', target: 'speechapi' },
+            { id: 'fastapi-typescript', source: 'fastapi', target: 'typescript' },
+        ],
+        subtitles: {
+            'nextdotjs': 'Full-Stack Framework',
+            'fastapi': 'Backend API',
+            'cerebras': 'AI Inference',
+            'speechapi': 'Voice Processing',
+            'react': 'UI Components',
+            'typescript': 'Type Safety',
+        },
+        levels: 2,
+        animationPhases: {
+            initialNodes: ['nextdotjs', 'fastapi'],
+            hubNodes: ['nextdotjs', 'fastapi'],
+            finalNodes: ['cerebras', 'speechapi', 'react', 'typescript'],
+            initialEdges: [],
+            finalEdges: ['nextdotjs-cerebras', 'nextdotjs-react', 'fastapi-speechapi', 'fastapi-typescript'],
+        }
+    },
+
+    'expresso': {
+        nodePositions: {
+            'go': { mobile: { x: 20, y: 20 }, desktop: { x: 40, y: 30 } },
+            'nextdotjs': { mobile: { x: 20, y: 70 }, desktop: { x: 40, y: 90 } },
+            'postgresql': { mobile: { x: 140, y: 20 }, desktop: { x: 180, y: 30 } },
+            'typescript': { mobile: { x: 140, y: 70 }, desktop: { x: 180, y: 90 } },
+            'tailwindcss': { mobile: { x: 240, y: 20 }, desktop: { x: 300, y: 30 } },
+            'jwt': { mobile: { x: 240, y: 70 }, desktop: { x: 300, y: 90 } },
+        },
+        edges: [
+            { id: 'go-postgresql', source: 'go', target: 'postgresql' },
+            { id: 'go-jwt', source: 'go', target: 'jwt' },
+            { id: 'nextdotjs-typescript', source: 'nextdotjs', target: 'typescript' },
+            { id: 'nextdotjs-tailwindcss', source: 'nextdotjs', target: 'tailwindcss' },
+        ],
+        subtitles: {
+            'go': 'Backend API',
+            'nextdotjs': 'Frontend Framework',
+            'postgresql': 'Database',
+            'typescript': 'Type Safety',
+            'tailwindcss': 'Styling',
+            'jwt': 'Authentication',
+        },
+        animationPhases: {
+            initialNodes: ['go', 'nextdotjs'],
+            hubNodes: ['go', 'nextdotjs'],
+            finalNodes: ['postgresql', 'typescript', 'tailwindcss', 'jwt'],
+            initialEdges: [],
+            finalEdges: ['go-postgresql', 'go-jwt', 'nextdotjs-typescript', 'nextdotjs-tailwindcss'],
         }
     }
 };
 
-// Standard animation sequence - same timing for all projects
+// Standard animation sequence - handles both 2-level and 3-level
 function createStandardAnimation(
     animationPhases: NonNullable<ProjectFlowConfig['animationPhases']>,
+    levels: number = 3,
     setSpinningNodes: React.Dispatch<React.SetStateAction<Set<string>>>,
     setHoveredEdges: React.Dispatch<React.SetStateAction<Set<string>>>
 ): NodeJS.Timeout[] {
@@ -295,24 +362,35 @@ function createStandardAnimation(
         setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
     }, 6500));
     
-    // 8s: Stop hub nodes + start final nodes
-    timeouts.push(setTimeout(() => {
-        setSpinningNodes(prev => {
-            const newSet = new Set(prev);
-            animationPhases.hubNodes.forEach(node => newSet.delete(node));
-            return newSet;
-        });
-        setSpinningNodes(prev => new Set([...prev, ...animationPhases.finalNodes]));
-    }, 8000));
-    
-    // 10s: Stop final nodes
-    timeouts.push(setTimeout(() => {
-        setSpinningNodes(prev => {
-            const newSet = new Set(prev);
-            animationPhases.finalNodes.forEach(node => newSet.delete(node));
-            return newSet;
-        });
-    }, 10000));
+    if (levels === 3) {
+        // 8s: Stop hub nodes + start final nodes (3-level only)
+        timeouts.push(setTimeout(() => {
+            setSpinningNodes(prev => {
+                const newSet = new Set(prev);
+                animationPhases.hubNodes.forEach(node => newSet.delete(node));
+                return newSet;
+            });
+            setSpinningNodes(prev => new Set([...prev, ...animationPhases.finalNodes]));
+        }, 8000));
+        
+        // 10s: Stop final nodes (3-level only)
+        timeouts.push(setTimeout(() => {
+            setSpinningNodes(prev => {
+                const newSet = new Set(prev);
+                animationPhases.finalNodes.forEach(node => newSet.delete(node));
+                return newSet;
+            });
+        }, 10000));
+    } else {
+        // 8s: Stop hub nodes (2-level only)
+        timeouts.push(setTimeout(() => {
+            setSpinningNodes(prev => {
+                const newSet = new Set(prev);
+                animationPhases.hubNodes.forEach(node => newSet.delete(node));
+                return newSet;
+            });
+        }, 8000));
+    }
     
     return timeouts;
 }
@@ -329,8 +407,8 @@ function createProjectFlow(
     const flowConfig = PROJECT_FLOWS[projectId];
     
     if (!flowConfig) {
-        // Fallback to linear flow for undefined projects
-        return createLinearFlow(techStack, hoveredEdges, spinningNodes, isReducedMotion, isMobile);
+        // No configuration found - return empty graph
+        return { nodes: [], edges: [] };
     }
     
     // Create nodes from tech names + project positions
@@ -358,51 +436,6 @@ function createProjectFlow(
             isReducedMotion
         }
     }));
-    
-    return { nodes, edges };
-}
-
-// Fallback linear flow for undefined projects
-function createLinearFlow(
-    techStack: string[], 
-    hoveredEdges: Set<string>, 
-    spinningNodes: Set<string>, 
-    isReducedMotion: boolean = false, 
-    isMobile: boolean = false
-): { nodes: Node<TurboNodeData>[], edges: Edge[] } {
-    const nodes: Node<TurboNodeData>[] = [];
-    const edges: Edge[] = [];
-    
-    const spacing = isMobile ? 120 : 200;
-    const yPosition = isMobile ? 60 : 100;
-    
-    techStack.forEach((tech, index) => {
-        const nodeId = `${tech}-${index}`;
-        nodes.push({
-            id: nodeId,
-            position: { x: index * spacing, y: yPosition },
-            data: { 
-                icon: tech,
-                title: getTechTitle(tech),
-                subtitle: '',
-                selected: spinningNodes.has(nodeId)
-            },
-            type: 'turbo',
-        });
-        
-        if (index < techStack.length - 1) {
-            const edgeId = `e${index}-${index + 1}`;
-            edges.push({
-                id: edgeId,
-                source: `${tech}-${index}`,
-                target: `${techStack[index + 1]}-${index + 1}`,
-                data: { 
-                    isHighlighted: hoveredEdges.has(edgeId),
-                    isReducedMotion
-                }
-            });
-        }
-    });
     
     return { nodes, edges };
 }
@@ -436,6 +469,7 @@ export default function Graph({ techStack, projectId, isReducedMotion = false, i
             if (flowConfig?.animationPhases) {
                 const newTimeouts = createStandardAnimation(
                     flowConfig.animationPhases,
+                    flowConfig.levels || 3,
                     setSpinningNodes,
                     setHoveredEdges
                 );
