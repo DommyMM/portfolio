@@ -31,10 +31,6 @@ export function PortfolioNavbar({ isDarkMode, onThemeToggle, isReducedMotion, on
             name: "Skills",
             link: "#skills",
         },
-        {
-            name: "Contact",
-            link: "#contact",
-        },
     ];
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

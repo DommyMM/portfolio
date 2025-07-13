@@ -85,9 +85,9 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         if (!visible) return "100%";
         
         if (isSmall) return "90%";              // <= 640px
-        if (isLaptop) return "70%";             // 641px - 1400px
+        if (isLaptop) return "60%";             // 641px - 1400px
         if (isDesktop) return "55%";            // 1401px - 1920px
-        return "40%";                           // > 1920px (4K)
+        return "33%";                           // > 1920px (4K)
     };
     
     const navbarWidth = getNavbarWidth();
@@ -108,7 +108,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
                 damping: 50,
             }}
             className={cn(
-                "relative z-[60] mx-auto hidden flex-row items-center self-start rounded-full bg-transparent lg:flex dark:bg-transparent px-4 py-2 lg:pl-4 lg:pr-6 lg:py-3 xl:pl-4 xl:pr-8 xl:py-4 justify-between",
+                "relative z-[60] mx-auto hidden flex-row items-center self-start rounded-full bg-transparent lg:flex dark:bg-transparent px-4 py-2 lg:px-6 lg:py-4 justify-between",
                 visible && "bg-white/80 dark:bg-neutral-950/80",
                 className,
             )}
@@ -138,9 +138,9 @@ export const NavItems = ({ items, className, onItemClick, visible, activeSection
                 setIsNavbarHovered(false);
             }}
             className={cn(
-                "hidden flex-1 flex-row items-center space-x-2 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-2",
+                "hidden flex-1 flex-row items-center space-x-3 font-medium text-zinc-600 transition-all duration-300 hover:text-zinc-800 lg:flex lg:space-x-3",
                 visible 
-                    ? "justify-start pl-8 text-xl" 
+                    ? "justify-center pl-4 text-xl" 
                     : "justify-center text-2xl",
                 className,
             )}
@@ -408,7 +408,7 @@ export const NavbarLogo = ({
     return (
         <a
             href="#"
-            className="relative z-20 flex items-center space-x-2 px-1 py-2 font-normal text-black w-full justify-center md:w-auto md:justify-start"
+            className="relative z-20 flex items-center space-x-2 px-3 py-2 font-normal text-black w-full justify-center md:w-auto md:justify-start"
         >
             <span className={cn(
                 "font-bold text-black dark:text-white transition-all duration-300",

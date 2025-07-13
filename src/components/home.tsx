@@ -8,7 +8,7 @@ import SkillsSection from "@/components/skill-section";
 import { PortfolioNavbar } from "@/components/navbar";
 import { useActiveSection } from "@/hooks/useActive";
 import { usePreferences } from "@/hooks/usePreferences";
-import ContactSection from "./contact-section";
+import Footer from "@/components/footer";
 
 export default function Home() {
     // Use unified preferences hook for both theme and motion
@@ -35,8 +35,9 @@ export default function Home() {
                 <ProjectsSection isReducedMotion={isReducedMotion} />
                 <WorkEducation />
                 <SkillsSection isReducedMotion={isReducedMotion} />
-                <ContactSection />
             </div>
+            
+            <Footer isReducedMotion={isReducedMotion} />
         </div>
     );
 }
