@@ -131,13 +131,13 @@ const workEducationData = [
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:text-blue-300 transition-colors underline"
                 >
-                    UC Davis Undergraduate Admissions
+                    UC Davis Admissions
                 </a>
                 </h3>
                 <p className="text-gray-400 text-sm">Jun 2024 – May 2025</p>
             </div>
             <div className="flex justify-between items-center">
-                <p className="text-white font-medium">Admissions Operations Student Worker</p>
+                <p className="text-white font-medium">Administrative Assistant</p>
                 <p className="text-gray-300 text-sm">Davis, CA</p>
             </div>
             </div>
@@ -186,10 +186,10 @@ const workEducationData = [
                     University of California, Davis
                 </a>
                 </h3>
-                <p className="text-gray-400 text-sm">Sep 2023 – Jun 2027</p>
+                <p className="text-gray-400 text-sm">Sep 2023</p>
             </div>
             <div className="flex justify-between items-center">
-                <p className="text-white font-medium">Bachelor of Engineering - Computer Science</p>
+                <p className="text-white font-medium">B.S. Computer Science</p>
                 <p className="text-gray-300 text-sm">Davis, CA</p>
             </div>
             </div>

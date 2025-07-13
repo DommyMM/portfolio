@@ -75,7 +75,7 @@ export default function ContactSection() {
                         transition={{ duration: 0.6, delay: 0.1 }}
                         viewport={{ once: true }}
                     >
-                        Open to exciting projects, internships, and collaboration opportunities.
+                        Open to cool projects, internships, and collaboration opportunities.
                     </motion.p>
                 </div>
 

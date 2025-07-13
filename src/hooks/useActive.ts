@@ -45,9 +45,7 @@ export function useActiveSection() {
             },
             {
                 // Trigger when section is 30% visible
-                threshold: 0.3,
-                // Start observing 100px before the section enters viewport
-                rootMargin: '-100px 0px -100px 0px'
+                threshold: 0.25
             }
         );
 

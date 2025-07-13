@@ -32,11 +32,10 @@ export default function HeroSection({ isReducedMotion = false }: HeroSectionProp
             <div className="max-w-6xl text-center space-y-12 relative z-10">
                 {/* Main Heading */}
                 <div className="space-y-8 mb-4">
-                    <h1 className="text-5xl md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none select-none">
+                    <h1 className="text-[54px] md:text-9xl lg:text-[10rem] font-bold whitespace-nowrap leading-none mb-2 md:mb-8 select-none">
                         {isReducedMotion ? (
                             <TextGenerateEffect 
-                                words="Dominic Aung" 
-                                className="[&>div>div]:!text-5xl [&>div>div]:md:!text-9xl [&>div>div]:lg:!text-[10rem] [&>div>div]:!leading-none" 
+                                words="Dominic Aung"
                                 useGradient={true}
                             />
                         ) : (
@@ -44,12 +43,12 @@ export default function HeroSection({ isReducedMotion = false }: HeroSectionProp
                         )}
                     </h1>
                     {/* Triangular Layout */}
-                    <div className="flex flex-col items-center mt-12 space-y-6">
+                    <div className="flex flex-col items-center mt-2 md:mt-8 space-y-6">
                         {/* Level 2 */}
                         <TextSlider 
-                            roles={["Personal Problems, Niche Solutions"]} 
+                            roles={["Niche Problems, Real Solutions"]} 
                             isReducedMotion={isReducedMotion}
-                            className="text-base md:text-4xl lg:text-5xl tracking-tight select-none"
+                            className="text-base md:text-4xl lg:text-5xl tracking-tight mb-2 md:mb-4 select-none"
                         />
                         
                         {/* Level 3: Cycling Specialties */}

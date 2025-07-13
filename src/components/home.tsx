@@ -1,6 +1,7 @@
 "use client";
 
 import HeroSection from "@/components/hero";
+import AboutSection from "@/components/about-section";
 import ProjectsSection from "@/components/projects-section";
 import WorkEducation from "@/components/work-education";
 import SkillsSection from "@/components/skill-section";
@@ -28,6 +29,7 @@ export default function Home() {
             />
             
             <HeroSection isReducedMotion={isReducedMotion} />
+            <AboutSection isReducedMotion={isReducedMotion} />
             
             <div className="max-w-4xl mx-auto px-4 space-y-32 pb-24">
                 <ProjectsSection isReducedMotion={isReducedMotion} />
