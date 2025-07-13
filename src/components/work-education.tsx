@@ -1,6 +1,5 @@
 "use client"
 import { Timeline } from "@/components/ui/timeline"
-import { LinkPreview } from "@/components/ui/link-preview"
 
 const workEducationData = [
     {
@@ -17,23 +16,22 @@ const workEducationData = [
             <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
                 <h3 className="text-xl font-semibold text-white">
-                <LinkPreview url="https://www.lumenoai.com/" className="text-blue-400 hover:text-blue-300 transition-colors underline">
+                <a href="https://www.lumenoai.com/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors underline">
                     Lumeno AI
-                </LinkPreview>
+                </a>
                 </h3>
                 <p className="text-gray-400 text-sm">July 2025 – Sep. 2025</p>
             </div>
             <div className="flex justify-between items-center">
                 <p className="text-white font-medium">Software Engineer Intern</p>
-                <p className="text-gray-300 text-sm">New York, NY (Remote)</p>
+                <p className="text-gray-300 text-sm">New York, NY</p>
             </div>
             </div>
 
             {/* Main descriptor */}
             <div className="mb-4">
             <p className="text-gray-300 text-sm">
-                Working alongside <span className="text-blue-400 font-medium">CTO and Lead Engineer</span> on core product
-                development for AI platform
+                Working alongside <span className="text-blue-400 font-medium">CTO and Lead Engineer</span> to bring personalized AI tutoring to students across North America
             </p>
             </div>
 
@@ -41,14 +39,11 @@ const workEducationData = [
             <div className="expandable-content">
             <div className="space-y-2">
                 <p className="text-gray-300">
-                • Building <span className="text-green-400 font-medium">full-stack solutions</span> using Python,
-                TypeScript, and AWS infra
+                • Participating in <span className="text-green-400 font-medium">agile sprints</span> to deliver new features
                 </p>
                 <p className="text-gray-300">
-                • Developing products used by{" "}
-                <span className="text-green-400 font-medium">students across North America</span>
+                • Deploying <span className="text-green-400 font-medium">lambda pipelines</span> enabling real-time tutoring
                 </p>
-                <p className="text-gray-300">• Contributing to both frontend UI and backend AI-powered systems</p>
             </div>
             </div>
         </div>
@@ -87,9 +82,9 @@ const workEducationData = [
             <div className="mb-4">
             <p className="text-gray-300 text-sm">
                 Working on{" "}
-                <LinkPreview url="https://www.expressodavis.org/" className="text-blue-400 font-medium hover:text-blue-300 underline">
+                <a href="https://www.expressodavis.org/" target="_blank" rel="noopener noreferrer" className="text-blue-400 font-medium hover:text-blue-300 underline">
                     Expresso
-                </LinkPreview>
+                </a>
                 , a university mentorship platform connecting students with mentors and seniors
             </p>
             </div>
