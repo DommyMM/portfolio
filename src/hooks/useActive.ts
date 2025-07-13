@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const sections = ['about', 'projects', 'work', 'skills'];
 
 export function useActiveSection() {
-    const [activeSection, setActiveSection] = useState<string>('about');
+    const [activeSection, setActiveSection] = useState<string | null>(null);
 
     useEffect(() => {
         const sectionElements = new Map();
@@ -41,6 +41,9 @@ export function useActiveSection() {
                     if (activeId) {
                         setActiveSection(activeId);
                     }
+                } else {
+                    // No sections intersecting - we're likely on Hero
+                    setActiveSection(null);
                 }
             },
             {
