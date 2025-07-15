@@ -41,7 +41,7 @@ const projectsData: Project[] = [
         id: "rag-translation",
         name: "RAG Translation",
         description: "Cost-optimized AI translation pipeline",
-        className: "col-span-1 md:col-span-1 lg:col-span-13",
+        className: "col-span-1 md:col-span-1 lg:col-span-12",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10" />
         ),
@@ -54,10 +54,10 @@ const projectsData: Project[] = [
         githubUrl: "https://github.com/DommyMM/webnovel-translator"
     },
     {
-        id: "cv-api",
+        id: "ocr-api",
         name: "OCR API",
         description: "OCR API built from scratch",
-        className: "col-span-1 md:col-span-1 lg:col-span-7",
+        className: "col-span-1 md:col-span-1 lg:col-span-8",
         background: (
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10" />
         ),
@@ -66,7 +66,7 @@ const projectsData: Project[] = [
             "Recognizes text and images",
             "Concurrent processing for 100+ req/min"
         ],
-        techStack: ["python", "docker", "fastapi", "opencv", "tesseract", "numpy"],
+        techStack: ["docker", "fastapi", "opencv", "tesseract", "numpy"],
         githubUrl: "https://github.com/DommyMM/wuwa-ocr-api"
     },
     {

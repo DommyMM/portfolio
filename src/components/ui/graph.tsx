@@ -203,9 +203,9 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
             'deepseek': { mobile: { x: 20, y: 20 }, desktop: { x: 20, y: 10 } },
             'json': { mobile: { x: 20, y: 70 }, desktop: { x: 20, y: 65 } },
             'cerebras': { mobile: { x: 20, y: 120 }, desktop: { x: 20, y: 120 } },
-            'chromadb': { mobile: { x: 140, y: 45 }, desktop: { x: 200, y: 35 } },
-            'rag': { mobile: { x: 140, y: 95 }, desktop: { x: 200, y: 95 } },
-            'langchain': { mobile: { x: 270, y: 70 }, desktop: { x: 380, y: 65 } },
+            'chromadb': { mobile: { x: 140, y: 45 }, desktop: { x: 180, y: 35 } },
+            'rag': { mobile: { x: 140, y: 95 }, desktop: { x: 180, y: 95 } },
+            'langchain': { mobile: { x: 270, y: 70 }, desktop: { x: 340, y: 65 } },
         },
         edges: [
             { id: 'json-chromadb', source: 'json', target: 'chromadb' },
@@ -232,36 +232,34 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
         }
     },
     
-    'cv-api': {
+    'ocr-api': {
         nodePositions: {
-            'python': { mobile: { x: 20, y: 20 }, desktop: { x: 40, y: 30 } },
-            'docker': { mobile: { x: 20, y: 70 }, desktop: { x: 40, y: 90 } },
-            'fastapi': { mobile: { x: 140, y: 20 }, desktop: { x: 160, y: 70 } },
-            'opencv': { mobile: { x: 140, y: 70 }, desktop: { x: 160, y: 120 } },
-            'tesseract': { mobile: { x: 240, y: 20 }, desktop: { x: 280, y: 70 } },
-            'numpy': { mobile: { x: 240, y: 70 }, desktop: { x: 280, y: 120 } },
+            'docker': { mobile: { x: 160, y: 60 }, desktop: { x: 20, y: 100 } },
+            'fastapi': { mobile: { x: 20, y: 30 }, desktop: { x: 20, y: 30 } },
+            'opencv': { mobile: { x: 250, y: 30 }, desktop: { x: 150, y: 70 } },
+            'tesseract': { mobile: { x: 250, y: 100 }, desktop: { x: 150, y: 120 } },
+            'numpy': { mobile: { x: 120, y: 120 }, desktop: { x: 150, y: 20 } },
         },
         edges: [
-            { id: 'python-fastapi', source: 'python', target: 'fastapi' },
-            { id: 'python-numpy', source: 'python', target: 'numpy' },
-            { id: 'docker-opencv', source: 'docker', target: 'opencv' },
             { id: 'docker-tesseract', source: 'docker', target: 'tesseract' },
+            { id: 'docker-opencv', source: 'docker', target: 'opencv' },
+            { id: 'fastapi-numpy', source: 'fastapi', target: 'numpy' },
+            { id: 'fastapi-docker', source: 'fastapi', target: 'docker' },
         ],
         subtitles: {
-            'python': 'Foundation',
-            'docker': 'Infrastructure',
+            'docker': 'Container',
             'fastapi': 'API Server',
-            'opencv': 'Image Processing',
+            'opencv': 'Process Images',
             'tesseract': 'OCR Engine',
-            'numpy': 'Array Operations',
+            'numpy': 'Array Math',
         },
         levels: 2,
         animationPhases: {
-            initialNodes: ['python', 'docker'],
-            hubNodes: ['python', 'docker'],
-            finalNodes: ['fastapi', 'numpy', 'opencv', 'tesseract'],
+            initialNodes: ['docker', 'fastapi'],
+            hubNodes: [],
+            finalNodes: ['tesseract', 'opencv', 'numpy'],
             initialEdges: [],
-            finalEdges: ['python-fastapi', 'python-numpy', 'docker-opencv', 'docker-tesseract'],
+            finalEdges: ['docker-tesseract', 'docker-opencv', 'fastapi-numpy', 'fastapi-docker'],
         }
     },
 
