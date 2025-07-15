@@ -143,7 +143,7 @@ function getTechTitle(techName: string): string {
         'postgresql': 'PostgreSQL',
         'tailwindcss': 'Tailwind CSS',
         'openai': 'OpenAI',
-        'speechapi': 'Web Speech API',
+        'speechapi': 'Speech API',
         'rag': 'RAG System',
         'json': 'JSON',
         'deepseek': 'DeepSeek',
@@ -267,34 +267,28 @@ const PROJECT_FLOWS: Record<string, ProjectFlowConfig> = {
 
     'voice-chatbot': {
         nodePositions: {
-            'nextdotjs': { mobile: { x: 20, y: 20 }, desktop: { x: 40, y: 40 } },
-            'fastapi': { mobile: { x: 20, y: 70 }, desktop: { x: 40, y: 100 } },
-            'cerebras': { mobile: { x: 140, y: 20 }, desktop: { x: 180, y: 30 } },
-            'speechapi': { mobile: { x: 140, y: 70 }, desktop: { x: 180, y: 80 } },
-            'react': { mobile: { x: 240, y: 20 }, desktop: { x: 300, y: 30 } },
-            'typescript': { mobile: { x: 240, y: 70 }, desktop: { x: 300, y: 80 } },
+            'cerebras': { mobile: { x: 30, y: 40 }, desktop: { x: 20, y: 30 } },
+            'speechapi': { mobile: { x: 30, y: 100 }, desktop: { x: 20, y: 100 } },
+            'fastapi': { mobile: { x: 200, y: 40 }, desktop: { x: 180, y: 30 } },
+            'nextdotjs': { mobile: { x: 200, y: 100 }, desktop: { x: 180, y: 100 } },
         },
         edges: [
-            { id: 'nextdotjs-cerebras', source: 'nextdotjs', target: 'cerebras' },
-            { id: 'nextdotjs-react', source: 'nextdotjs', target: 'react' },
-            { id: 'fastapi-speechapi', source: 'fastapi', target: 'speechapi' },
-            { id: 'fastapi-typescript', source: 'fastapi', target: 'typescript' },
+            { id: 'cerebras-fastapi', source: 'cerebras', target: 'fastapi' },
+            { id: 'speechapi-nextdotjs', source: 'speechapi', target: 'nextdotjs' }
         ],
         subtitles: {
-            'nextdotjs': 'Full-Stack Framework',
-            'fastapi': 'Backend API',
-            'cerebras': 'AI Inference',
-            'speechapi': 'Voice Processing',
-            'react': 'UI Components',
-            'typescript': 'Type Safety',
+            'nextdotjs': 'UI',
+            'fastapi': 'Fast Backend',
+            'cerebras': 'Fast Inference',
+            'speechapi': 'Voice API',
         },
         levels: 2,
         animationPhases: {
-            initialNodes: ['nextdotjs', 'fastapi'],
-            hubNodes: ['nextdotjs', 'fastapi'],
-            finalNodes: ['cerebras', 'speechapi', 'react', 'typescript'],
+            initialNodes: ['cerebras', 'speechapi'],
+            hubNodes: [],
+            finalNodes: ['fastapi', 'nextdotjs'],
             initialEdges: [],
-            finalEdges: ['nextdotjs-cerebras', 'nextdotjs-react', 'fastapi-speechapi', 'fastapi-typescript'],
+            finalEdges: ['cerebras-fastapi', 'speechapi-nextdotjs'],
         }
     },
 
@@ -349,30 +343,36 @@ function createStandardAnimation(
     
     // Phase 1 (0s): Initial nodes start spinning
     setSpinningNodes(new Set(animationPhases.initialNodes));
-    
-    // Parallel Events:
-    
-    // 2.5s: Launch first beams (while initial nodes keep spinning)
+
+    // 2.5s: Launch beams (for 2-level, use finalEdges; for 3-level, use initialEdges)
     timeouts.push(setTimeout(() => {
-        setHoveredEdges(new Set(animationPhases.initialEdges));
+        if (levels === 2) {
+            setHoveredEdges(new Set(animationPhases.finalEdges));
+        } else {
+            setHoveredEdges(new Set(animationPhases.initialEdges));
+        }
     }, 2500));
-    
-    // 4s: Stop initial nodes + start hub nodes
+
+    // 4s: Stop initial nodes + start final nodes (for 2-level, skip hub phase)
     timeouts.push(setTimeout(() => {
         setSpinningNodes(prev => {
             const newSet = new Set(prev);
             animationPhases.initialNodes.forEach(node => newSet.delete(node));
             return newSet;
         });
-        setSpinningNodes(prev => new Set([...prev, ...animationPhases.hubNodes]));
+        if (levels === 2) {
+            setSpinningNodes(new Set(animationPhases.finalNodes));
+        } else {
+            setSpinningNodes(prev => new Set([...prev, ...animationPhases.hubNodes]));
+        }
     }, 4000));
-    
-    // 6.5s: Launch second beams (while hub nodes keep spinning)
-    timeouts.push(setTimeout(() => {
-        setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
-    }, 6500));
-    
+
     if (levels === 3) {
+        // 6.5s: Launch second beams (while hub nodes keep spinning)
+        timeouts.push(setTimeout(() => {
+            setHoveredEdges(prev => new Set([...prev, ...animationPhases.finalEdges]));
+        }, 6500));
+
         // 8s: Stop hub nodes + start final nodes (3-level only)
         timeouts.push(setTimeout(() => {
             setSpinningNodes(prev => {
@@ -382,7 +382,7 @@ function createStandardAnimation(
             });
             setSpinningNodes(prev => new Set([...prev, ...animationPhases.finalNodes]));
         }, 8000));
-        
+
         // 10s: Stop final nodes (3-level only)
         timeouts.push(setTimeout(() => {
             setSpinningNodes(prev => {
@@ -392,11 +392,11 @@ function createStandardAnimation(
             });
         }, 10000));
     } else {
-        // 8s: Stop hub nodes (2-level only)
+        // 8s: Stop final nodes (2-level only)
         timeouts.push(setTimeout(() => {
             setSpinningNodes(prev => {
                 const newSet = new Set(prev);
-                animationPhases.hubNodes.forEach(node => newSet.delete(node));
+                animationPhases.finalNodes.forEach(node => newSet.delete(node));
                 return newSet;
             });
         }, 8000));
