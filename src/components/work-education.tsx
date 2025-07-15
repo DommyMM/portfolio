@@ -31,7 +31,7 @@ const workEducationData = [
             {/* Main descriptor */}
             <div className="mb-4">
             <p className="text-gray-300 text-sm">
-                Working alongside <span className="text-blue-400 font-medium">CTO and Lead Engineer</span> to bring personalized AI tutoring to students across North America
+                Working alongside <span className="text-blue-400 font-medium">CTO and Lead Engineer</span> on core infrastructure development
             </p>
             </div>
 
@@ -39,10 +39,10 @@ const workEducationData = [
             <div className="expandable-content">
             <div className="space-y-2">
                 <p className="text-gray-300">
-                • Participating in <span className="text-green-400 font-medium">agile sprints</span> to deliver new features
+                • Reduced time taken during document processing pipeline <span className="text-green-400 font-medium"> by 80% </span>
                 </p>
                 <p className="text-gray-300">
-                • Deploying <span className="text-green-400 font-medium">lambda pipelines</span> enabling real-time tutoring
+                • Improved <span className="text-green-400 font-medium"> robustness </span> of workflow and authentication systems
                 </p>
             </div>
             </div>
@@ -85,7 +85,7 @@ const workEducationData = [
                 <a href="https://www.expressodavis.org/" target="_blank" rel="noopener noreferrer" className="text-blue-400 font-medium hover:text-blue-300 underline">
                     Expresso
                 </a>
-                , a university mentorship platform connecting students with mentors and seniors
+                , a mentorship platform connecting students with seniors
             </p>
             </div>
 
@@ -139,9 +139,7 @@ const workEducationData = [
 
             <div className="mb-4">
             <p className="text-gray-300 text-sm">
-                Optimized document processing workflows achieving{" "}
-                <span className="text-blue-400 font-medium">30% reduction</span> in completion time across{" "}
-                <span className="text-green-400 font-medium">1000+ applications</span>
+                Handled data integrity validation and indexing of application materials
             </p>
             </div>
 
@@ -149,10 +147,10 @@ const workEducationData = [
             <div className="space-y-2">
                 <p className="text-gray-300">
                 • Automated workflows using <span className="text-blue-400 font-medium">OnBase enterprise software</span>{" "}
-                for efficient document handling and data integrity verification
+                for document handling
                 </p>
                 <p className="text-gray-300">
-                • Processed transcripts, test scores, and application materials with indexing and database management
+                • Reduced completion time of application processing by <span className="text-green-400 font-medium"> 30% </span>
                 </p>
             </div>
             </div>
@@ -245,8 +243,8 @@ const workEducationData = [
 
             <div className="mb-4">
             <p className="text-gray-300 text-sm">
-                Developed backend features for fitness tracking application using{" "}
-                <span className="text-blue-400 font-medium">Spring MVC and SQL</span>, achieving{" "}
+                Developed backend using{" "}
+                <span className="text-blue-400 font-medium">Spring and SQL</span>, achieving{" "}
                 <span className="text-green-400 font-medium">20% faster query performance</span>
             </p>
             </div>
@@ -255,13 +253,12 @@ const workEducationData = [
             <div className="space-y-2">
                 <p className="text-gray-300">
                 • Implemented secure user authentication with <span className="text-blue-400 font-medium">JWT</span> and
-                hashed credentials, plus activity tracking systems
+                hashed credentials
                 </p>
                 <p className="text-gray-300">
-                • Conducted integration testing validating database operations and API endpoints with{" "}
+                • Conducted integration testing database and API endpoints with{" "}
                 <span className="text-green-400 font-medium">90% test coverage</span>
                 </p>
-                <p className="text-gray-300">• Collaborated on mobile application workflow and server-side logistics</p>
             </div>
             </div>
         </div>
